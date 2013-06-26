@@ -26,7 +26,7 @@ The most flexible installation method is using Composer: Simply create a compose
 ``` json
 {
     "require": {
-        "fusonic/fusonic-linq": "@dev"
+        "fusonic/linq": "@dev"
     }
 }
 ```
