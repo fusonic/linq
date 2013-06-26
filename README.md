@@ -65,10 +65,7 @@ Linq::from($source)
   ->select(function($i) { return pathinfo($i); });
 ```
 
-* Searches for all users containing Max 1
-* Skip 5 items and then take 2 item
-* Apply a id selector
-
+Search for all users containing "Max 1", Skip 5 items, Take 2 items and select the property ID of each user.
 ```php
 $result = Linq::from($users)
     ->where(function (User $u) { return StringUtil::contains($u->surname, "Max 1");  })
