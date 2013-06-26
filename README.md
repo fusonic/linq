@@ -65,9 +65,10 @@ Linq::from($source)
   ->select(function($i) { return pathinfo($i); });
 ```
 
-1) Searches for all users containing Max 1
-2) Skip 5 items and then take 2 item
-3) Apply a id selector
+* Searches for all users containing Max 1
+* Skip 5 items and then take 2 item
+* Apply a id selector
+
 ```php
 $result = Linq::from($users)
     ->where(function (User $u) { return StringUtil::contains($u->surname, "Max 1");  })
