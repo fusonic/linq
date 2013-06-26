@@ -9,7 +9,7 @@ Requirements
 linq-php is supported on PHP 5.3.2 and up.
 
 
-Installation
+Installation & Usage
 ------------
 
 The most flexible installation method is using Composer: Simply create a composer.json file in the root of your project:
@@ -36,7 +36,7 @@ use Fusonic\Linq\Linq;
 Linq::from(array())->count();
 ```
 
-Usage
+Examples
 -----
 
 Calculate the average file size of files in a directory
