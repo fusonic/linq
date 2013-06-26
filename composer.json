@@ -1,9 +1,9 @@
 {
-    "name": "fusonic/linq-php",
+    "name": "fusonic/linq",
     "description": "LINQ 2 objects class for PHP",
     "keywords": ["linq", "linq2objects"],
     "type": "library",
-    "homepage": "https://github.com/fusonic/php-linq",
+    "homepage": "http://fusonic.github.io/fusonic-linq/",
     "license": "MIT",
     "authors": [
         {
