@@ -1,12 +1,12 @@
-What is linq-php?
+fusonic-linq [![Build Status](https://travis-ci.org/fusonic/fusonic-linq.png)](https://travis-ci.org/fusonic/fusonic-linq)
 -----------------
 
-linq-php is a PHP library inspired by the LINQ extension methods in .NET.
+fusonic-linq is a PHP library inspired by the LINQ extension methods in .NET.
 
 Requirements
 ------------
 
-linq-php is supported on PHP 5.3.2 and up.
+fusonic-linq is supported on PHP 5.3 and up.
 
 
 Installation & Usage
@@ -16,7 +16,7 @@ The most flexible installation method is using Composer: Simply create a compose
 ``` json
 {
     "require": {
-        "fusonic/linq-php": "@dev"
+        "fusonic/fusonic-linq": "@dev"
     }
 }
 ```
@@ -27,7 +27,7 @@ curl -s http://getcomposer.org/installer | php
 php composer.phar install
 ``` 
 
-Once installed, include vendor/autoload.php in your script to autoload linq-php.
+Once installed, include vendor/autoload.php in your script to autoload fusonic-linq.
 
 ``` php
 require 'vendor/autoload.php';
