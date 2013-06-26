@@ -1,7 +1,17 @@
 fusonic-linq [![Build Status](https://travis-ci.org/fusonic/fusonic-linq.png)](https://travis-ci.org/fusonic/fusonic-linq)
 -----------------
 
-fusonic-linq is a PHP library inspired by the LINQ extension methods in .NET.
+fusonic-linq is a PHP library inspired by the LINQ 2 Objects extension methods in .NET.
+
+
+LINQ queries offer three main advantages over traditional foreach loops:
+
+* They are more concise and readable, especially when filtering multiple conditions.
+
+* They provide powerful filtering, ordering, and grouping capabilities with a minimum of application code.
+
+* In general, the more complex the operation you want to perform on the data, the more benefit you will realize by using LINQ instead of traditional iteration techniques.
+
 
 Requirements
 ------------
