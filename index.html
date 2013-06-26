@@ -1,44 +1,46 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>fusonic-linq by fusonic</title>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="fusonic-linq : PHP implementation of LINQ" />
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>fusonic-linq</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1 class="header">fusonic-linq</h1>
-        <p class="header">PHP implementation of LINQ</p>
 
-        <ul>
-          <li class="download"><a class="buttons" href="https://github.com/fusonic/fusonic-linq/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/fusonic/fusonic-linq/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/fusonic/fusonic-linq">View On GitHub</a></li>
-        </ul>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/fusonic/fusonic-linq">View on GitHub</a>
 
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/fusonic">fusonic</a></p>
+          <h1 id="project_title">fusonic-linq</h1>
+          <h2 id="project_tagline">PHP implementation of LINQ</h2>
 
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/fusonic/fusonic-linq/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/fusonic/fusonic-linq/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
 
-      </header>
-      <section>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h2>
-<a name="what-is-linq-php" class="anchor" href="#what-is-linq-php"><span class="octicon octicon-link"></span></a>What is linq-php?</h2>
+<a name="fusonic-linq-" class="anchor" href="#fusonic-linq-"><span class="octicon octicon-link"></span></a>fusonic-linq <a href="https://travis-ci.org/fusonic/fusonic-linq"><img src="https://travis-ci.org/fusonic/fusonic-linq.png" alt="Build Status"></a>
+</h2>
 
-<p>linq-php is a PHP library inspired by the LINQ extension methods in .NET.</p>
+<p>fusonic-linq is a PHP library inspired by the LINQ extension methods in .NET.</p>
 
 <h2>
 <a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
 
-<p>linq-php is supported on PHP 5.3.2 and up.</p>
+<p>fusonic-linq is supported on PHP 5.3 and up.</p>
 
 <h2>
 <a name="installation--usage" class="anchor" href="#installation--usage"><span class="octicon octicon-link"></span></a>Installation &amp; Usage</h2>
@@ -47,7 +49,7 @@
 
 <div class="highlight"><pre><span class="p">{</span>
     <span class="nt">"require"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">"fusonic/linq-php"</span><span class="p">:</span> <span class="s2">"@dev"</span>
+        <span class="nt">"fusonic/fusonic-linq"</span><span class="p">:</span> <span class="s2">"@dev"</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -58,7 +60,7 @@
 php composer.phar install
 </pre></div>
 
-<p>Once installed, include vendor/autoload.php in your script to autoload linq-php.</p>
+<p>Once installed, include vendor/autoload.php in your script to autoload fusonic-linq.</p>
 
 <div class="highlight"><pre><span class="k">require</span> <span class="s1">'vendor/autoload.php'</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Fusonic\Linq\Linq</span><span class="p">;</span>
@@ -93,12 +95,17 @@ php composer.phar install
 <div class="highlight"><pre>phpunit --bootstrap tests/bootstrap.php .
 </pre></div>
       </section>
-      <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">fusonic-linq maintained by <a href="https://github.com/fusonic">fusonic</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		          <script type="text/javascript">
+
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -108,6 +115,7 @@ php composer.phar install
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
+
 
   </body>
 </html>
