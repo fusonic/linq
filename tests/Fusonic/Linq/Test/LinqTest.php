@@ -1366,6 +1366,31 @@ class LinqTest extends PHPUnit_Framework_TestCase
         }, self::ExceptionName_UnexpectedValue);
     }
 
+    public function testEach_PerformsActionOnEachElement()
+    {
+        $items = array("a", "b", "c");
+        $looped = array();
+        Linq::from($items)
+            ->each(function($x) use(&$looped)
+            {
+               $looped[] = $x;
+            });
+
+        $this->assertEquals(3, count($looped));
+        $this->assertEquals("a", $looped[0]);
+        $this->assertEquals("b", $looped[1]);
+        $this->assertEquals("c", $looped[2]);
+    }
+
+    public function testEach_ReturnsOriginalLinqSequence()
+    {
+        $linq = Linq::from(array(1,2,3,4))
+            ->skip(2)->take(1);
+
+        $linqAfterEach = $linq->each(function($x) {});
+        $this->assertSame($linq, $linqAfterEach);
+    }
+
     private function assertException($closure, $expected = self::ExceptionName_Runtime)
     {
         try
