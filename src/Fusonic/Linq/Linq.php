@@ -317,6 +317,20 @@ class Linq implements IteratorAggregate
     }
 
     /**
+     * Performs the specified action on each element of the Linq sequence and returns the Linq sequence.
+     * @param callback $func    A func that will be evaluated for each item in the linq sequence.
+     * @return Linq             The original Linq sequence that was used to perform the foreach.
+     */
+    public function each($func)
+    {
+        foreach($this->iterator as $item)
+        {
+            $func($item);
+        }
+        return $this;
+    }
+
+    /**
      * Concatenates this Linq object with the given sequence.
      *
      * @param array|Iterator $second A sequence which will be concatenated with this Linq object.
