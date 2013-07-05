@@ -26,7 +26,7 @@ class Linq implements IteratorAggregate
     private $iterator;
 
     /**
-     * Linq::RecursiveArrayIterator()
+     * Creates a new Linq object using the provided dataDataSource.
      *
      * @param array|Traversable $dataSource     An array or a Traversable sequence as data source
      */
