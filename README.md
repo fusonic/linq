@@ -94,9 +94,11 @@ Map sequence to array with key/value selectors:
 $category1 = new stdClass(); $category1->key = 1; $a1->value = "Cars";
 $category2 = new stdClass(); $category2->key = 2; $a1->value = "Ships";
 
-$result = Linq::from(array($category1, $category"))
-    ->toArray(function($x) { return $x->key; },
-            function($x) { return $x->value; });
+$result = Linq::from(array($category1, $category))
+    ->toArray(
+        function($x) { return $x->key; }, // key-selector
+        function($x) { return $x->value; } // value-selector
+    );
             
 // $result is now: array(1 => "Cars", 2 => "Ships");
 
