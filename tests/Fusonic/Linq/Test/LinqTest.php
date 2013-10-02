@@ -1391,6 +1391,40 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertSame($linq, $linqAfterEach);
     }
 
+    public function testToArray_WithoutKeySelector_ReturnsIteratorValuesAsArray_WithNumericArrayKeys()
+    {
+        $linq = Linq::from(array("a", "b", "c"))
+            ->skip(1)->take(3);
+
+        $array = $linq->toArray();
+        $this->assertTrue(is_array($array));
+        $this->assertEquals(2, count($array));
+
+        $keys = array_keys($array);
+        $this->assertEquals(0, $keys[0]);
+        $this->assertEquals(1, $keys[1]);
+
+        $this->assertEquals("b", $array[0]);
+        $this->assertEquals("c", $array[1]);
+    }
+
+    public function testToArray_WithKeySelector_ReturnsIteratorValuesAsArray_WithKeySelectorValueAsKey()
+    {
+        $linq = Linq::from(array("a", "b", "c"))
+            ->skip(1)->take(3);
+
+        $array = $linq->toArray(function($x) {
+            return "keyprefix_" . $x;
+        });
+
+        $this->assertTrue(is_array($array));
+        $this->assertEquals(2, count($array));
+
+        $keys = array_keys($array);
+        $this->assertEquals("keyprefix_b", $keys[0]);
+        $this->assertEquals("keyprefix_c", $keys[1]);
+    }
+
     private function assertException($closure, $expected = self::ExceptionName_Runtime)
     {
         try

@@ -333,7 +333,7 @@ class Linq implements IteratorAggregate
     /**
      * Concatenates this Linq object with the given sequence.
      *
-     * @param array|Iterator $second A sequence which will be concatenated with this Linq object.
+     * @param array|\Iterator $second A sequence which will be concatenated with this Linq object.
      * @throws InvalidArgumentException if the given sequence is not traversable.
      * @return Linq     A new Linq object that contains the concatenated elements of the input sequence and the original Linq sequence.
      */
@@ -360,7 +360,7 @@ class Linq implements IteratorAggregate
     /**
      * Intersects the Linq sequence with second Iterable sequence.
      *
-     * @param Iterator|array An iterator to intersect with:
+     * @param \Iterator|array An iterator to intersect with:
      * @return Linq    intersected items
      */
     public function intersect($second)
@@ -372,7 +372,7 @@ class Linq implements IteratorAggregate
     /**
      * Finds different items
      *
-     * @param array|Iterator $second
+     * @param array|\Iterator $second
      * @return  Linq   Returns different items of this and $array
      */
     public function diff($second)
@@ -585,13 +585,28 @@ class Linq implements IteratorAggregate
     }
 
     /**
-     * Creates an Array from this Linq object.
+     * Creates an Array from this Linq object with an optional key selector.
+     *
+     * @param callback $keySelector   a func that returns the array-key for each element.
      *
      * @return Array    Linq as Array
      */
-    public function toArray()
+    public function toArray($keySelector = null)
     {
-        return iterator_to_array($this, false);
+        if($keySelector === null)
+        {
+            return iterator_to_array($this, false);
+        }
+        else
+        {
+            $array = array();
+            foreach($this as $value)
+            {
+                $key = $keySelector($value);
+                $array[$key] = $value;
+            }
+            return $array;
+        }
     }
 
     /**
