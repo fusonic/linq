@@ -74,6 +74,22 @@ $result = Linq::from($users)
     ->select(function (User $u) { return $u->usrId; });
 ```
 
+Flatten multiple sequences into one sequence
+```php
+$array1 = array("key" => "a", "data" => array("a1", "a2"));
+$array2 = array("key" => "b", "data" => array("b1", "b2"));
+$array3 = array("key" => "c", "data" => array("c1", "c2"));
+
+$allArrays = array($array1, $array2, $array3);
+
+$result = Linq::from($allArrays)
+    ->selectMany(function($x) { return $x["data"]; })
+    ->toArray();
+    
+// $result is now: array("a1", "a2", "b1", "b2", "c1", "c2");
+
+```
+
 Running tests
 -------------
 
