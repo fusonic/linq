@@ -49,7 +49,7 @@ Linq::from(array())->count();
 Examples
 -----
 
-Calculate the average file size of files in a directory
+Calculate the average file size of files in a directory:
 ``` php
 $source = glob("files/*");
 Linq::from($source)
@@ -57,7 +57,7 @@ Linq::from($source)
   ->average();
 ```
 
-Find all files bigger than 1024 bytes and return the fileinfo object.
+Find all files bigger than 1024 bytes and return the fileinfo object:
 ``` php
 $source = glob("files/*");
 Linq::from($source)
@@ -65,7 +65,7 @@ Linq::from($source)
   ->select(function($i) { return pathinfo($i); });
 ```
 
-Search for all users containing "Max 1", Skip 5 items, Take 2 items and select the property ID of each user.
+Search for all users containing "Max 1", Skip 5 items, Take 2 items and select the property ID of each user:
 ```php
 $result = Linq::from($users)
     ->where(function (User $u) { return StringUtil::contains($u->surname, "Max 1");  })
@@ -74,7 +74,7 @@ $result = Linq::from($users)
     ->select(function (User $u) { return $u->usrId; });
 ```
 
-Flatten multiple sequences into one sequence
+Flatten multiple sequences into one sequence:
 ```php
 $array1 = array("key" => "a", "data" => array("a1", "a2"));
 $array2 = array("key" => "b", "data" => array("b1", "b2"));
@@ -87,6 +87,18 @@ $result = Linq::from($allArrays)
     ->toArray();
     
 // $result is now: array("a1", "a2", "b1", "b2", "c1", "c2");
+
+```
+Map sequence to array with key/value selectors:
+```php
+$category1 = new stdClass(); $category1->key = 1; $a1->value = "Cars";
+$category2 = new stdClass(); $category2->key = 2; $a1->value = "Ships";
+
+$result = Linq::from(array($category1, $category"))
+    ->toArray(function($x) { return $x->key; },
+            function($x) { return $x->value; });
+            
+// $result is now: array(1 => "Cars", 2 => "Ships");
 
 ```
 
