@@ -91,10 +91,10 @@ $result = Linq::from($allArrays)
 ```
 Map sequence to array with key/value selectors:
 ```php
-$category1 = new stdClass(); $category1->key = 1; $a1->value = "Cars";
-$category2 = new stdClass(); $category2->key = 2; $a1->value = "Ships";
+$category1 = new stdClass(); $category1->key = 1; $category1->value = "Cars";
+$category2 = new stdClass(); $category2->key = 2; $category2->value = "Ships";
 
-$result = Linq::from(array($category1, $category))
+$result = Linq::from(array($category1, $category2))
     ->toArray(
         function($x) { return $x->key; }, // key-selector
         function($x) { return $x->value; } // value-selector
