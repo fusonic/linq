@@ -1391,7 +1391,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertSame($linq, $linqAfterEach);
     }
 
-    public function testToArray_WithoutKeySelector_ReturnsIteratorValuesAsArray_WithNumericArrayKeys()
+    public function testToArray_WithoutKeySelector_ReturnsIteratorValuesAsArray_UsesDefaultNumericArrayKeys()
     {
         $linq = Linq::from(array("a", "b", "c"))
             ->skip(1)->take(3);
@@ -1408,7 +1408,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("c", $array[1]);
     }
 
-    public function testToArray_WithKeySelector_ReturnsIteratorValuesAsArray_WithKeySelectorValueAsKey()
+    public function testToArray_WithKeySelector_ReturnsIteratorValuesAsArray_UsesKeySelectorValueAsKey()
     {
         $linq = Linq::from(array("a", "b", "c"))
             ->skip(1)->take(3);
@@ -1423,6 +1423,58 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $keys = array_keys($array);
         $this->assertEquals("keyprefix_b", $keys[0]);
         $this->assertEquals("keyprefix_c", $keys[1]);
+
+        $this->assertEquals("b", $array["keyprefix_b"]);
+        $this->assertEquals("c", $array["keyprefix_c"]);
+    }
+
+    public function testToArray_WithKeyAndValueSelector_ReturnsArrayWithKeyValueSetsFromClosures()
+    {
+        $source = array(
+            array("catId" => 11, "name" => "Category11", "additionalcolumn" => "foo"),
+            array("catId" => 12, "name" => "Category12", "additionalcolumn" => "bar"),
+        );
+        $linq = Linq::from($source);
+
+        $array = $linq->toArray(function($x) {
+            return $x["catId"];
+        }, function($y) {
+            return $y["name"];
+        });
+
+        $this->assertTrue(is_array($array));
+        $this->assertEquals(2, count($array));
+
+        $keys = array_keys($array);
+        $this->assertEquals(11, $keys[0]);
+        $this->assertEquals(12, $keys[1]);
+
+        $this->assertEquals("Category11", $array[11]);
+        $this->assertEquals("Category12", $array[12]);
+    }
+
+    public function testToArray_WithValueSelector_ReturnsArrayWithDefaultNumericKey_AndValueFromClosure()
+    {
+        $source = array(
+            array("catId" => 11, "name" => "Category11", "additionalcolumn" => "foo"),
+            array("catId" => 12, "name" => "Category12", "additionalcolumn" => "bar"),
+        );
+
+        $linq = Linq::from($source);
+
+        $array = $linq->toArray(null, function($y) {
+            return $y["additionalcolumn"];
+        });
+
+        $this->assertTrue(is_array($array));
+        $this->assertEquals(2, count($array));
+
+        $keys = array_keys($array);
+        $this->assertEquals(0, $keys[0]);
+        $this->assertEquals(1, $keys[1]);
+
+        $this->assertEquals("foo", $array[0]);
+        $this->assertEquals("bar", $array[1]);
     }
 
     private function assertException($closure, $expected = self::ExceptionName_Runtime)

@@ -587,15 +587,20 @@ class Linq implements IteratorAggregate
     /**
      * Creates an Array from this Linq object with an optional key selector.
      *
-     * @param callback $keySelector   a func that returns the array-key for each element.
+     * @param callback $keySelector     a func that returns the array-key for each element.
+     * @param callback $valueSelector   a func that returns the array-value for each element.
      *
      * @return Array    Linq as Array
      */
-    public function toArray($keySelector = null)
+    public function toArray($keySelector = null, $valueSelector = null)
     {
-        if($keySelector === null)
+        if($keySelector === null && $valueSelector === null)
         {
             return iterator_to_array($this, false);
+        }
+        else if($keySelector == null)
+        {
+            return iterator_to_array(new SelectIterator($this->getIterator(), $valueSelector), false);
         }
         else
         {
@@ -603,7 +608,7 @@ class Linq implements IteratorAggregate
             foreach($this as $value)
             {
                 $key = $keySelector($value);
-                $array[$key] = $value;
+                $array[$key] = $valueSelector == null ? $value : $valueSelector($value);
             }
             return $array;
         }
