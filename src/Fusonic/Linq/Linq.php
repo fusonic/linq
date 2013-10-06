@@ -159,7 +159,7 @@ class Linq implements IteratorAggregate
      *
      * @param callback $func    A func that returns any numeric type (int, float etc.)
      * @throws \UnexpectedValueException if an item of the sequence is not a numeric value.
-     * @return numeric        Average of items
+     * @return double        Average of items
      */
     public function average($func = null)
     {
@@ -211,7 +211,7 @@ class Linq implements IteratorAggregate
      *
      * @param callback $func    A func that returns any numeric type (int, float etc.) from the given element, or NULL to use the element itself.
      * @throws \UnexpectedValueException if any element is not a numeric value.
-     * @return  numeric         The sum of all items.
+     * @return  double         The sum of all items.
      */
     public function sum($func = null)
     {
@@ -233,7 +233,7 @@ class Linq implements IteratorAggregate
      * @param callback $func    A func that returns any numeric type (int, float etc.) from the given element, or NULL to use the element itself.
      * @throws \RuntimeException if the sequence contains no elements
      * @throws \UnexpectedValueException
-     * @return  numeric Minimum item value
+     * @return  double Minimum item value
      */
     public function min($func = null)
     {
@@ -266,7 +266,7 @@ class Linq implements IteratorAggregate
      * @param callback $func    A func that returns any numeric type (int, float etc.)
      * @throws \RuntimeException if the sequence contains no elements
      * @throws \UnexpectedValueException if any element is not a numeric value or a string.
-     * @return numeric          Maximum item value
+     * @return double          Maximum item value
      */
     public function max($func = null)
     {
