@@ -540,7 +540,6 @@ class Linq implements IteratorAggregate
             throw new \RuntimeException("The input sequence contains no matching element.");
         }
 
-
         return $single;
     }
 
