@@ -409,7 +409,7 @@ class Linq implements IteratorAggregate
     private function getValueAt($index, $throwEx)
     {
         $i = 0;
-        foreach($this->iterator as $key => $value)
+        foreach($this->iterator as $value)
         {
             if($i == $index)
             {
@@ -526,6 +526,12 @@ class Linq implements IteratorAggregate
         foreach($source as $stored)
         {
             $count++;
+
+            if($count > 1)
+            {
+                throw new \RuntimeException("The input sequence contains more than 1 elements.");
+            }
+
             $single = $stored;
         }
 
@@ -533,10 +539,7 @@ class Linq implements IteratorAggregate
         {
             throw new \RuntimeException("The input sequence contains no matching element.");
         }
-        else if($count > 1)
-        {
-            throw new \RuntimeException("The input sequence contains more than 1 elements.");
-        }
+
 
         return $single;
     }
