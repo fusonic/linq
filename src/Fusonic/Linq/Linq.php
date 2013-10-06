@@ -220,7 +220,7 @@ class Linq implements IteratorAggregate
         foreach($iterator as $value)
         {
             if(!is_numeric($value))
-                throw new UnexpectedValueException("sum() only works on numerics.");
+                throw new UnexpectedValueException("sum() only works on numeric values.");
 
             $sum += $value;
         }
@@ -261,7 +261,7 @@ class Linq implements IteratorAggregate
     }
 
     /**
-     * Returns the maximimum item value according to $func
+     * Returns the maximum item value according to $func
      *
      * @param callback $func    A func that returns any numeric type (int, float etc.)
      * @throws \RuntimeException if the sequence contains no elements
