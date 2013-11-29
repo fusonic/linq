@@ -1477,6 +1477,37 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("bar", $array[1]);
     }
 
+    public function testAggregate_novalues_throwsException()
+    {
+        $this->assertException(function() {
+
+            Linq::from(array())->aggregate(function() {});
+        }, self::ExceptionName_Runtime);
+
+
+        $this->assertException(function() {
+
+            Linq::from(array())->aggregate(function() {}, null);
+        }, self::ExceptionName_Runtime);
+    }
+
+    public function testAggregate_returnsCorrectResult()
+    {
+        $this->assertEquals("value", Linq::from(array("value"))->aggregate(function($a, $b) { throw new Exception("Must not becalled"); }));
+        $this->assertEquals(2, Linq::from(array(2))->aggregate(function($a, $b) { throw new Exception("Must not becalled"); }));
+        $this->assertEquals(5, Linq::from(array(2, 3))->aggregate(function($a, $b) { return $a + $b; }));
+        $this->assertEquals(17, Linq::from(array(2, 3, 3, 4, 5))->aggregate(function($a, $b) { return $a + $b; }));
+        $this->assertEquals("abcde", Linq::from(array("a","b","c","d","e"))->aggregate(function($a, $b) { return $a . $b; }));
+    }
+
+    public function testAggregate_withSeedValue_returnsCorrectResult()
+    {
+        $this->assertEquals(9999, Linq::from(array())->aggregate(function() {}, 9999));
+        $this->assertEquals(104, Linq::from(array(2))->aggregate(function($a, $b) { return $a + $b; }, 102));
+        $this->assertEquals(137, Linq::from(array(2, 2, 20, 11))->aggregate(function($a, $b) { return $a + $b; }, 102));
+        $this->assertEquals("begin_abcde", Linq::from(array("a","b","c","d","e"))->aggregate(function($a, $b) { return $a . $b; }, "begin_"));
+    }
+
     private function assertException($closure, $expected = self::ExceptionName_Runtime)
     {
         try

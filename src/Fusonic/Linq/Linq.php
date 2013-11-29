@@ -98,6 +98,47 @@ class Linq implements IteratorAggregate
     }
 
     /**
+     * Applies an accumulator function over a sequence.
+     * The aggregate method makes it simple to perform a calculation over a sequence of values.
+     * This method works by calling $func one time for each element.
+     * The first element of source is used as the initial aggregate value if $seed parameter is not specified.
+     * If $seed is specified, this value will be used as the first value.
+     *
+     * @param   callback    $func     An accumulator function to be invoked on each element.
+     * @param   mixed       $seed
+     * @return  mixed       Returns the final result of $func.
+     */
+    public function aggregate($func, $seed = null)
+    {
+        $result = null;
+        $first = true;
+
+        if($seed !== null)
+        {
+            $result = $seed;
+            $first = false;
+        }
+
+        foreach($this->iterator as $current)
+        {
+            if(!$first)
+            {
+                $result = $func($result, $current);
+            }
+            else
+            {
+                $result = $current;
+                $first = false;
+            }
+        }
+        if($first)
+        {
+            throw new \RuntimeException("The input sequence contains no elements.");
+        }
+        return $result;
+    }
+
+    /**
      * Determines whether all elements satisfy a condition.
      *
      * @param callback $func    A function to test each element for a condition.
