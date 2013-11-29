@@ -1539,6 +1539,29 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $range[4]);
     }
 
+    public function testContains_defaultComparison()
+    {
+        $items = array("2", 2);
+        $linq = Linq::from($items);
+        $this->assertTrue($linq->contains(2));
+        $this->assertTrue($linq->contains("2"));
+        $this->assertFalse($linq->contains(true));
+
+        $this->assertFalse($linq->contains(3));
+        $this->assertFalse($linq->contains("3"));
+
+        $this->assertFalse($linq->contains(3));
+        $this->assertFalse($linq->contains(null));
+
+        $a = new stdClass();
+        $b = new stdClass();
+        $c = new stdClass();
+        $linq = Linq::from(array($a, $b));
+        $this->assertTrue($linq->contains($a));
+        $this->assertTrue($linq->contains($b));
+        $this->assertFalse($linq->contains($c));
+    }
+
     private function assertException($closure, $expected = self::ExceptionName_Runtime)
     {
         try

@@ -389,6 +389,18 @@ class Linq implements IteratorAggregate
     }
 
     /**
+     * Determines whether a sequence contains a specified element.
+     * This function will use php strict comparison (===). If you need custom comparison use the Linq::any($func) method.
+     *
+     * @param mixed     $value        The value to locate in the sequence.
+     * @return bool         True if $value is found within the sequence; otherwise false.
+     */
+    public function contains($value)
+    {
+        return $this->any(function($x) use($value) { return $x === $value; });
+    }
+
+    /**
      * Concatenates this Linq object with the given sequence.
      *
      * @param array|\Iterator $second A sequence which will be concatenated with this Linq object.
