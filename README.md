@@ -105,6 +105,24 @@ $result = Linq::from(array($category1, $category2))
 // $result is now: array(1 => "Cars", 2 => "Ships");
 
 ```
+$numbers = Linq::from(array(1,2,3,4));
+$sum = $numbers->aggregate(function($a, $b) { return $a + $b; });
+// echo $sum; // output: 10 (1+2+3+4)
+
+$chars = Linq::from(array("a", "b", "c"));
+$csv = $chars->aggregate(function($a, $b) { return $a . "," . $b; });
+// echo $csv; // output: "a,b,c"
+
+$chars = Linq::from(array("a", "b", "c"));
+$csv = $chars->aggregate(function($a, $b) { return $a . "," . $b; }, "seed");
+// echo $csv; // output: "seed,a,b,c"
+
+```
+Map sequence to array with key/value selectors:
+```php
+
+
+```
 
 Running tests
 -------------
