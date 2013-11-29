@@ -51,6 +51,23 @@ class Linq implements IteratorAggregate
     }
 
     /**
+     * Generates a sequence of integral numbers within a specified range.
+     *
+     * @param $start    The value of the first integer in the sequence.
+     * @param $count    The number of sequential integers to generate.
+     * @return Linq    An sequence that contains a range of sequential int numbers.
+     * @throws \OutOfRangeException
+     */
+    public static function range($start, $count)
+    {
+        if($count < 0) {
+            throw new OutOfRangeException('$count must be not be negative.');
+        }
+
+        return new Linq(range($start, $start + $count - 1));
+    }
+
+    /**
      * Filters the Linq object according to func return result.
      *
      * @param callback $func    A func that returns boolean
