@@ -121,6 +121,29 @@ $csv = $chars->aggregate(function($a, $b) { return $a . "," . $b; }, "seed");
 
 ```
 
+
+#### The chunk method makes it simple to split a sequence into chunks of a given size:
+```php
+$chunks = Linq::from(array("a","b","c","d","e"))->chunk(2);
+$i = 0;
+foreach($chunk in $chunks) {
+  $i++;
+  echo "Row $i <br>";
+  foreach($number in $chunk) {
+    echo $number . " ";
+  }
+}
+// Result:
+// Row 1
+// a b
+// Row 2
+// c d
+// Row 3
+// e
+
+```
+
+
 List of methods provided by fusonic-linq:
 -------------
 ```php
@@ -131,6 +154,7 @@ average($func = null) // Computes the average of all numeric values.
 concat($second) // Concatenates 2 sequences
 contains($value) // Determines whether a sequence contains a specified element.
 count() // Counts the elements of the sequence.
+chunk($chunksize) // Splits the sequence in chunks according to $chunksize.
 diff($second) // Finds different items of two sequences.
 distinct($func = null) // Returns all distinct items of a sequence using the optional selector.
 each($func) // Performs the specified action on each element of the sequence.
