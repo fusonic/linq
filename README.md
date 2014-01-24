@@ -129,17 +129,17 @@ $i = 0;
 foreach($chunk in $chunks) {
   $i++;
   echo "Row $i <br>";
-  foreach($number in $chunk) {
-    echo $number . " ";
+  foreach($char in $chunk) {
+    echo $char . "|";
   }
 }
 // Result:
 // Row 1
-// a b
+// a|b
 // Row 2
-// c d
+// c|d
 // Row 3
-// e
+// e|
 
 ```
 
