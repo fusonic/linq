@@ -156,6 +156,33 @@ class Linq implements IteratorAggregate
     }
 
     /**
+     * Splits the sequence in chunks according to $chunksize.
+     *
+     * @param $chunksize Specifies how many elements are grouped together per chunk.
+     * @return Linq[]
+     * @throws \WrongArgumentException If $chunksize is smaller than 1.
+     */
+    public function chunk($chunksize)
+    {
+        if($chunksize < 1)
+            throw new \InvalidArgumentException("chunksize", $chunksize);
+
+        $i = -1;
+        return $this->select(function($x) use(&$i) {
+            $i++;
+            return array("index" => $i, "value" => $x);
+        })
+        ->groupBy(function($pair) use($chunksize) {
+            return $pair["index"] / $chunksize;
+        })
+        ->select(function(GroupedLinq $group) {
+            return $group->select(function($v) {
+                return $v["value"];
+            });
+        });
+    }
+
+    /**
      * Determines whether all elements satisfy a condition.
      *
      * @param callback $func    A function to test each element for a condition.

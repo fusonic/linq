@@ -1562,6 +1562,53 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($linq->contains($c));
     }
 
+    public function testChunk_throwsException_IfchunksizeIsInvalid()
+    {
+        $this->assertException(function() {
+           Linq::from(array())->chunk(0);
+        }, self::ExceptionName_InvalidArgument);
+
+        $this->assertException(function() {
+            Linq::from(array())->chunk(-1);
+        }, self::ExceptionName_InvalidArgument);
+    }
+
+    public function testChunk_ReturnsChunkedElementsAccordingToChunksize()
+    {
+        $groups = Linq::from(array())->chunk(2);
+        $this->assertEquals(0, $groups->count());
+
+        $groups = Linq::from(array("a"))->chunk(2);
+        $this->assertEquals(1, $groups->count());
+        $this->assertEquals(1, $groups->ElementAt(0)->count());
+        $this->assertEquals("a", $groups->ElementAt(0)->ElementAt(0));
+
+        $groups = Linq::from(array("a","b","c","d","e"))->chunk(2);
+        $this->assertEquals(3, $groups->count());
+        $this->assertEquals(2, $groups->ElementAt(0)->count());
+        $this->assertEquals("a", $groups->ElementAt(0)->ElementAt(0));
+        $this->assertEquals("b", $groups->ElementAt(0)->ElementAt(1));
+
+        $this->assertEquals(2, $groups->ElementAt(1)->count());
+        $this->assertEquals("c", $groups->ElementAt(1)->ElementAt(0));
+        $this->assertEquals("d", $groups->ElementAt(1)->ElementAt(1));
+
+        $this->assertEquals(1, $groups->ElementAt(2)->count());
+        $this->assertEquals("e", $groups->ElementAt(2)->ElementAt(0));
+
+        $groups = Linq::from(array("a","b","c","d","e"))->chunk(3);
+        $this->assertEquals(2, $groups->count());
+
+        $groups = Linq::from(array("a","b","c","d","e"))->chunk(4);
+        $this->assertEquals(2, $groups->count());
+
+        $groups = Linq::from(array("a","b","c","d","e"))->chunk(5);
+        $this->assertEquals(1, $groups->count());
+
+        $groups = Linq::from(array("a","b","c","d","e"))->chunk(117);
+        $this->assertEquals(1, $groups->count());
+    }
+
     private function assertException($closure, $expected = self::ExceptionName_Runtime)
     {
         try
