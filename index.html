@@ -1,37 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>fusonic-linq by fusonic</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+
+    <title>fusonic-linq by fusonic</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1 class="header">fusonic-linq</h1>
-        <p class="header">PHP implementation of LINQ</p>
+    <header>
+      <div class="inner">
+        <h1>fusonic-linq</h1>
+        <h2>PHP implementation of LINQ</h2>
+        <a href="https://github.com/fusonic/fusonic-linq" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
 
-        <ul>
-          <li class="download"><a class="buttons" href="https://github.com/fusonic/fusonic-linq/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/fusonic/fusonic-linq/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/fusonic/fusonic-linq">View On GitHub</a></li>
-        </ul>
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h2>
+<a name="fusonic-linq-" class="anchor" href="#fusonic-linq-"><span class="octicon octicon-link"></span></a>fusonic-linq </h2>
 
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/fusonic">fusonic</a></p>
-
-
-      </header>
-      <section>
-        <h2>
-<a name="fusonic-linq" class="anchor" href="#fusonic-linq"><span class="octicon octicon-link"></span></a>fusonic-linq</h2>
+<p><a href="https://travis-ci.org/fusonic/fusonic-linq"><img src="https://travis-ci.org/fusonic/fusonic-linq.png" alt="Build Status"></a>
+<a href="https://packagist.org/packages/fusonic/linq"><img src="https://poser.pugx.org/fusonic/linq/downloads.png" alt="Total Downloads"></a></p>
 
 <p>fusonic-linq is a PHP library inspired by the LINQ 2 Objects extension methods in .NET.</p>
 
@@ -51,22 +52,22 @@
 
 <p>The most flexible installation method is using Composer: Simply create a composer.json file in the root of your project:</p>
 
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight highlight-json"><pre><span class="p">{</span>
     <span class="nt">"require"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">"fusonic/fusonic-linq"</span><span class="p">:</span> <span class="s2">"@dev"</span>
+        <span class="nt">"fusonic/linq"</span><span class="p">:</span> <span class="s2">"@dev"</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
 <p>Install composer and run install command:</p>
 
-<div class="highlight"><pre>curl -s http://getcomposer.org/installer | php
+<div class="highlight highlight-bash"><pre>curl -s http://getcomposer.org/installer <span class="p">|</span> php
 php composer.phar install
 </pre></div>
 
 <p>Once installed, include vendor/autoload.php in your script to autoload fusonic-linq.</p>
 
-<div class="highlight"><pre><span class="k">require</span> <span class="s1">'vendor/autoload.php'</span><span class="p">;</span>
+<div class="highlight highlight-php"><pre><span class="k">require</span> <span class="s1">'vendor/autoload.php'</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Fusonic\Linq\Linq</span><span class="p">;</span>
 
 <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="k">array</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">count</span><span class="p">();</span>
@@ -75,29 +76,140 @@ php composer.phar install
 <h2>
 <a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h2>
 
-<p>Calculate the average file size of files in a directory</p>
+<h4>
+<a name="calculate-the-average-file-size-of-files-in-a-directory" class="anchor" href="#calculate-the-average-file-size-of-files-in-a-directory"><span class="octicon octicon-link"></span></a>Calculate the average file size of files in a directory:</h4>
 
-<div class="highlight"><pre><span class="nv">$source</span> <span class="o">=</span> <span class="nb">glob</span><span class="p">(</span><span class="s2">"files/*"</span><span class="p">);</span>
+<div class="highlight highlight-php"><pre><span class="nv">$source</span> <span class="o">=</span> <span class="nb">glob</span><span class="p">(</span><span class="s2">"files/*"</span><span class="p">);</span>
 <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="nv">$source</span><span class="p">)</span>
   <span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$i</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">filesize</span><span class="p">(</span><span class="nv">$i</span><span class="p">);</span> <span class="p">})</span>
   <span class="o">-&gt;</span><span class="na">average</span><span class="p">();</span>
 </pre></div>
 
-<p>Find all files bigger than 1024 bytes and return the fileinfo object.</p>
+<h4>
+<a name="find-all-files-bigger-than-1024-bytes-and-return-the-fileinfo-object" class="anchor" href="#find-all-files-bigger-than-1024-bytes-and-return-the-fileinfo-object"><span class="octicon octicon-link"></span></a>Find all files bigger than 1024 bytes and return the fileinfo object:</h4>
 
-<div class="highlight"><pre><span class="nv">$source</span> <span class="o">=</span> <span class="nb">glob</span><span class="p">(</span><span class="s2">"files/*"</span><span class="p">);</span>
+<div class="highlight highlight-php"><pre><span class="nv">$source</span> <span class="o">=</span> <span class="nb">glob</span><span class="p">(</span><span class="s2">"files/*"</span><span class="p">);</span>
 <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="nv">$source</span><span class="p">)</span>
   <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$i</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">filesize</span><span class="p">(</span><span class="nv">$i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1024</span><span class="p">;</span> <span class="p">})</span>
   <span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$i</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">pathinfo</span><span class="p">(</span><span class="nv">$i</span><span class="p">);</span> <span class="p">});</span>
 </pre></div>
 
-<p>Search for all users containing "Max 1", Skip 5 items, Take 2 items and select the property ID of each user.</p>
+<h4>
+<a name="search-for-all-users-containing-max-1-skip-5-items-take-2-items-and-select-the-property-id-of-each-user" class="anchor" href="#search-for-all-users-containing-max-1-skip-5-items-take-2-items-and-select-the-property-id-of-each-user"><span class="octicon octicon-link"></span></a>Search for all users containing "Max 1", Skip 5 items, Take 2 items and select the property ID of each user:</h4>
 
-<div class="highlight"><pre><span class="nv">$result</span> <span class="o">=</span> <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="nv">$users</span><span class="p">)</span>
+<div class="highlight highlight-php"><pre><span class="nv">$result</span> <span class="o">=</span> <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="nv">$users</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nx">User</span> <span class="nv">$u</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">StringUtil</span><span class="o">::</span><span class="na">contains</span><span class="p">(</span><span class="nv">$u</span><span class="o">-&gt;</span><span class="na">surname</span><span class="p">,</span> <span class="s2">"Max 1"</span><span class="p">);</span>  <span class="p">})</span>
     <span class="o">-&gt;</span><span class="na">skip</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">take</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nx">User</span> <span class="nv">$u</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$u</span><span class="o">-&gt;</span><span class="na">usrId</span><span class="p">;</span> <span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="flatten-multiple-sequences-into-one-sequence" class="anchor" href="#flatten-multiple-sequences-into-one-sequence"><span class="octicon octicon-link"></span></a>Flatten multiple sequences into one sequence:</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$array1</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s2">"key"</span> <span class="o">=&gt;</span> <span class="s2">"a"</span><span class="p">,</span> <span class="s2">"data"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s2">"a1"</span><span class="p">,</span> <span class="s2">"a2"</span><span class="p">));</span>
+<span class="nv">$array2</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s2">"key"</span> <span class="o">=&gt;</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"data"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s2">"b1"</span><span class="p">,</span> <span class="s2">"b2"</span><span class="p">));</span>
+<span class="nv">$array3</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s2">"key"</span> <span class="o">=&gt;</span> <span class="s2">"c"</span><span class="p">,</span> <span class="s2">"data"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s2">"c1"</span><span class="p">,</span> <span class="s2">"c2"</span><span class="p">));</span>
+
+<span class="nv">$allArrays</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="nv">$array1</span><span class="p">,</span> <span class="nv">$array2</span><span class="p">,</span> <span class="nv">$array3</span><span class="p">);</span>
+
+<span class="nv">$result</span> <span class="o">=</span> <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="nv">$allArrays</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">selectMany</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$x</span><span class="p">[</span><span class="s2">"data"</span><span class="p">];</span> <span class="p">})</span>
+    <span class="o">-&gt;</span><span class="na">toArray</span><span class="p">();</span>
+
+<span class="c1">// $result is now: array("a1", "a2", "b1", "b2", "c1", "c2");</span>
+
+</pre></div>
+
+<h4>
+<a name="map-sequence-to-array-with-keyvalue-selectors" class="anchor" href="#map-sequence-to-array-with-keyvalue-selectors"><span class="octicon octicon-link"></span></a>Map sequence to array with key/value selectors:</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$category1</span> <span class="o">=</span> <span class="k">new</span> <span class="k">stdClass</span><span class="p">();</span> <span class="nv">$category1</span><span class="o">-&gt;</span><span class="na">key</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nv">$category1</span><span class="o">-&gt;</span><span class="na">value</span> <span class="o">=</span> <span class="s2">"Cars"</span><span class="p">;</span>
+<span class="nv">$category2</span> <span class="o">=</span> <span class="k">new</span> <span class="k">stdClass</span><span class="p">();</span> <span class="nv">$category2</span><span class="o">-&gt;</span><span class="na">key</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="nv">$category2</span><span class="o">-&gt;</span><span class="na">value</span> <span class="o">=</span> <span class="s2">"Ships"</span><span class="p">;</span>
+
+<span class="nv">$result</span> <span class="o">=</span> <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$category1</span><span class="p">,</span> <span class="nv">$category2</span><span class="p">))</span>
+    <span class="o">-&gt;</span><span class="na">toArray</span><span class="p">(</span>
+        <span class="k">function</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$x</span><span class="o">-&gt;</span><span class="na">key</span><span class="p">;</span> <span class="p">},</span> <span class="c1">// key-selector</span>
+        <span class="k">function</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$x</span><span class="o">-&gt;</span><span class="na">value</span><span class="p">;</span> <span class="p">}</span> <span class="c1">// value-selector</span>
+    <span class="p">);</span>
+
+<span class="c1">// $result is now: array(1 =&gt; "Cars", 2 =&gt; "Ships");</span>
+</pre></div>
+
+<h4>
+<a name="the-aggregate-method-makes-it-simple-to-perform-a-calculation-over-a-sequence-of-values" class="anchor" href="#the-aggregate-method-makes-it-simple-to-perform-a-calculation-over-a-sequence-of-values"><span class="octicon octicon-link"></span></a>The aggregate method makes it simple to perform a calculation over a sequence of values:</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$numbers</span> <span class="o">=</span> <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">));</span>
+<span class="nv">$sum</span> <span class="o">=</span> <span class="nv">$numbers</span><span class="o">-&gt;</span><span class="na">aggregate</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$a</span> <span class="o">+</span> <span class="nv">$b</span><span class="p">;</span> <span class="p">});</span>
+<span class="c1">// echo $sum; // output: 10 (1+2+3+4)</span>
+
+<span class="nv">$chars</span> <span class="o">=</span> <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">));</span>
+<span class="nv">$csv</span> <span class="o">=</span> <span class="nv">$chars</span><span class="o">-&gt;</span><span class="na">aggregate</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$a</span> <span class="o">.</span> <span class="s2">","</span> <span class="o">.</span> <span class="nv">$b</span><span class="p">;</span> <span class="p">});</span>
+<span class="c1">// echo $csv; // output: "a,b,c"</span>
+
+<span class="nv">$chars</span> <span class="o">=</span> <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">));</span>
+<span class="nv">$csv</span> <span class="o">=</span> <span class="nv">$chars</span><span class="o">-&gt;</span><span class="na">aggregate</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$a</span> <span class="o">.</span> <span class="s2">","</span> <span class="o">.</span> <span class="nv">$b</span><span class="p">;</span> <span class="p">},</span> <span class="s2">"seed"</span><span class="p">);</span>
+<span class="c1">// echo $csv; // output: "seed,a,b,c"</span>
+
+</pre></div>
+
+<h4>
+<a name="the-chunk-method-makes-it-simple-to-split-a-sequence-into-chunks-of-a-given-size" class="anchor" href="#the-chunk-method-makes-it-simple-to-split-a-sequence-into-chunks-of-a-given-size"><span class="octicon octicon-link"></span></a>The chunk method makes it simple to split a sequence into chunks of a given size:</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$chunks</span> <span class="o">=</span> <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"b"</span><span class="p">,</span><span class="s2">"c"</span><span class="p">,</span><span class="s2">"d"</span><span class="p">,</span><span class="s2">"e"</span><span class="p">))</span><span class="o">-&gt;</span><span class="na">chunk</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">foreach</span><span class="p">(</span><span class="nv">$chunk</span> <span class="nx">in</span> <span class="nv">$chunks</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nv">$i</span><span class="o">++</span><span class="p">;</span>
+  <span class="k">echo</span> <span class="s2">"Row </span><span class="si">$i</span><span class="s2"> &lt;br&gt;"</span><span class="p">;</span>
+  <span class="k">foreach</span><span class="p">(</span><span class="nv">$char</span> <span class="nx">in</span> <span class="nv">$chunk</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$char</span> <span class="o">.</span> <span class="s2">"|"</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// Result:</span>
+<span class="c1">// Row 1</span>
+<span class="c1">// a|b</span>
+<span class="c1">// Row 2</span>
+<span class="c1">// c|d</span>
+<span class="c1">// Row 3</span>
+<span class="c1">// e|</span>
+
+</pre></div>
+
+<h2>
+<a name="list-of-methods-provided-by-fusonic-linq" class="anchor" href="#list-of-methods-provided-by-fusonic-linq"><span class="octicon octicon-link"></span></a>List of methods provided by fusonic-linq:</h2>
+
+<div class="highlight highlight-php"><pre><span class="nx">aggregate</span><span class="p">(</span><span class="nv">$func</span><span class="p">,</span> <span class="nv">$seed</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Applies an accumulator function over a sequence.</span>
+<span class="nx">all</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Determines wheter all elements satisfy a condition.</span>
+<span class="nx">any</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Determines wheter any element satisfies a condition.</span>
+<span class="nx">average</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Computes the average of all numeric values.</span>
+<span class="nx">concat</span><span class="p">(</span><span class="nv">$second</span><span class="p">)</span> <span class="c1">// Concatenates 2 sequences</span>
+<span class="nx">contains</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="c1">// Determines whether a sequence contains a specified element.</span>
+<span class="nb">count</span><span class="p">()</span> <span class="c1">// Counts the elements of the sequence.</span>
+<span class="nx">chunk</span><span class="p">(</span><span class="nv">$chunksize</span><span class="p">)</span> <span class="c1">// Splits the sequence in chunks according to $chunksize.</span>
+<span class="nx">diff</span><span class="p">(</span><span class="nv">$second</span><span class="p">)</span> <span class="c1">// Finds different items of two sequences.</span>
+<span class="nx">distinct</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Returns all distinct items of a sequence using the optional selector.</span>
+<span class="nb">each</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Performs the specified action on each element of the sequence.</span>
+<span class="nx">elementAt</span><span class="p">(</span><span class="nv">$index</span><span class="p">)</span> <span class="c1">// Returns the element at a specified index or throws an exception.</span>
+<span class="nx">elementAtOrNull</span><span class="p">(</span><span class="nv">$index</span><span class="p">)</span> <span class="c1">// Returns the element at a specified index or returns null</span>
+<span class="nx">first</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Returns the first element that satisfies a specified condition or throws an exception.</span>
+<span class="nx">firstOrNull</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Returns the first element, or NULL if the sequence contains no elements.</span>
+<span class="nx">groupBy</span><span class="p">(</span><span class="nv">$keySelector</span><span class="p">)</span> <span class="c1">// Groups the object according to the $keySelector generated key.</span>
+<span class="nx">intersect</span><span class="p">(</span><span class="nv">$second</span><span class="p">)</span> <span class="c1">// Intersects the Linq sequence with second Iterable sequence.</span>
+<span class="nx">last</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Returns the last element that satisfies a specified condition or throws an exception.</span>
+<span class="nx">lastOrNull</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Returns the last element that satisfies a condition or NULL if no such element is found.</span>
+<span class="nx">max</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">//  Returns the maximum item value according to $func.</span>
+<span class="nx">min</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">//  Returns the minimum item value according to $func</span>
+<span class="nx">orderBy</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Sorts the elements in ascending order according to a key provided by $func.</span>
+<span class="nx">orderByDescending</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Sorts the elements in descending order according to a key provided by $func.</span>
+<span class="nx">select</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Projects each element into a new form by invoking the selector function.</span>
+<span class="nx">selectMany</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Projects each element of a sequence to a new Linq and flattens the resulting sequences into one sequence. </span>
+<span class="nx">single</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Returns the only element that satisfies a specified condition or throws an exception.</span>
+<span class="nx">singleOrDefault</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Returns the only element that satisfies a specified condition or returns Null.</span>
+<span class="nx">skip</span><span class="p">(</span><span class="nv">$count</span><span class="p">)</span> <span class="c1">// Bypasses a specified number of elements and then returns the remaining elements.</span>
+<span class="nx">sum</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Gets the sum of all items or by invoking a transform function on each item to get a numeric value.</span>
+<span class="nx">take</span><span class="p">(</span><span class="nv">$count</span><span class="p">)</span> <span class="c1">// Returns a specified number of contiguous elements from the start of a sequence.</span>
+<span class="nx">toArray</span><span class="p">(</span><span class="nv">$keySelector</span><span class="o">=</span><span class="k">null</span><span class="p">,</span> <span class="nv">$valueSelector</span><span class="o">=</span><span class="k">null</span><span class="p">)</span> <span class="c1">// Creates an Array from this Linq object with an optional key selector.</span>
+<span class="nx">where</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Filters the Linq object according to func return result.</span>
 </pre></div>
 
 <h2>
@@ -105,15 +217,28 @@ php composer.phar install
 
 <p>You can run the test suite with the following command:</p>
 
-<div class="highlight"><pre>phpunit --bootstrap tests/bootstrap.php .
+<div class="highlight highlight-bash"><pre>phpunit --bootstrap tests/bootstrap.php .
 </pre></div>
-      </section>
-      <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/fusonic/fusonic-linq/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/fusonic/fusonic-linq/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/fusonic/fusonic-linq"></a> is maintained by <a href="https://github.com/fusonic">fusonic</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		          <script type="text/javascript">
+
+            <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
