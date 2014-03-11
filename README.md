@@ -70,7 +70,7 @@ Linq::from($source)
 #### Search for all users containing "Max 1", Skip 5 items, Take 2 items and select the property ID of each user:
 ```php
 $result = Linq::from($users)
-    ->where(function (User $u) { return StringUtil::contains($u->surname, "Max 1");  })
+    ->where(function (User $u) { return strstr($u->surname, "Max 1");  })
     ->skip(5)
     ->take(2)
     ->select(function (User $u) { return $u->usrId; });
