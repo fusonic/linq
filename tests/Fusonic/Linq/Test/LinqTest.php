@@ -1609,6 +1609,13 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $groups->count());
     }
 
+    public function testIssue3_emtpyCollectionOrdering()
+    {
+        Linq::from(array())
+            ->orderBy(function(array $x) { return $x["name"]; })
+            ->toArray();
+    }
+
     private function assertException($closure, $expected = self::ExceptionName_Runtime)
     {
         try

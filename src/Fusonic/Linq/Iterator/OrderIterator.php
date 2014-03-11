@@ -43,11 +43,10 @@ class OrderIterator implements Iterator
 
     public function rewind()
     {
-        if ($this->orderedIterator === null)
+        if ($this->orderedIterator == null)
         {
             $this->orderItems();
         }
-
         $this->orderedIterator->rewind();
     }
 
@@ -58,6 +57,12 @@ class OrderIterator implements Iterator
 
         $itemIterator = $this->iterator;
         $itemIterator->rewind();
+        if(!$itemIterator->valid())
+        {
+            $this->orderedIterator = new ArrayIterator();
+            return;
+        }
+
         $firstOrderKey = $orderKeyFunc($itemIterator->current());
 
         $sortType = Helper\LinqHelper::LINQ_ORDER_TYPE_NUMERIC;
