@@ -155,7 +155,7 @@ concat($second) // Concatenates 2 sequences
 contains($value) // Determines whether a sequence contains a specified element.
 count() // Counts the elements of the sequence.
 chunk($chunksize) // Splits the sequence in chunks according to $chunksize.
-diff($second) // Finds different items of two sequences.
+except($second) // Returns all items except the ones of the given sequence.
 distinct($func = null) // Returns all distinct items of a sequence using the optional selector.
 each($func) // Performs the specified action on each element of the sequence.
 elementAt($index) // Returns the element at a specified index or throws an exception.

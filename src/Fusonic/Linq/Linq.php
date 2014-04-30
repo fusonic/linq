@@ -2,7 +2,7 @@
 
 namespace Fusonic\Linq;
 
-use Fusonic\Linq\Iterator\DiffIterator;
+use Fusonic\Linq\Iterator\ExceptIterator;
 use Fusonic\Linq\Iterator\DistinctIterator;
 use Fusonic\Linq\Iterator\GroupIterator;
 use Fusonic\Linq\Iterator\IntersectIterator;
@@ -467,15 +467,15 @@ class Linq implements IteratorAggregate
     }
 
     /**
-     * Finds different items
+     * Returns all elements except the ones of the given sequence.
      *
      * @param array|\Iterator $second
-     * @return  Linq   Returns different items of this and $array
+     * @return  Linq   Returns all items of this not occuring in $second
      */
-    public function diff($second)
+    public function except($second)
     {
         LinqHelper::assertIsTraversable($second, "second");
-        return new Linq(new DiffIterator($this->iterator, LinqHelper::getTraversableOrThrow($second)));
+        return new Linq(new ExceptIterator($this->iterator, LinqHelper::getTraversableOrThrow($second)));
     }
 
     /**

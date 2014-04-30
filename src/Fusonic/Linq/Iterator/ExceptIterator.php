@@ -5,10 +5,10 @@ namespace Fusonic\Linq\Iterator;
 use ArrayIterator;
 use Iterator;
 
-class DiffIterator implements Iterator
+class ExceptIterator implements Iterator
 {
     private $first, $second;
-    private $diffs;
+    private $result;
 
     public function __construct(Iterator $first, Iterator $second)
     {
@@ -18,38 +18,38 @@ class DiffIterator implements Iterator
 
     public function current()
     {
-        return $this->diffs->current();
+        return $this->result->current();
     }
 
     public function next()
     {
-        $this->diffs->next();
+        $this->result->next();
     }
 
     public function key()
     {
-        return $this->diffs->key();
+        return $this->result->key();
     }
 
     public function valid()
     {
-        return $this->diffs->valid();
+        return $this->result->valid();
     }
 
     public function rewind()
     {
-        if ($this->diffs === null)
+        if ($this->result === null)
         {
-            $this->getDiffs();
+            $this->getResult();
         }
 
-        $this->diffs->rewind();
+        $this->result->rewind();
     }
 
-    private function getDiffs()
+    private function getResult()
     {
         $firstArray = iterator_to_array($this->first);
         $secondArray = iterator_to_array($this->second);
-        $this->diffs = new ArrayIterator(array_diff($firstArray, $secondArray));
+        $this->result = new ArrayIterator(array_diff($firstArray, $secondArray));
     }
 }
