@@ -1075,12 +1075,12 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, count($array));
     }
 
-    public function testDiff_ReturnsDifferentElements()
+    public function testExcept_ReturnsAllElementsExceptTheGivenOnes()
     {
         $first = array("a", "b", "c", "d");
         $second = array("b", "c");
 
-        $linq = Linq::from($first)->diff($second);
+        $linq = Linq::from($first)->except($second);
         $this->assertEquals(2, $linq->count());
 
         $array = $linq->toArray();
@@ -1088,27 +1088,27 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("d", $array[1]);
     }
 
-    public function testDiff_ThrowsArgumentExceptionIfSecondSequenceIsNotTraversable()
+    public function testExcept_ThrowsArgumentExceptionIfSecondSequenceIsNotTraversable()
     {
         $this->assertException(function() {
             $input = array();
             $linq = Linq::from($input);
-            $linq->diff(null);
+            $linq->except(null);
         },self::ExceptionName_InvalidArgument);
 
         $this->assertException(function() {
             $input = array();
             $linq = Linq::from($input);
-            $linq->diff("Not a sequence");
+            $linq->except("Not a sequence");
         },self::ExceptionName_InvalidArgument);
     }
 
-    public function testDiff_EmptySequence_ReturnsAllElementsFromFirst()
+    public function testExcept_EmptySequence_ReturnsAllElementsFromFirst()
     {
         $first = array("a", "b", "c", "d");
         $second = array();
 
-        $linq = Linq::from($first)->diff($second);
+        $linq = Linq::from($first)->except($second);
         $this->assertEquals(4, $linq->count());
 
         $array = $linq->toArray();
