@@ -7,7 +7,8 @@ use Iterator;
 
 class IntersectIterator implements Iterator
 {
-    private $first, $second;
+    private $first;
+    private $second;
     private $intersections;
 
     public function __construct(Iterator $first, Iterator $second)

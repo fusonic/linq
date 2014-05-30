@@ -43,8 +43,7 @@ class OrderIterator implements Iterator
 
     public function rewind()
     {
-        if ($this->orderedIterator == null)
-        {
+        if ($this->orderedIterator == null) {
             $this->orderItems();
         }
         $this->orderedIterator->rewind();
@@ -57,8 +56,7 @@ class OrderIterator implements Iterator
 
         $itemIterator = $this->iterator;
         $itemIterator->rewind();
-        if(!$itemIterator->valid())
-        {
+        if (!$itemIterator->valid()) {
             $this->orderedIterator = new ArrayIterator();
             return;
         }
@@ -67,46 +65,36 @@ class OrderIterator implements Iterator
 
         $sortType = Helper\LinqHelper::LINQ_ORDER_TYPE_NUMERIC;
 
-        if ($firstOrderKey instanceof \DateTime)
-        {
+        if ($firstOrderKey instanceof \DateTime) {
             $sortType = Helper\LinqHelper::LINQ_ORDER_TYPE_DATETIME;
-        }
-        elseif (!is_numeric($firstOrderKey))
-        {
+        } elseif (!is_numeric($firstOrderKey)) {
             $sortType = Helper\LinqHelper::LINQ_ORDER_TYPE_ALPHANUMERIC;
         }
 
         $keyMap = array();
         $valueMap = array();
 
-        foreach($itemIterator as $value)
-        {
+        foreach ($itemIterator as $value) {
             $orderKey = $orderKeyFunc != null ? $orderKeyFunc($value) : $value;
-            if($sortType == Helper\LinqHelper::LINQ_ORDER_TYPE_DATETIME)
-            {
+            if ($sortType == Helper\LinqHelper::LINQ_ORDER_TYPE_DATETIME) {
                 $orderKey = $orderKey->getTimeStamp();
             }
             $keyMap[] = $orderKey;
             $valueMap[] = $value;
         }
 
-        if ($sortType == Helper\LinqHelper::LINQ_ORDER_TYPE_DATETIME)
-        {
+        if ($sortType == Helper\LinqHelper::LINQ_ORDER_TYPE_DATETIME) {
             $sortType = Helper\LinqHelper::LINQ_ORDER_TYPE_NUMERIC;
         }
 
-        if ($direction == Helper\LinqHelper::LINQ_ORDER_ASC)
-        {
+        if ($direction == Helper\LinqHelper::LINQ_ORDER_ASC) {
             asort($keyMap, $sortType == Helper\LinqHelper::LINQ_ORDER_TYPE_NUMERIC ? SORT_NUMERIC : SORT_LOCALE_STRING);
-        }
-        else
-        {
+        } else {
             arsort($keyMap, $sortType == Helper\LinqHelper::LINQ_ORDER_TYPE_NUMERIC ? SORT_NUMERIC : SORT_LOCALE_STRING);
         }
 
         $sorted = new ArrayIterator(array());
-        foreach($keyMap as $key => $value)
-        {
+        foreach ($keyMap as $key => $value) {
             $sorted[] = $valueMap[$key];
         }
 

@@ -60,7 +60,7 @@ class Linq implements IteratorAggregate
      */
     public static function range($start, $count)
     {
-        if($count < 0) {
+        if ($count < 0) {
             throw new OutOfRangeException('$count must be not be negative.');
         }
 
@@ -89,10 +89,8 @@ class Linq implements IteratorAggregate
         // If its an array iterator we must check the arrays bounds are greater than the skip count.
         // This is because the LimitIterator will use the seek() method which will throw an exception if $count > array.bounds.
         $innerIterator = $this->iterator;
-        if($innerIterator instanceof \ArrayIterator)
-        {
-            if($count >= $innerIterator->count())
-            {
+        if ($innerIterator instanceof \ArrayIterator) {
+            if ($count >= $innerIterator->count()) {
                 return new Linq();
             }
         }
@@ -108,8 +106,9 @@ class Linq implements IteratorAggregate
      */
     public function take($count)
     {
-        if($count == 0)
+        if ($count == 0) {
             return new Linq();
+        }
 
         return new Linq(new \LimitIterator($this->iterator, 0, $count));
     }
@@ -130,26 +129,20 @@ class Linq implements IteratorAggregate
         $result = null;
         $first = true;
 
-        if($seed !== null)
-        {
+        if ($seed !== null) {
             $result = $seed;
             $first = false;
         }
 
-        foreach($this->iterator as $current)
-        {
-            if(!$first)
-            {
+        foreach ($this->iterator as $current) {
+            if (!$first) {
                 $result = $func($result, $current);
-            }
-            else
-            {
+            } else {
                 $result = $current;
                 $first = false;
             }
         }
-        if($first)
-        {
+        if ($first) {
             throw new \RuntimeException("The input sequence contains no elements.");
         }
         return $result;
@@ -164,22 +157,31 @@ class Linq implements IteratorAggregate
      */
     public function chunk($chunksize)
     {
-        if($chunksize < 1)
+        if ($chunksize < 1) {
             throw new \InvalidArgumentException("chunksize", $chunksize);
+        }
 
         $i = -1;
-        return $this->select(function($x) use(&$i) {
-            $i++;
-            return array("index" => $i, "value" => $x);
-        })
-        ->groupBy(function($pair) use($chunksize) {
-            return $pair["index"] / $chunksize;
-        })
-        ->select(function(GroupedLinq $group) {
-            return $group->select(function($v) {
-                return $v["value"];
-            });
-        });
+        return $this->select(
+            function ($x) use (&$i) {
+                $i++;
+                return array("index" => $i, "value" => $x);
+            }
+        )
+        ->groupBy(
+            function ($pair) use ($chunksize) {
+                return $pair["index"] / $chunksize;
+            }
+        )
+        ->select(
+            function (GroupedLinq $group) {
+                return $group->select(
+                    function ($v) {
+                        return $v["value"];
+                    }
+                );
+            }
+        );
     }
 
     /**
@@ -190,11 +192,9 @@ class Linq implements IteratorAggregate
      */
     public function all($func)
     {
-        foreach($this->iterator as $current)
-        {
+        foreach ($this->iterator as $current) {
             $match = LinqHelper::getBoolOrThrowException($func($current));
-            if(!$match)
-            {
+            if (!$match) {
                 return false;
             }
         }
@@ -209,16 +209,13 @@ class Linq implements IteratorAggregate
      */
     public function any($func = null)
     {
-        foreach($this->iterator as $current)
-        {
-            if($func === null)
-            {
+        foreach ($this->iterator as $current) {
+            if ($func === null) {
                 return true;
             }
 
             $match = LinqHelper::getBoolOrThrowException($func($current));
-            if($match)
-            {
+            if ($match) {
                 return true;
             }
         }
@@ -231,8 +228,7 @@ class Linq implements IteratorAggregate
      */
     public function count()
     {
-        if($this->iterator instanceof \Countable)
-        {
+        if ($this->iterator instanceof \Countable) {
             return $this->iterator->count();
         }
 
@@ -253,10 +249,10 @@ class Linq implements IteratorAggregate
 
         $source = $this->getSelectIteratorOrInnerIterator($func);
 
-        foreach($source as $item)
-        {
-            if(!is_numeric($item))
+        foreach ($source as $item) {
+            if (!is_numeric($item)) {
                 throw new UnexpectedValueException("Cannot calculate an average on a none numeric value");
+            }
 
             $resultTotal += $item;
             $itemCount++;
@@ -302,10 +298,10 @@ class Linq implements IteratorAggregate
     {
         $sum = 0;
         $iterator = $this->getSelectIteratorOrInnerIterator($func);
-        foreach($iterator as $value)
-        {
-            if(!is_numeric($value))
+        foreach ($iterator as $value) {
+            if (!is_numeric($value)) {
                 throw new UnexpectedValueException("sum() only works on numeric values.");
+            }
 
             $sum += $value;
         }
@@ -324,23 +320,21 @@ class Linq implements IteratorAggregate
     {
         $min = null;
         $iterator = $this->getSelectIteratorOrInnerIterator($func);
-        foreach($iterator as $value)
-        {
-            if(!is_numeric($value) && !is_string($value))
+        foreach ($iterator as $value) {
+            if (!is_numeric($value) && !is_string($value)) {
                 throw new UnexpectedValueException("min() only works on numeric values or strings.");
-
-            if(is_null($min))
-            {
-                $min = $value;
             }
-            elseif($min > $value)
-            {
+
+            if (is_null($min)) {
+                $min = $value;
+            } elseif ($min > $value) {
                 $min = $value;
             }
         }
 
-        if($min === null)
+        if ($min === null) {
             throw new \RuntimeException("Cannot calculate min() as the Linq sequence contains no elements.");
+        }
 
         return $min;
     }
@@ -357,23 +351,21 @@ class Linq implements IteratorAggregate
     {
         $max = null;
         $iterator = $this->getSelectIteratorOrInnerIterator($func);
-        foreach($iterator as $value)
-        {
-            if(!is_numeric($value) && !is_string($value))
+        foreach ($iterator as $value) {
+            if (!is_numeric($value) && !is_string($value)) {
                 throw new UnexpectedValueException("max() only works on numeric values or strings.");
-
-            if(is_null($max))
-            {
-                $max = $value;
             }
-            elseif($max < $value)
-            {
+
+            if (is_null($max)) {
+                $max = $value;
+            } elseif ($max < $value) {
                 $max = $value;
             }
         }
 
-        if($max === null)
+        if ($max === null) {
             throw new \RuntimeException("Cannot calculate min() as the Linq sequence contains no elements.");
+        }
 
         return $max;
     }
@@ -408,8 +400,7 @@ class Linq implements IteratorAggregate
      */
     public function each($func)
     {
-        foreach($this->iterator as $item)
-        {
+        foreach ($this->iterator as $item) {
             $func($item);
         }
         return $this;
@@ -424,7 +415,11 @@ class Linq implements IteratorAggregate
      */
     public function contains($value)
     {
-        return $this->any(function($x) use($value) { return $x === $value; });
+        return $this->any(
+            function ($x) use ($value) {
+                return $x === $value;
+            }
+        );
     }
 
     /**
@@ -506,17 +501,16 @@ class Linq implements IteratorAggregate
     private function getValueAt($index, $throwEx)
     {
         $i = 0;
-        foreach($this->iterator as $value)
-        {
-            if($i == $index)
-            {
+        foreach ($this->iterator as $value) {
+            if ($i == $index) {
                 return $value;
             }
             $i++;
         }
 
-        if($throwEx)
+        if ($throwEx) {
             throw new OutOfRangeException("Index is less than 0 or greater than or equal to the number of elements in the sequence.");
+        }
 
         return null;
     }
@@ -620,20 +614,17 @@ class Linq implements IteratorAggregate
         $count = 0;
         $single = null;
 
-        foreach($source as $stored)
-        {
+        foreach ($source as $stored) {
             $count++;
 
-            if($count > 1)
-            {
+            if ($count > 1) {
                 throw new \RuntimeException("The input sequence contains more than 1 elements.");
             }
 
             $single = $stored;
         }
 
-        if($count == 0 && $throw)
-        {
+        if ($count == 0 && $throw) {
             throw new \RuntimeException("The input sequence contains no matching element.");
         }
 
@@ -647,15 +638,13 @@ class Linq implements IteratorAggregate
         $count = 0;
         $first = null;
 
-        foreach($source as $stored)
-        {
+        foreach ($source as $stored) {
             $count++;
             $first = $stored;
             break;
         }
 
-        if($count == 0 && $throw)
-        {
+        if ($count == 0 && $throw) {
             throw new \RuntimeException("The input sequence contains no matching element.");
         }
 
@@ -669,14 +658,12 @@ class Linq implements IteratorAggregate
         $count = 0;
         $last = null;
 
-        foreach($source as $stored)
-        {
+        foreach ($source as $stored) {
             $count++;
             $last = $stored;
         }
 
-        if($count == 0 && $throw)
-        {
+        if ($count == 0 && $throw) {
             throw new \RuntimeException("The input sequence contains no matching element.");
         }
 
@@ -693,19 +680,13 @@ class Linq implements IteratorAggregate
      */
     public function toArray($keySelector = null, $valueSelector = null)
     {
-        if($keySelector === null && $valueSelector === null)
-        {
+        if ($keySelector === null && $valueSelector === null) {
             return iterator_to_array($this, false);
-        }
-        else if($keySelector == null)
-        {
+        } elseif ($keySelector == null) {
             return iterator_to_array(new SelectIterator($this->getIterator(), $valueSelector), false);
-        }
-        else
-        {
+        } else {
             $array = array();
-            foreach($this as $value)
-            {
+            foreach ($this as $value) {
                 $key = $keySelector($value);
                 $array[$key] = $valueSelector == null ? $value : $valueSelector($value);
             }

@@ -7,7 +7,8 @@ use Fusonic\Linq\Helper;
 
 class SelectManyIterator implements Iterator
 {
-    private $iterator, $currentIterator;
+    private $iterator;
+    private $currentIterator;
     private $key = 0;
 
     public function __construct(Iterator $iterator)
@@ -17,8 +18,7 @@ class SelectManyIterator implements Iterator
 
     public function current()
     {
-        if ($this->currentIterator != null)
-        {
+        if ($this->currentIterator != null) {
             return $this->currentIterator->current();
         }
 
@@ -27,25 +27,19 @@ class SelectManyIterator implements Iterator
 
     public function next()
     {
-        if ($this->currentIterator != null)
-        {
+        if ($this->currentIterator != null) {
             $this->currentIterator->next();
 
-            if (!$this->currentIterator->valid())
-            {
+            if (!$this->currentIterator->valid()) {
                 $this->iterator->next();
-                if ($this->iterator->valid())
-                {
+                if ($this->iterator->valid()) {
                     $this->currentIterator = Helper\LinqHelper::getTraversableOrThrow($this->iterator->current());
-                    if ($this->currentIterator != null)
-                    {
+                    if ($this->currentIterator != null) {
                         $this->currentIterator->rewind();
                         $this->key++;
                     }
                 }
-            }
-            else
-            {
+            } else {
                 $this->key++;
             }
         }
@@ -65,17 +59,13 @@ class SelectManyIterator implements Iterator
     public function rewind()
     {
         $this->iterator->rewind();
-        if ($this->iterator->valid())
-        {
+        if ($this->iterator->valid()) {
             $current = $this->iterator->current();
             $this->currentIterator = Helper\LinqHelper::getTraversableOrThrow($current);
-            if ($this->currentIterator != null)
-            {
+            if ($this->currentIterator != null) {
                 $this->currentIterator->rewind();
             }
-        }
-        else
-        {
+        } else {
             $this->currentIterator = null;
         }
 

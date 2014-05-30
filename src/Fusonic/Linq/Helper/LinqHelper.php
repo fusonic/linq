@@ -19,8 +19,9 @@ class LinqHelper
 
     public static function getBoolOrThrowException($returned)
     {
-        if (!is_bool($returned))
+        if (!is_bool($returned)) {
             throw new UnexpectedValueException("Return type of filter func must be boolean.");
+        }
         return $returned;
     }
 
@@ -31,8 +32,9 @@ class LinqHelper
 
     public static function assertIsTraversable($param, $argumentName)
     {
-        if (!self::isTraversable($param))
+        if (!self::isTraversable($param)) {
             throw new InvalidArgumentException("Argument must be an array or implementing the Traversable interface. ArgumentName = " . $argumentName);
+        }
     }
 
     public static function getTraversableOrThrow($value)
@@ -41,8 +43,9 @@ class LinqHelper
             throw new \UnexpectedValueException("Value must be an array or implementing the Traversable interface.");
         }
 
-        if (is_array($value))
+        if (is_array($value)) {
             $value = new ArrayIterator($value);
+        }
 
         return $value;
     }

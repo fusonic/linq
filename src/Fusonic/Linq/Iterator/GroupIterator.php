@@ -41,8 +41,7 @@ class GroupIterator implements Iterator
 
     public function rewind()
     {
-        if($this->grouped === null)
-        {
+        if ($this->grouped === null) {
             $this->doGroup();
         }
 
@@ -53,11 +52,9 @@ class GroupIterator implements Iterator
     {
         $keySelector = $this->keySelector;
         $this->grouped = new \ArrayIterator(array());
-        foreach($this->iterator as $value)
-        {
+        foreach ($this->iterator as $value) {
             $key = $keySelector($value);
-            if(!isset($this->grouped[$key]))
-            {
+            if (!isset($this->grouped[$key])) {
                 $this->grouped[$key] = array('key' => $key, 'values'=> array());
             }
 

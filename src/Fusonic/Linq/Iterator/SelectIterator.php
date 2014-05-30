@@ -12,8 +12,9 @@ class SelectIterator extends \IteratorIterator
     public function __construct(Iterator $iterator, $selector)
     {
         parent::__construct($iterator);
-        if ($selector === null)
+        if ($selector === null) {
             throw new InvalidArgumentException("Selector must not be null.");
+        }
 
         $this->selector = $selector;
     }

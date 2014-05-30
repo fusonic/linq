@@ -7,7 +7,8 @@ use Iterator;
 
 class ExceptIterator implements Iterator
 {
-    private $first, $second;
+    private $first;
+    private $second;
     private $result;
 
     public function __construct(Iterator $first, Iterator $second)
@@ -38,8 +39,7 @@ class ExceptIterator implements Iterator
 
     public function rewind()
     {
-        if ($this->result === null)
-        {
+        if ($this->result === null) {
             $this->getResult();
         }
 

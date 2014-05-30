@@ -36,8 +36,7 @@ class DistinctIterator extends \IteratorIterator
 
     public function rewind()
     {
-        if ($this->distinct === null)
-        {
+        if ($this->distinct === null) {
             $this->getDistincts();
         }
 
