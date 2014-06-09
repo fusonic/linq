@@ -4,4 +4,5 @@ require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Compos
 
 use Fusonic\Linq\Linq;
 
-$count = Linq::from(array("test", "test2"))->count();
+$data = array("1", "2", "3");
+
