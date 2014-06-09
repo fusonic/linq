@@ -152,7 +152,7 @@ class Linq implements IteratorAggregate
      * Splits the sequence in chunks according to $chunksize.
      *
      * @param $chunksize Specifies how many elements are grouped together per chunk.
-     * @return Linq[]
+     * @return Linq
      * @throws \WrongArgumentException If $chunksize is smaller than 1.
      */
     public function chunk($chunksize)
@@ -519,7 +519,7 @@ class Linq implements IteratorAggregate
      * Groups the object according to the $func generated key
      *
      * @param callback $keySelector    a func that returns an item as key, item can be any type.
-     * @return GroupedLinq[]
+     * @return GroupedLinq
      */
     public function groupBy($keySelector)
     {
