@@ -5,6 +5,8 @@ require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Compos
 use Fusonic\Linq\Linq;
 $files = glob("./samples/*");
 
+// Group all files by its filesize.
+
 ### Plain PHP: ###
 $data = array();
 foreach($files as $file) {

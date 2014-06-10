@@ -5,22 +5,25 @@ require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Compos
 use Fusonic\Linq\Linq;
 $files = glob("./samples/*");
 
+// Calculate the average filesize of all files greater than 1024 bytes in a directory
+// but skip the very first 2 files and then take only 4 files.
+
 ### Plain PHP: ###
 
 $sum = 0;
 $i = 0;
-$m = 0;
+$y = 0;
 foreach($files as $file) {
     $currentSize = filesize($file);
     if($currentSize > 1024) {
-       if($m < 2) {
-           $m++;
+       if($y < 2) {
+           $y++;
            continue;
        }
-       else if ($m > 5) {
+       else if ($y > 5) {
             break;
        }
-       $m++;
+       $y++;
        $sum += $currentSize;
        $i++;
     }
