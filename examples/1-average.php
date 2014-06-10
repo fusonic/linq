@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
 
 use Fusonic\Linq\Linq;
-$files = glob("/tmp/x/*");
+$files = glob("./samples/*");
 
 ### Plain PHP: ###
 
