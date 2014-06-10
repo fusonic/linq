@@ -808,13 +808,13 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $aGroup = $grouped->elementAt(0);
         $this->assertTrue($aGroup instanceof Fusonic\Linq\GroupedLinq);
 
-        $this->assertEquals("a", $aGroup->groupKey());
+        $this->assertEquals("a", $aGroup->key());
         $this->assertEquals(2, $aGroup->count());
         $this->assertSame($a1, $aGroup->elementAt(0));
         $this->assertSame($a2, $aGroup->elementAt(1));
 
         $bGroup = $grouped->elementAt(1);
-        $this->assertEquals("b", $bGroup->groupKey());
+        $this->assertEquals("b", $bGroup->key());
         $this->assertEquals(1, $bGroup->count());
         $this->assertSame($b1, $bGroup->elementAt(0));
     }

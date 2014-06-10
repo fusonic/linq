@@ -19,7 +19,7 @@ class GroupedLinq extends Linq
         $this->groupKey = $groupKey;
     }
 
-    public function groupKey()
+    public function key()
     {
         return $this->groupKey;
     }
