@@ -36,6 +36,8 @@
 
 <p>fusonic-linq is a PHP library inspired by the LINQ 2 Objects extension methods in .NET.</p>
 
+<p>For a full introduction read my blog-post: <a href="http://www.fusonic.net/en/blog/2013/08/14/fusonic-linq-write-less-do-more/">http://www.fusonic.net/en/blog/2013/08/14/fusonic-linq-write-less-do-more/</a></p>
+
 <p>LINQ queries offer three main advantages over traditional foreach loops:</p>
 
 <ul>
@@ -98,7 +100,7 @@ php composer.phar install
 <a name="search-for-all-users-containing-max-1-skip-5-items-take-2-items-and-select-the-property-id-of-each-user" class="anchor" href="#search-for-all-users-containing-max-1-skip-5-items-take-2-items-and-select-the-property-id-of-each-user"><span class="octicon octicon-link"></span></a>Search for all users containing "Max 1", Skip 5 items, Take 2 items and select the property ID of each user:</h4>
 
 <div class="highlight highlight-php"><pre><span class="nv">$result</span> <span class="o">=</span> <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="nv">$users</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nx">User</span> <span class="nv">$u</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">StringUtil</span><span class="o">::</span><span class="na">contains</span><span class="p">(</span><span class="nv">$u</span><span class="o">-&gt;</span><span class="na">surname</span><span class="p">,</span> <span class="s2">"Max 1"</span><span class="p">);</span>  <span class="p">})</span>
+    <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nx">User</span> <span class="nv">$u</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">strstr</span><span class="p">(</span><span class="nv">$u</span><span class="o">-&gt;</span><span class="na">surname</span><span class="p">,</span> <span class="s2">"Max 1"</span><span class="p">);</span>  <span class="p">})</span>
     <span class="o">-&gt;</span><span class="na">skip</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">take</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nx">User</span> <span class="nv">$u</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$u</span><span class="o">-&gt;</span><span class="na">usrId</span><span class="p">;</span> <span class="p">});</span>
@@ -186,7 +188,7 @@ php composer.phar install
 <span class="nx">contains</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="c1">// Determines whether a sequence contains a specified element.</span>
 <span class="nb">count</span><span class="p">()</span> <span class="c1">// Counts the elements of the sequence.</span>
 <span class="nx">chunk</span><span class="p">(</span><span class="nv">$chunksize</span><span class="p">)</span> <span class="c1">// Splits the sequence in chunks according to $chunksize.</span>
-<span class="nx">diff</span><span class="p">(</span><span class="nv">$second</span><span class="p">)</span> <span class="c1">// Finds different items of two sequences.</span>
+<span class="nx">except</span><span class="p">(</span><span class="nv">$second</span><span class="p">)</span> <span class="c1">// Returns all items except the ones of the given sequence.</span>
 <span class="nx">distinct</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Returns all distinct items of a sequence using the optional selector.</span>
 <span class="nb">each</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Performs the specified action on each element of the sequence.</span>
 <span class="nx">elementAt</span><span class="p">(</span><span class="nv">$index</span><span class="p">)</span> <span class="c1">// Returns the element at a specified index or throws an exception.</span>
@@ -210,6 +212,26 @@ php composer.phar install
 <span class="nx">take</span><span class="p">(</span><span class="nv">$count</span><span class="p">)</span> <span class="c1">// Returns a specified number of contiguous elements from the start of a sequence.</span>
 <span class="nx">toArray</span><span class="p">(</span><span class="nv">$keySelector</span><span class="o">=</span><span class="k">null</span><span class="p">,</span> <span class="nv">$valueSelector</span><span class="o">=</span><span class="k">null</span><span class="p">)</span> <span class="c1">// Creates an Array from this Linq object with an optional key selector.</span>
 <span class="nx">where</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Filters the Linq object according to func return result.</span>
+</pre></div>
+
+<h2>
+<a name="simple-consistent-and-predictable" class="anchor" href="#simple-consistent-and-predictable"><span class="octicon octicon-link"></span></a>Simple, Consistent and Predictable</h2>
+
+<p>One important design goal was the principle of the least surprise. As PHP is a fully dynamic language with nearly no type-safety, it is common to shoot yourself into the foot because of accidentally mixing up incompatible types.</p>
+
+<p>We protect you from these programing errors by asserting that every callback functions you supply to the library must return a correctly typed value. In addition, every supported aggregate function will throw an exception if you are accidentally mixing up incompatible types.</p>
+
+<p>This means that we made this library totally predictable in what it does, and verified that every function has its defined exceptions which are thrown when certain operations fail, or if certain types are not correct.</p>
+
+<div class="highlight highlight-php"><pre><span class="cm">/* Throws an UnexpectedValueException if the </span>
+<span class="cm">provided callback function does not return a boolean */</span>
+<span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s2">"1"</span><span class="p">,</span> <span class="s2">"1"</span><span class="p">))</span>
+<span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="s2">"NOT A BOOLEAN"</span><span class="p">;</span> <span class="p">});</span>
+
+<span class="cm">/* Throws an UnexpectedValueException if one of the values</span>
+<span class="cm">is not convertible to a numeric value:*/</span>
+<span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">"Not a numeric value"</span><span class="p">))</span>
+<span class="o">-&gt;</span><span class="na">sum</span><span class="p">();</span>
 </pre></div>
 
 <h2>
