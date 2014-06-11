@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
 
 use Fusonic\Linq\Linq;
-$files = glob("./samples/*");
+$files = glob("/tmp/*");
 
 // Calculate the average filesize of all files greater than 1024 bytes in a directory
 // but skip the very first 2 files and then take only 4 files.

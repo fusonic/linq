@@ -9,6 +9,11 @@
  * which are thrown when certain operations fail, or if certain types are not correct.
  *
  */
+echo "<pre>";
+
+require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
+
+use Fusonic\Linq\Linq;
 
 /* Throws an UnexpectedValueException if the
 provided callback function does not return a boolean */

@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
 
 use Fusonic\Linq\Linq;
-$files = glob("./samples/*");
+$files = glob("/tmp/*");
 
 // Group all files by its filesize.
 
@@ -47,7 +47,8 @@ $linq = Linq::from($files)
     ->select(function($x) { return array("name" => $x, "size" => filesize($x)); })
     ->orderByDescending(function($x) { return $x['size']; })
     ->groupBy(function($x) { return $x['size']; })
+    ->orderByDescending(function($x) { return $x->count(); })
     ->each(function($x) {
-        echo $x->groupKey() . " (" . $x->count() . ")" . "<br />";
+        echo $x->key() . " (" . $x->count() . ")" . "<br />";
         $x->each(function($y) { echo " -" . $y["name"] . "<br>"; });
     });
