@@ -1036,6 +1036,33 @@ class LinqTest extends PHPUnit_Framework_TestCase
         },self::ExceptionName_InvalidArgument);
     }
 
+    public function testLinqFrom_WorksWith_Arrays_Iterators_And_IteratorAggregates()
+    {
+        $linq = Linq::from(array(1, 2));
+        $linq = Linq::from($linq);
+        $linq = Linq::from($linq->getIterator());
+    }
+
+    public function testMethodsWithSequencesAsArguments_WorkWith_Arrays_Iterators_And_IteratorAggregates()
+    {
+        $first = Linq::from(array("a", "b"));
+        $secondArray = array("c", "d");
+        $secondLinq = Linq::from(array("c", "d"));
+        $secondIterator = $secondLinq->getIterator();
+
+        $res = $first->concat($secondLinq)->toArray();
+        $res = $first->intersect($secondLinq)->toArray();
+        $res = $first->except($secondLinq)->toArray();
+
+        $res = $first->concat($secondArray)->toArray();
+        $res = $first->intersect($secondArray)->toArray();
+        $res = $first->except($secondArray)->toArray();
+
+        $res = $first->concat($secondIterator)->toArray();
+        $res = $first->intersect($secondIterator)->toArray();
+        $res = $first->except($secondIterator)->toArray();
+    }
+
     public function testIntersect_ReturnsIntersectedElements()
     {
         $first = array("a", "b", "c", "d");

@@ -25,28 +25,32 @@ class LinqHelper
         return $returned;
     }
 
-    public static function isTraversable($param)
+    public static function assertArgumentIsIterable($param, $argumentName)
     {
-        return is_array($param) || $param instanceof \Traversable;
-    }
-
-    public static function assertIsTraversable($param, $argumentName)
-    {
-        if (!self::isTraversable($param)) {
-            throw new InvalidArgumentException("Argument must be an array or implementing the Traversable interface. ArgumentName = " . $argumentName);
+        if (!self::isIterable($param)) {
+            throw new InvalidArgumentException("Argument must be an array, or implement either the \IteratorAggregate or \Iterator interface. ArgumentName = " . $argumentName);
         }
     }
 
-    public static function getTraversableOrThrow($value)
+    public static function getIteratorOrThrow($value)
     {
-        if (!self::isTraversable($value)) {
-            throw new \UnexpectedValueException("Value must be an array or implementing the Traversable interface.");
-        }
-
         if (is_array($value)) {
-            $value = new ArrayIterator($value);
+            return new ArrayIterator($value);
+        }
+        else if($value instanceof \IteratorAggregate) {
+            return $value->getIterator();
+        }
+        else if($value instanceof \Iterator) {
+            return $value;
         }
 
-        return $value;
+        throw new \UnexpectedValueException("Value must be an array, or implement either the \IteratorAggregate or \Iterator interface");
+    }
+
+    public static function isIterable($param)
+    {
+        return is_array($param)
+            || $param instanceof \IteratorAggregate
+            || $param instanceof \Iterator;
     }
 }

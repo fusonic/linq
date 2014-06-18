@@ -33,7 +33,7 @@ class SelectManyIterator implements Iterator
             if (!$this->currentIterator->valid()) {
                 $this->iterator->next();
                 if ($this->iterator->valid()) {
-                    $this->currentIterator = Helper\LinqHelper::getTraversableOrThrow($this->iterator->current());
+                    $this->currentIterator = Helper\LinqHelper::getIteratorOrThrow($this->iterator->current());
                     if ($this->currentIterator != null) {
                         $this->currentIterator->rewind();
                         $this->key++;
@@ -61,7 +61,7 @@ class SelectManyIterator implements Iterator
         $this->iterator->rewind();
         if ($this->iterator->valid()) {
             $current = $this->iterator->current();
-            $this->currentIterator = Helper\LinqHelper::getTraversableOrThrow($current);
+            $this->currentIterator = Helper\LinqHelper::getIteratorOrThrow($current);
             if ($this->currentIterator != null) {
                 $this->currentIterator->rewind();
             }

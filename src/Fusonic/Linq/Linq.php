@@ -32,8 +32,8 @@ class Linq implements IteratorAggregate
      */
     public function __construct($dataSource = array())
     {
-        LinqHelper::assertIsTraversable($dataSource, "dataSource");
-        $dataSource = LinqHelper::getTraversableOrThrow($dataSource);
+        LinqHelper::assertArgumentIsIterable($dataSource, "dataSource");
+        $dataSource = LinqHelper::getIteratorOrThrow($dataSource);
 
         $this->iterator = $dataSource;
     }
@@ -431,7 +431,7 @@ class Linq implements IteratorAggregate
      */
     public function concat($second)
     {
-        LinqHelper::assertIsTraversable($second, "second");
+        LinqHelper::assertArgumentIsIterable($second, "second");
 
         $allItems = new \ArrayIterator(array($this->iterator, $second));
 
@@ -457,8 +457,8 @@ class Linq implements IteratorAggregate
      */
     public function intersect($second)
     {
-        LinqHelper::assertIsTraversable($second, "second");
-        return new Linq(new IntersectIterator($this->iterator, LinqHelper::getTraversableOrThrow($second)));
+        LinqHelper::assertArgumentIsIterable($second, "second");
+        return new Linq(new IntersectIterator($this->iterator, LinqHelper::getIteratorOrThrow($second)));
     }
 
     /**
@@ -469,8 +469,8 @@ class Linq implements IteratorAggregate
      */
     public function except($second)
     {
-        LinqHelper::assertIsTraversable($second, "second");
-        return new Linq(new ExceptIterator($this->iterator, LinqHelper::getTraversableOrThrow($second)));
+        LinqHelper::assertArgumentIsIterable($second, "second");
+        return new Linq(new ExceptIterator($this->iterator, LinqHelper::getIteratorOrThrow($second)));
     }
 
     /**
