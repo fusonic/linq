@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Fusonic-linq.
+ *
+ * (c) Fusonic GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Fusonic\Linq;
 
 use Fusonic\Linq\Iterator\ExceptIterator;
@@ -13,13 +22,14 @@ use Fusonic\Linq\Iterator\WhereIterator;
 use Fusonic\Linq\Helper\LinqHelper;
 use IteratorAggregate;
 use Traversable;
-use \UnexpectedValueException as UnexpectedValueException;
-use \InvalidArgumentException as InvalidArgumentException;
-use \OutOfRangeException as OutOfRangeException;
+use UnexpectedValueException;
+use InvalidArgumentException;
+use OutOfRangeException;
 
 /**
- * LINQ 2 Objects class for PHP.
- * Provides a set of methods for querying Iterables in PHP.
+ * Linq is a simple, powerful and consistent library for querying, projecting and aggregating data in php.
+ *
+ * @author David Roth <david.roth@fusonic.net>.
  */
 class Linq implements IteratorAggregate
 {
@@ -28,9 +38,9 @@ class Linq implements IteratorAggregate
     /**
      * Creates a new Linq object using the provided dataSource.
      *
-     * @param array|Traversable $dataSource     An array or a Traversable sequence as data source
+     * @param array|\Iterator|IteratorAggregate $dataSource     A Traversable sequence as data source.
      */
-    public function __construct($dataSource = array())
+    public function __construct($dataSource)
     {
         LinqHelper::assertArgumentIsIterable($dataSource, "dataSource");
         $dataSource = LinqHelper::getIteratorOrThrow($dataSource);
@@ -40,9 +50,9 @@ class Linq implements IteratorAggregate
 
     /**
      * Creates a new Linq object using the provided dataDataSource.
-     * Use this method as an alternative for getting a new Linq object instance.
+     * This is the recommended way for getting a new Linq instance.
      *
-     * @param array|Traversable $dataSource     An array or aa Traversable sequence as data source
+     * @param array|\Iterator|IteratorAggregate $dataSource     A Traversable sequence as data source.
      * @return Linq
      */
     public static function from($dataSource)
@@ -91,7 +101,7 @@ class Linq implements IteratorAggregate
         $innerIterator = $this->iterator;
         if ($innerIterator instanceof \ArrayIterator) {
             if ($count >= $innerIterator->count()) {
-                return new Linq();
+                return new Linq(array());
             }
         }
 
@@ -107,7 +117,7 @@ class Linq implements IteratorAggregate
     public function take($count)
     {
         if ($count == 0) {
-            return new Linq();
+            return new Linq(array());
         }
 
         return new Linq(new \LimitIterator($this->iterator, 0, $count));
@@ -120,8 +130,9 @@ class Linq implements IteratorAggregate
      * The first element of source is used as the initial aggregate value if $seed parameter is not specified.
      * If $seed is specified, this value will be used as the first value.
      *
-     * @param   callback    $func     An accumulator function to be invoked on each element.
-     * @param   mixed       $seed
+     * @param   callback $func An accumulator function to be invoked on each element.
+     * @param   mixed $seed
+     * @throws \RuntimeException if the input sequence contains no elements.
      * @return  mixed       Returns the final result of $func.
      */
     public function aggregate($func, $seed = null)
@@ -152,8 +163,8 @@ class Linq implements IteratorAggregate
      * Splits the sequence in chunks according to $chunksize.
      *
      * @param $chunksize Specifies how many elements are grouped together per chunk.
+     * @throws \InvalidArgumentException
      * @return Linq
-     * @throws \WrongArgumentException If $chunksize is smaller than 1.
      */
     public function chunk($chunksize)
     {
