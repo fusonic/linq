@@ -682,12 +682,12 @@ class Linq implements IteratorAggregate
     }
 
     /**
-     * Creates an Array from this Linq object with an optional key selector.
+     * Creates an Array from this Linq object with key/value selector(s).
      *
      * @param callback $keySelector     a func that returns the array-key for each element.
      * @param callback $valueSelector   a func that returns the array-value for each element.
      *
-     * @return Array    Linq as Array
+     * @return Array    An array with all values.
      */
     public function toArray($keySelector = null, $valueSelector = null)
     {
