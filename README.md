@@ -1,10 +1,9 @@
-fusonic-linq 
------------------
+# fusonic/linq
 
-[![Build Status](https://travis-ci.org/fusonic/fusonic-linq.png)](https://travis-ci.org/fusonic/fusonic-linq)
+[![Build Status](https://travis-ci.org/fusonic/linq.png)](https://travis-ci.org/fusonic/linq)
 [![Total Downloads](https://poser.pugx.org/fusonic/linq/downloads.png)](https://packagist.org/packages/fusonic/linq)
 
-fusonic-linq is a PHP library inspired by the LINQ 2 Objects extension methods in .NET.
+fusonic/linq is a PHP library inspired by the LINQ 2 Objects extension methods in .NET.
 
 For a full introduction read my blog-post: http://www.fusonic.net/en/blog/2013/08/14/fusonic-linq-write-less-do-more/
 
@@ -16,15 +15,12 @@ LINQ queries offer three main advantages over traditional foreach loops:
 
 * In general, the more complex the operation you want to perform on the data, the more benefit you will realize by using LINQ instead of traditional iteration techniques.
 
+## Requirements
 
-Requirements
-------------
-
-fusonic-linq is supported on PHP 5.3 and up.
+fusonic/linq is supported on PHP 5.3 and up.
 
 
-Installation & Usage
-------------
+## Installation & Usage
 
 The most flexible installation method is using Composer: Simply create a composer.json file in the root of your project:
 ``` json
@@ -41,7 +37,7 @@ curl -s http://getcomposer.org/installer | php
 php composer.phar install
 ``` 
 
-Once installed, include vendor/autoload.php in your script to autoload fusonic-linq.
+Once installed, include vendor/autoload.php in your script to autoload fusonic/linq.
 
 ``` php
 require 'vendor/autoload.php';
@@ -50,10 +46,9 @@ use Fusonic\Linq\Linq;
 Linq::from(array())->count();
 ```
 
-Examples
------
+## Examples
 
-#### Calculate the average file size of files in a directory:
+### Calculate the average file size of files in a directory:
 ``` php
 $source = glob("files/*");
 Linq::from($source)
@@ -61,7 +56,7 @@ Linq::from($source)
   ->average();
 ```
 
-#### Find all files bigger than 1024 bytes and return the fileinfo object:
+### Find all files bigger than 1024 bytes and return the fileinfo object:
 ``` php
 $source = glob("files/*");
 Linq::from($source)
@@ -69,7 +64,7 @@ Linq::from($source)
   ->select(function($i) { return pathinfo($i); });
 ```
 
-#### Search for all users containing "Max 1", Skip 5 items, Take 2 items and select the property ID of each user:
+### Search for all users containing "Max 1", Skip 5 items, Take 2 items and select the property ID of each user:
 ```php
 $result = Linq::from($users)
     ->where(function (User $u) { return strstr($u->surname, "Max 1");  })
@@ -78,7 +73,7 @@ $result = Linq::from($users)
     ->select(function (User $u) { return $u->usrId; });
 ```
 
-#### Flatten multiple sequences into one sequence:
+### Flatten multiple sequences into one sequence:
 ```php
 $array1 = array("key" => "a", "data" => array("a1", "a2"));
 $array2 = array("key" => "b", "data" => array("b1", "b2"));
@@ -93,7 +88,7 @@ $result = Linq::from($allArrays)
 // $result is now: array("a1", "a2", "b1", "b2", "c1", "c2");
 
 ```
-#### Map sequence to array with key/value selectors:
+### Map sequence to array with key/value selectors:
 ```php
 $category1 = new stdClass(); $category1->key = 1; $category1->value = "Cars";
 $category2 = new stdClass(); $category2->key = 2; $category2->value = "Ships";
@@ -107,7 +102,7 @@ $result = Linq::from(array($category1, $category2))
 // $result is now: array(1 => "Cars", 2 => "Ships");
 ```
 
-#### The aggregate method makes it simple to perform a calculation over a sequence of values:
+### The aggregate method makes it simple to perform a calculation over a sequence of values:
 ```php
 $numbers = Linq::from(array(1,2,3,4));
 $sum = $numbers->aggregate(function($a, $b) { return $a + $b; });
@@ -124,7 +119,7 @@ $csv = $chars->aggregate(function($a, $b) { return $a . "," . $b; }, "seed");
 ```
 
 
-#### The chunk method makes it simple to split a sequence into chunks of a given size:
+### The chunk method makes it simple to split a sequence into chunks of a given size:
 ```php
 $chunks = Linq::from(array("a","b","c","d","e"))->chunk(2);
 $i = 0;
@@ -145,9 +140,8 @@ foreach($chunk in $chunks) {
 
 ```
 
+## List of methods provided by fusonic/linq:
 
-List of methods provided by fusonic-linq:
--------------
 ```php
 aggregate($func, $seed = null) // Applies an accumulator function over a sequence.
 all($func) // Determines wheter all elements satisfy a condition.
@@ -183,8 +177,7 @@ toArray($keySelector=null, $valueSelector=null) // Creates an Array from this Li
 where($func) // Filters the Linq object according to func return result.
 ```
 
-Simple, Consistent and Predictable
--------------
+## Simple, Consistent and Predictable
 
 One important design goal was the principle of the least surprise. As PHP is a fully dynamic language with nearly no type-safety, it is common to shoot yourself into the foot because of accidentally mixing up incompatible types.
 
@@ -204,11 +197,7 @@ Linq::from(array(1, 2, "Not a numeric value"))
 ->sum();
 ```
 
-
-
-
-Running tests
--------------
+## Running tests
 
 You can run the test suite with the following command:
 
