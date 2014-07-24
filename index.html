@@ -21,20 +21,20 @@
       <div class="inner">
         <h1>fusonic-linq</h1>
         <h2>PHP implementation of LINQ</h2>
-        <a href="https://github.com/fusonic/fusonic-linq" class="button"><small>View project on</small>GitHub</a>
+        <a href="https://github.com/fusonic/linq" class="button"><small>View project on</small>GitHub</a>
       </div>
     </header>
 
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h2>
-<a name="fusonic-linq-" class="anchor" href="#fusonic-linq-"><span class="octicon octicon-link"></span></a>fusonic-linq </h2>
+          <h1>
+<a name="fusoniclinq" class="anchor" href="#fusoniclinq"><span class="octicon octicon-link"></span></a>fusonic/linq</h1>
 
-<p><a href="https://travis-ci.org/fusonic/fusonic-linq"><img src="https://travis-ci.org/fusonic/fusonic-linq.png" alt="Build Status"></a>
+<p><a href="https://travis-ci.org/fusonic/linq"><img src="https://travis-ci.org/fusonic/linq.png" alt="Build Status"></a>
 <a href="https://packagist.org/packages/fusonic/linq"><img src="https://poser.pugx.org/fusonic/linq/downloads.png" alt="Total Downloads"></a></p>
 
-<p>fusonic-linq is a PHP library inspired by the LINQ 2 Objects extension methods in .NET.</p>
+<p>fusonic/linq is a PHP library inspired by the LINQ 2 Objects extension methods in .NET.</p>
 
 <p>For a full introduction read my blog-post: <a href="http://www.fusonic.net/en/blog/2013/08/14/fusonic-linq-write-less-do-more/">http://www.fusonic.net/en/blog/2013/08/14/fusonic-linq-write-less-do-more/</a></p>
 
@@ -47,7 +47,7 @@
 </ul><h2>
 <a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
 
-<p>fusonic-linq is supported on PHP 5.3 and up.</p>
+<p>fusonic/linq is supported on PHP 5.3 and up.</p>
 
 <h2>
 <a name="installation--usage" class="anchor" href="#installation--usage"><span class="octicon octicon-link"></span></a>Installation &amp; Usage</h2>
@@ -67,7 +67,7 @@
 php composer.phar install
 </pre></div>
 
-<p>Once installed, include vendor/autoload.php in your script to autoload fusonic-linq.</p>
+<p>Once installed, include vendor/autoload.php in your script to autoload fusonic/linq.</p>
 
 <div class="highlight highlight-php"><pre><span class="k">require</span> <span class="s1">'vendor/autoload.php'</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Fusonic\Linq\Linq</span><span class="p">;</span>
@@ -78,8 +78,8 @@ php composer.phar install
 <h2>
 <a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h2>
 
-<h4>
-<a name="calculate-the-average-file-size-of-files-in-a-directory" class="anchor" href="#calculate-the-average-file-size-of-files-in-a-directory"><span class="octicon octicon-link"></span></a>Calculate the average file size of files in a directory:</h4>
+<h3>
+<a name="calculate-the-average-file-size-of-files-in-a-directory" class="anchor" href="#calculate-the-average-file-size-of-files-in-a-directory"><span class="octicon octicon-link"></span></a>Calculate the average file size of files in a directory:</h3>
 
 <div class="highlight highlight-php"><pre><span class="nv">$source</span> <span class="o">=</span> <span class="nb">glob</span><span class="p">(</span><span class="s2">"files/*"</span><span class="p">);</span>
 <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="nv">$source</span><span class="p">)</span>
@@ -87,8 +87,8 @@ php composer.phar install
   <span class="o">-&gt;</span><span class="na">average</span><span class="p">();</span>
 </pre></div>
 
-<h4>
-<a name="find-all-files-bigger-than-1024-bytes-and-return-the-fileinfo-object" class="anchor" href="#find-all-files-bigger-than-1024-bytes-and-return-the-fileinfo-object"><span class="octicon octicon-link"></span></a>Find all files bigger than 1024 bytes and return the fileinfo object:</h4>
+<h3>
+<a name="find-all-files-bigger-than-1024-bytes-and-return-the-fileinfo-object" class="anchor" href="#find-all-files-bigger-than-1024-bytes-and-return-the-fileinfo-object"><span class="octicon octicon-link"></span></a>Find all files bigger than 1024 bytes and return the fileinfo object:</h3>
 
 <div class="highlight highlight-php"><pre><span class="nv">$source</span> <span class="o">=</span> <span class="nb">glob</span><span class="p">(</span><span class="s2">"files/*"</span><span class="p">);</span>
 <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="nv">$source</span><span class="p">)</span>
@@ -96,18 +96,18 @@ php composer.phar install
   <span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$i</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">pathinfo</span><span class="p">(</span><span class="nv">$i</span><span class="p">);</span> <span class="p">});</span>
 </pre></div>
 
-<h4>
-<a name="search-for-all-users-containing-max-1-skip-5-items-take-2-items-and-select-the-property-id-of-each-user" class="anchor" href="#search-for-all-users-containing-max-1-skip-5-items-take-2-items-and-select-the-property-id-of-each-user"><span class="octicon octicon-link"></span></a>Search for all users containing "Max 1", Skip 5 items, Take 2 items and select the property ID of each user:</h4>
+<h3>
+<a name="search-for-all-users-containing-max-1-skip-5-items-take-2-items-and-select-the-property-id-of-each-user" class="anchor" href="#search-for-all-users-containing-max-1-skip-5-items-take-2-items-and-select-the-property-id-of-each-user"><span class="octicon octicon-link"></span></a>Search for all users containing "Max 1", Skip 5 items, Take 2 items and select the property ID of each user:</h3>
 
 <div class="highlight highlight-php"><pre><span class="nv">$result</span> <span class="o">=</span> <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="nv">$users</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nx">User</span> <span class="nv">$u</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">strstr</span><span class="p">(</span><span class="nv">$u</span><span class="o">-&gt;</span><span class="na">surname</span><span class="p">,</span> <span class="s2">"Max 1"</span><span class="p">);</span>  <span class="p">})</span>
+    <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nx">User</span> <span class="nv">$u</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">strstr</span><span class="p">(</span><span class="nv">$u</span><span class="o">-&gt;</span><span class="na">surname</span><span class="p">,</span> <span class="s2">"Max 1"</span><span class="p">);</span>  <span class="p">})</span>
     <span class="o">-&gt;</span><span class="na">skip</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">take</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nx">User</span> <span class="nv">$u</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$u</span><span class="o">-&gt;</span><span class="na">usrId</span><span class="p">;</span> <span class="p">});</span>
 </pre></div>
 
-<h4>
-<a name="flatten-multiple-sequences-into-one-sequence" class="anchor" href="#flatten-multiple-sequences-into-one-sequence"><span class="octicon octicon-link"></span></a>Flatten multiple sequences into one sequence:</h4>
+<h3>
+<a name="flatten-multiple-sequences-into-one-sequence" class="anchor" href="#flatten-multiple-sequences-into-one-sequence"><span class="octicon octicon-link"></span></a>Flatten multiple sequences into one sequence:</h3>
 
 <div class="highlight highlight-php"><pre><span class="nv">$array1</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s2">"key"</span> <span class="o">=&gt;</span> <span class="s2">"a"</span><span class="p">,</span> <span class="s2">"data"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s2">"a1"</span><span class="p">,</span> <span class="s2">"a2"</span><span class="p">));</span>
 <span class="nv">$array2</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s2">"key"</span> <span class="o">=&gt;</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"data"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s2">"b1"</span><span class="p">,</span> <span class="s2">"b2"</span><span class="p">));</span>
@@ -123,8 +123,8 @@ php composer.phar install
 
 </pre></div>
 
-<h4>
-<a name="map-sequence-to-array-with-keyvalue-selectors" class="anchor" href="#map-sequence-to-array-with-keyvalue-selectors"><span class="octicon octicon-link"></span></a>Map sequence to array with key/value selectors:</h4>
+<h3>
+<a name="map-sequence-to-array-with-keyvalue-selectors" class="anchor" href="#map-sequence-to-array-with-keyvalue-selectors"><span class="octicon octicon-link"></span></a>Map sequence to array with key/value selectors:</h3>
 
 <div class="highlight highlight-php"><pre><span class="nv">$category1</span> <span class="o">=</span> <span class="k">new</span> <span class="k">stdClass</span><span class="p">();</span> <span class="nv">$category1</span><span class="o">-&gt;</span><span class="na">key</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nv">$category1</span><span class="o">-&gt;</span><span class="na">value</span> <span class="o">=</span> <span class="s2">"Cars"</span><span class="p">;</span>
 <span class="nv">$category2</span> <span class="o">=</span> <span class="k">new</span> <span class="k">stdClass</span><span class="p">();</span> <span class="nv">$category2</span><span class="o">-&gt;</span><span class="na">key</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="nv">$category2</span><span class="o">-&gt;</span><span class="na">value</span> <span class="o">=</span> <span class="s2">"Ships"</span><span class="p">;</span>
@@ -138,8 +138,8 @@ php composer.phar install
 <span class="c1">// $result is now: array(1 =&gt; "Cars", 2 =&gt; "Ships");</span>
 </pre></div>
 
-<h4>
-<a name="the-aggregate-method-makes-it-simple-to-perform-a-calculation-over-a-sequence-of-values" class="anchor" href="#the-aggregate-method-makes-it-simple-to-perform-a-calculation-over-a-sequence-of-values"><span class="octicon octicon-link"></span></a>The aggregate method makes it simple to perform a calculation over a sequence of values:</h4>
+<h3>
+<a name="the-aggregate-method-makes-it-simple-to-perform-a-calculation-over-a-sequence-of-values" class="anchor" href="#the-aggregate-method-makes-it-simple-to-perform-a-calculation-over-a-sequence-of-values"><span class="octicon octicon-link"></span></a>The aggregate method makes it simple to perform a calculation over a sequence of values:</h3>
 
 <div class="highlight highlight-php"><pre><span class="nv">$numbers</span> <span class="o">=</span> <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">));</span>
 <span class="nv">$sum</span> <span class="o">=</span> <span class="nv">$numbers</span><span class="o">-&gt;</span><span class="na">aggregate</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$a</span> <span class="o">+</span> <span class="nv">$b</span><span class="p">;</span> <span class="p">});</span>
@@ -155,8 +155,8 @@ php composer.phar install
 
 </pre></div>
 
-<h4>
-<a name="the-chunk-method-makes-it-simple-to-split-a-sequence-into-chunks-of-a-given-size" class="anchor" href="#the-chunk-method-makes-it-simple-to-split-a-sequence-into-chunks-of-a-given-size"><span class="octicon octicon-link"></span></a>The chunk method makes it simple to split a sequence into chunks of a given size:</h4>
+<h3>
+<a name="the-chunk-method-makes-it-simple-to-split-a-sequence-into-chunks-of-a-given-size" class="anchor" href="#the-chunk-method-makes-it-simple-to-split-a-sequence-into-chunks-of-a-given-size"><span class="octicon octicon-link"></span></a>The chunk method makes it simple to split a sequence into chunks of a given size:</h3>
 
 <div class="highlight highlight-php"><pre><span class="nv">$chunks</span> <span class="o">=</span> <span class="nx">Linq</span><span class="o">::</span><span class="na">from</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"b"</span><span class="p">,</span><span class="s2">"c"</span><span class="p">,</span><span class="s2">"d"</span><span class="p">,</span><span class="s2">"e"</span><span class="p">))</span><span class="o">-&gt;</span><span class="na">chunk</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
 <span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -178,9 +178,9 @@ php composer.phar install
 </pre></div>
 
 <h2>
-<a name="list-of-methods-provided-by-fusonic-linq" class="anchor" href="#list-of-methods-provided-by-fusonic-linq"><span class="octicon octicon-link"></span></a>List of methods provided by fusonic-linq:</h2>
+<a name="list-of-methods-provided-by-fusoniclinq" class="anchor" href="#list-of-methods-provided-by-fusoniclinq"><span class="octicon octicon-link"></span></a>List of methods provided by fusonic/linq:</h2>
 
-<div class="highlight highlight-php"><pre><span class="nx">aggregate</span><span class="p">(</span><span class="nv">$func</span><span class="p">,</span> <span class="nv">$seed</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Applies an accumulator function over a sequence.</span>
+<div class="highlight highlight-php"><pre><span class="nb">aggregate</span><span class="p">(</span><span class="nv">$func</span><span class="p">,</span> <span class="nv">$seed</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Applies an accumulator function over a sequence.</span>
 <span class="nx">all</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Determines wheter all elements satisfy a condition.</span>
 <span class="nx">any</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Determines wheter any element satisfies a condition.</span>
 <span class="nx">average</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Computes the average of all numeric values.</span>
@@ -199,8 +199,8 @@ php composer.phar install
 <span class="nx">intersect</span><span class="p">(</span><span class="nv">$second</span><span class="p">)</span> <span class="c1">// Intersects the Linq sequence with second Iterable sequence.</span>
 <span class="nx">last</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Returns the last element that satisfies a specified condition or throws an exception.</span>
 <span class="nx">lastOrNull</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// Returns the last element that satisfies a condition or NULL if no such element is found.</span>
-<span class="nx">max</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">//  Returns the maximum item value according to $func.</span>
-<span class="nx">min</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">//  Returns the minimum item value according to $func</span>
+<span class="nb">max</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">//  Returns the maximum item value according to $func.</span>
+<span class="nb">min</span><span class="p">(</span><span class="nv">$func</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">//  Returns the minimum item value according to $func</span>
 <span class="nx">orderBy</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Sorts the elements in ascending order according to a key provided by $func.</span>
 <span class="nx">orderByDescending</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Sorts the elements in descending order according to a key provided by $func.</span>
 <span class="nx">select</span><span class="p">(</span><span class="nv">$func</span><span class="p">)</span> <span class="c1">// Projects each element into a new form by invoking the selector function.</span>
@@ -244,16 +244,16 @@ php composer.phar install
         </section>
 
         <aside id="sidebar">
-          <a href="https://github.com/fusonic/fusonic-linq/zipball/master" class="button">
+          <a href="https://github.com/fusonic/linq/zipball/master" class="button">
             <small>Download</small>
             .zip file
           </a>
-          <a href="https://github.com/fusonic/fusonic-linq/tarball/master" class="button">
+          <a href="https://github.com/fusonic/linq/tarball/master" class="button">
             <small>Download</small>
             .tar.gz file
           </a>
 
-          <p class="repo-owner"><a href="https://github.com/fusonic/fusonic-linq"></a> is maintained by <a href="https://github.com/fusonic">fusonic</a>.</p>
+          <p class="repo-owner"><a href="https://github.com/fusonic/linq"></a> is maintained by <a href="https://github.com/fusonic">fusonic</a>.</p>
 
           <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
         </aside>
