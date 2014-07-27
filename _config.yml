@@ -1,0 +1,15 @@
+# Site settings
+description: "A PHP library inspired by the LINQ 2 Objects extension methods in .NET."
+baseurl: "/linq/"
+url: "http://fusonic.github.io/linq"
+github_username: fusonic
+github_repository: linq
+version: beta
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+kramdown:
+  input: GFM
+extensions: [fenced_code_blocks]
+
