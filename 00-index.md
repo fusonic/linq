@@ -4,7 +4,7 @@ title: Home
 permalink: /
 ---
 
-> For a full introduction read my blog-post: http://www.fusonic.net/en/blog/2013/08/14/fusonic-linq-write-less-do-more/
+> _For a full introduction read [my blog post](http://www.fusonic.net/en/blog/2013/08/14/fusonic-linq-write-less-do-more/)._
 >
 > LINQ queries offer three main advantages over traditional foreach loops:
 >
@@ -38,20 +38,20 @@ php composer.phar install
 
 Once installed, include vendor/autoload.php in your script to autoload fusonic/linq.
 
-```php
+{% highlight php startinline %}
 require 'vendor/autoload.php';
 use Fusonic\Linq\Linq;
 
 Linq::from(array())->count();
-```
+{% endhighlight %}
 
 ## Running tests
 
 You can run the test suite with the following command:
 
-```bash
+{% highlight bash %}
 phpunit --bootstrap tests/bootstrap.php .
-```
+{% endhighlight %}
 
 ## License
 
