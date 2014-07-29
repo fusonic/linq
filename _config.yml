@@ -4,7 +4,7 @@ baseurl: "/linq/"
 url: "http://fusonic.github.io/linq"
 github_username: fusonic
 github_repository: linq
-version: beta
+version: 1.0
 
 # Build settings
 markdown: kramdown

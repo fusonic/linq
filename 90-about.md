@@ -4,4 +4,4 @@ title: About
 permalink: /about/
 ---
 
-> This site may include about content.
+> Fusonic Linq is developed by Fusonic (http://www.fusonic.net)
