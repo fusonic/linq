@@ -1,19 +1,10 @@
 # Site settings
-<<<<<<< HEAD
 description: "A PHP library inspired by the LINQ 2 Objects extension methods in .NET."
-baseurl: "/linq/"
+baseurl: "/linq"
 url: "http://fusonic.github.io/linq"
 github_username: fusonic
 github_repository: linq
-version: 1.0
-=======
-description: "A blank repository to use as stub for PHP libraries."
-baseurl: "/seed"
-url: "http://fusonic.github.io/seed"
-github_username: fusonic
-github_repository: seed
 version: 1.0.0
->>>>>>> remotes/seed/gh-pages
 
 # Build settings
 markdown: kramdown
@@ -21,10 +12,6 @@ permalink: pretty
 kramdown:
   input: GFM
 extensions: [fenced_code_blocks]
-<<<<<<< HEAD
-
-=======
 sass:
   sass_dir: _sass
   style: :compressed
->>>>>>> remotes/seed/gh-pages
