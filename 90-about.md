@@ -4,4 +4,4 @@ title: About
 permalink: /about/
 ---
 
-> Fusonic Linq is developed by Fusonic (http://www.fusonic.net)
+> {{ site.github_username }}/{{ site.github_repository}} is developed by Fusonic <span class="text-muted">—</span> <a href="http://www.fusonic.net">www.fusonic.net</a>
