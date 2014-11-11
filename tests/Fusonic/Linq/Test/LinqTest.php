@@ -3,6 +3,29 @@
 
 use Fusonic\Linq\Linq;
 
+/**
+ * Interface for test purposes only.
+ */
+interface StubInterface
+{
+}
+
+/**
+ * Class for test purposes only.
+ */
+final class Stub
+	implements
+	StubInterface
+{
+}
+
+/**
+ * Class for test purposes only.
+ */
+final class StubWithoutInterface
+{
+}
+
 class LinqTest extends PHPUnit_Framework_TestCase
 {
     const ExceptionName_UnexpectedValue = "UnexpectedValueException";
@@ -1642,6 +1665,118 @@ class LinqTest extends PHPUnit_Framework_TestCase
             ->orderBy(function(array $x) { return $x["name"]; })
             ->toArray();
     }
+
+	/**
+	 * @test
+	 */
+	public function when_ofType_is_called_with_empty_array()
+	{
+		/** @var array $result */
+		$result = Linq::from(array())
+		              ->ofType('StubInterface')
+		              ->toArray();
+
+		$this->assertNotNull($result);
+		$this->assertCount(0, $result);
+	}
+
+	/**
+	 * @test
+	 */
+	public function when_ofType_is_called_with_array_containing_expected_interface()
+	{
+		/** @var array $result */
+		$result = Linq::from(array(new Stub(),
+		                           new StubWithoutInterface()))
+		              ->ofType('StubInterface')
+		              ->toArray();
+
+		$this->assertNotNull($result);
+		$this->assertCount(1, $result);
+	}
+
+	/**
+	 * @test
+	 */
+	public function when_ofType_is_called_with_array_containing_expected_object_type()
+	{
+		/** @var array $result */
+		$result = Linq::from(array(new Stub(),
+		                           new StubWithoutInterface()))
+		              ->ofType('StubWithoutInterface')
+		              ->toArray();
+
+		$this->assertNotNull($result);
+		$this->assertCount(1, $result);
+
+		$result = Linq::from(array(new Stub(),
+		                           new StubWithoutInterface()))
+		              ->ofType('Stub')
+		              ->toArray();
+
+		$this->assertNotNull($result);
+		$this->assertCount(1, $result);
+	}
+
+	/**
+	 * @test
+	 */
+	public function when_ofType_is_called_with_array_not_containing_expected_interface()
+	{
+		/** @var array $result */
+		$result = Linq::from(array(new StubWithoutInterface(),
+		                           new StubWithoutInterface()))
+		              ->ofType('StubInterface')
+		              ->toArray();
+
+		$this->assertNotNull($result);
+		$this->assertCount(0, $result);
+	}
+
+	/**
+	 * @test
+	 */
+	public function when_ofType_is_called_with_array_not_containing_expected_object_type()
+	{
+		/** @var array $result */
+		$result = Linq::from(array(new Stub(),
+		                           new Stub()))
+		              ->ofType('StubWithoutInterface')
+		              ->toArray();
+
+		$this->assertNotNull($result);
+		$this->assertCount(0, $result);
+	}
+
+	/**
+	 * @test
+	 */
+	public function when_ofType_is_called_with_unknown_interface()
+	{
+		/** @var array $result */
+		$result = Linq::from(array(new Stub(),
+		                           new Stub()))
+		              ->ofType('UnknownInterface')
+		              ->toArray();
+
+		$this->assertNotNull($result);
+		$this->assertCount(0, $result);
+	}
+
+	/**
+	 * @test
+	 */
+	public function when_ofType_is_called_with_unknown_object_type()
+	{
+		/** @var array $result */
+		$result = Linq::from(array(new Stub(),
+		                           new Stub()))
+		              ->ofType('UnknownObject')
+		              ->toArray();
+
+		$this->assertNotNull($result);
+		$this->assertCount(0, $result);
+	}
 
     private function assertException($closure, $expected = self::ExceptionName_Runtime)
     {

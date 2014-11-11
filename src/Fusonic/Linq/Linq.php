@@ -15,6 +15,7 @@ use Fusonic\Linq\Iterator\ExceptIterator;
 use Fusonic\Linq\Iterator\DistinctIterator;
 use Fusonic\Linq\Iterator\GroupIterator;
 use Fusonic\Linq\Iterator\IntersectIterator;
+use Fusonic\Linq\Iterator\OfTypeIterator;
 use Fusonic\Linq\Iterator\OrderIterator;
 use Fusonic\Linq\Iterator\SelectIterator;
 use Fusonic\Linq\Iterator\SelectManyIterator;
