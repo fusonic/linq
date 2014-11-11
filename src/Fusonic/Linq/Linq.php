@@ -88,6 +88,18 @@ class Linq implements IteratorAggregate
         return new Linq(new WhereIterator($this->iterator, $func));
     }
 
+	/**
+	 * Filters the Linq object according to type.
+	 *
+	 * @param string $type
+	 *
+	 * @return Linq Filtered results according to $func
+	 */
+	public function ofType($type)
+	{
+		return new Linq(new OfTypeIterator($this->iterator, $type));
+	}
+
     /**
      * Bypasses a specified number of elements and then returns the remaining elements.
      *
