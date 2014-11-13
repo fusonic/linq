@@ -1778,7 +1778,122 @@ class LinqTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(0, $result);
 	}
 
-    private function assertException($closure, $expected = self::ExceptionName_Runtime)
+	/**
+	 * @test
+	 */
+	public function when_ofType_is_called_with_int_as_type()
+	{
+		/** @var int[] $expectedResult */
+		$expectedResult = array(1, 2, 10, 20);
+
+		$result = Linq::from(array(1,
+		                           2,
+		                           new Stub(),
+		                           10,
+		                           NULL,
+		                           20))
+		              ->ofType('int')
+		              ->toArray();
+
+		$this->assertNotNull($result);
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	/**
+	 * @test
+	 */
+	public function when_ofType_is_called_with_bool_as_type()
+	{
+		/** @var int[] $expectedResult */
+		$expectedResult = array(TRUE,
+		                        FALSE);
+
+		$result = Linq::from(array(0,
+		                           'string',
+		                           'true',
+		                           TRUE,
+		                           'false',
+		                           FALSE))
+		              ->ofType('bool')
+		              ->toArray();
+
+		$this->assertNotNull($result);
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	/**
+	 * @test
+	 */
+	public function when_ofType_is_called_with_string_as_type()
+	{
+		/** @var int[] $expectedResult */
+		$expectedResult = array('string',
+		                        'true',
+		                        'false');
+
+		$result = Linq::from(array(0,
+		                           'string',
+		                           'true',
+		                           TRUE,
+		                           'false',
+		                           FALSE))
+		              ->ofType('string')
+		              ->toArray();
+
+		$this->assertNotNull($result);
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	/**
+	 * @test
+	 */
+	public function when_ofType_is_called_with_float_as_type()
+	{
+		/** @var int[] $expectedResult */
+		$expectedResult = array(2.5,
+		                        10.0,
+		                        0.3);
+
+		$result = Linq::from(array(0,
+		                           'string',
+		                           2.5,
+		                           10.0,
+		                           11,
+		                           'false',
+		                           0.3))
+		              ->ofType('float')
+		              ->toArray();
+
+		$this->assertNotNull($result);
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	/**
+	 * @test
+	 */
+	public function when_ofType_is_called_with_double_as_type()
+	{
+		/** @var int[] $expectedResult */
+		$expectedResult = array(2.5,
+		                        10.0,
+		                        0.3);
+
+		$result = Linq::from(array(0,
+		                           'string',
+		                           2.5,
+		                           10.0,
+		                           NULL,
+		                           11,
+		                           'false',
+		                           0.3))
+		              ->ofType('double')
+		              ->toArray();
+
+		$this->assertNotNull($result);
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	private function assertException($closure, $expected = self::ExceptionName_Runtime)
     {
         try
         {

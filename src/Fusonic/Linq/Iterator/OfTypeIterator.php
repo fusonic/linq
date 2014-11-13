@@ -21,14 +21,9 @@ final class OfTypeIterator
 	\FilterIterator
 {
 	/**
-	 * @var Iterator $iterator
+	 * @var callable $acceptCallback
 	 */
-	private $iterator;
-
-	/**
-	 * @var string
-	 */
-	private $type;
+	private $acceptCallback;
 
 	/**
 	 * Initializes an instance of <b>OfTypeIterator</b>.
@@ -40,8 +35,42 @@ final class OfTypeIterator
 	{
 		parent::__construct($iterator);
 
-		$this->iterator = $iterator;
-		$this->type     = $type;
+		switch (strtolower($type))
+		{
+			case 'int':
+			case 'integer':
+				$this->acceptCallback = function ($current)
+				{
+					return is_int($current);
+				};
+				break;
+			case 'float':
+			case 'double':
+				$this->acceptCallback = function ($current)
+				{
+					return is_float($current);
+				};
+				break;
+			case 'string':
+				$this->acceptCallback = function ($current)
+				{
+					return is_string($current);
+				};
+				break;
+			case 'bool':
+			case 'boolean':
+				$this->acceptCallback = function ($current)
+				{
+					return is_bool($current);
+				};
+				break;
+
+			default:
+				$this->acceptCallback = function ($current) use ($type)
+				{
+					return $current instanceof $type;
+				};
+		}
 	}
 
 	/**
@@ -52,8 +81,11 @@ final class OfTypeIterator
 	 */
 	public function accept()
 	{
+		/** @var mixed $current */
 		$current = $this->current();
+		/** @var callable $func */
+		$func = $this->acceptCallback;
 
-		return $current instanceof $this->type;
+		return $func($current);
 	}
 }
