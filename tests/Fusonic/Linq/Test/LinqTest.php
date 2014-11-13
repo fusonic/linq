@@ -1685,14 +1685,18 @@ class LinqTest extends PHPUnit_Framework_TestCase
 	 */
 	public function when_ofType_is_called_with_array_containing_expected_interface()
 	{
+		/** @var Stub $expectedResult */
+		$expectedResult = new Stub();
+
 		/** @var array $result */
-		$result = Linq::from(array(new Stub(),
+		$result = Linq::from(array($expectedResult,
 		                           new StubWithoutInterface()))
 		              ->ofType('StubInterface')
 		              ->toArray();
 
 		$this->assertNotNull($result);
 		$this->assertCount(1, $result);
+		$this->assertSame($expectedResult, $result[0]);
 	}
 
 	/**
@@ -1700,22 +1704,30 @@ class LinqTest extends PHPUnit_Framework_TestCase
 	 */
 	public function when_ofType_is_called_with_array_containing_expected_object_type()
 	{
+		/** @var StubWithoutInterface $expectedResult1 */
+		$expectedResult1 = new StubWithoutInterface();
+
 		/** @var array $result */
 		$result = Linq::from(array(new Stub(),
-		                           new StubWithoutInterface()))
+		                           $expectedResult1))
 		              ->ofType('StubWithoutInterface')
 		              ->toArray();
 
 		$this->assertNotNull($result);
 		$this->assertCount(1, $result);
+		$this->assertSame($expectedResult1, $result[0]);
 
-		$result = Linq::from(array(new Stub(),
+		/** @var StubWithoutInterface $expectedResult2 */
+		$expectedResult2 = new Stub();
+
+		$result = Linq::from(array($expectedResult2,
 		                           new StubWithoutInterface()))
 		              ->ofType('Stub')
 		              ->toArray();
 
 		$this->assertNotNull($result);
 		$this->assertCount(1, $result);
+		$this->assertSame($expectedResult2, $result[0]);
 	}
 
 	/**
@@ -1784,7 +1796,10 @@ class LinqTest extends PHPUnit_Framework_TestCase
 	public function when_ofType_is_called_with_int_as_type()
 	{
 		/** @var int[] $expectedResult */
-		$expectedResult = array(1, 2, 10, 20);
+		$expectedResult = array(1,
+		                        2,
+		                        10,
+		                        20);
 
 		$result = Linq::from(array(1,
 		                           2,
