@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/fusonic/linq.png)](https://travis-ci.org/fusonic/linq)
 [![Total Downloads](https://poser.pugx.org/fusonic/linq/downloads.png)](https://packagist.org/packages/fusonic/linq)
 
-fusonic/linq is a PHP library inspired by the LINQ 2 Objects extension methods in .NET.
+fusonic/linq is a lightweight PHP library inspired by the LINQ 2 Objects extension methods in .NET.
 
 For a full introduction read my blog-post: http://www.fusonic.net/en/blog/2013/08/14/fusonic-linq-write-less-do-more/
 
