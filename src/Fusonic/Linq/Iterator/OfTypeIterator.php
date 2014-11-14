@@ -1,9 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Burgy Benjamin <benjamin.burgy@gmail.com>
- * Date: 11.11.14
- * Time: 20:43
+/*
+ * This file is part of Fusonic-linq.
+ * https://github.com/fusonic/fusonic-linq
+ *
+ * (c) Burgy Benjamin <benjamin.burgy@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Fusonic\Linq\Iterator;
