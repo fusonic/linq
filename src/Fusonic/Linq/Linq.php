@@ -15,6 +15,7 @@ use Fusonic\Linq\Iterator\ExceptIterator;
 use Fusonic\Linq\Iterator\DistinctIterator;
 use Fusonic\Linq\Iterator\GroupIterator;
 use Fusonic\Linq\Iterator\IntersectIterator;
+use Fusonic\Linq\Iterator\OfTypeIterator;
 use Fusonic\Linq\Iterator\OrderIterator;
 use Fusonic\Linq\Iterator\SelectIterator;
 use Fusonic\Linq\Iterator\SelectManyIterator;
@@ -87,6 +88,18 @@ class Linq implements IteratorAggregate
     {
         return new Linq(new WhereIterator($this->iterator, $func));
     }
+
+	/**
+	 * Filters the Linq object according to type.
+	 *
+	 * @param string $type
+	 *
+	 * @return Linq Filtered results according to $func
+	 */
+	public function ofType($type)
+	{
+		return new Linq(new OfTypeIterator($this->iterator, $type));
+	}
 
     /**
      * Bypasses a specified number of elements and then returns the remaining elements.
