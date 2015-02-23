@@ -345,8 +345,8 @@ class Linq implements IteratorAggregate
         $min = null;
         $iterator = $this->getSelectIteratorOrInnerIterator($func);
         foreach ($iterator as $value) {
-            if (!is_numeric($value) && !is_string($value)) {
-                throw new UnexpectedValueException("min() only works on numeric values or strings.");
+            if (!is_numeric($value) && !is_string($value) && !($value instanceof \DateTime)) {
+                throw new UnexpectedValueException("min() only works on numeric values, strings and DateTime objects.");
             }
 
             if (is_null($min)) {
@@ -376,8 +376,8 @@ class Linq implements IteratorAggregate
         $max = null;
         $iterator = $this->getSelectIteratorOrInnerIterator($func);
         foreach ($iterator as $value) {
-            if (!is_numeric($value) && !is_string($value)) {
-                throw new UnexpectedValueException("max() only works on numeric values or strings.");
+            if (!is_numeric($value) && !is_string($value) && !($value instanceof \DateTime)) {
+                throw new UnexpectedValueException("max() only works on numeric values, strings and DateTime objects.");
             }
 
             if (is_null($max)) {
@@ -388,7 +388,7 @@ class Linq implements IteratorAggregate
         }
 
         if ($max === null) {
-            throw new \RuntimeException("Cannot calculate min() as the Linq sequence contains no elements.");
+            throw new \RuntimeException("Cannot calculate max() as the Linq sequence contains no elements.");
         }
 
         return $max;
