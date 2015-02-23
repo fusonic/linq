@@ -1241,6 +1241,17 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("a", $min);
     }
 
+    public function testMin_ReturnsMinValueFromDateTimes()
+    {
+        $items = array(
+            new DateTime("2015-01-01 10:00:00"),
+            new DateTime("2015-02-01 10:00:00"),
+            new DateTime("2015-01-01 09:00:00"),
+        );
+        $min = Linq::from($items)->min();
+        $this->assertEquals($items[2], $min);
+    }
+
     public function testMin_ThrowsExceptionIfSequenceIsEmpty()
     {
         $this->assertException(function()
@@ -1302,6 +1313,17 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $items = array(-12, 0, 100, -33);
         $max = Linq::from($items)->max();
         $this->assertEquals(100, $max);
+    }
+
+    public function testMax_ReturnsMaxValueFromDateTimes()
+    {
+        $items = array(
+            new DateTime("2015-01-01 10:00:00"),
+            new DateTime("2015-02-01 10:00:00"),
+            new DateTime("2015-01-01 09:00:00"),
+        );
+        $max = Linq::from($items)->max();
+        $this->assertEquals($items[1], $max);
     }
 
     public function testSum_ThrowsExceptionIfSequenceContainsNoneNumericValues()
