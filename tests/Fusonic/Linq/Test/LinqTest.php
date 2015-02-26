@@ -388,6 +388,16 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, count($array));
     }
 
+    public function testCountable_implementedSqlInterface()
+    {
+        $items = array(1,2,3);
+
+        $matching = Linq::from($items);
+
+        $this->assertEquals(3, count($matching));
+        $this->assertEquals(3, $matching->count());
+    }
+
     public function testSkipWithTake_Combined_SkipAndTakeValuesByAmount()
     {
         $items = array("a", "b", "c", "d", "e", "f");
