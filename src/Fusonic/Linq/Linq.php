@@ -11,6 +11,7 @@
 
 namespace Fusonic\Linq;
 
+use Countable;
 use Fusonic\Linq\Iterator\ExceptIterator;
 use Fusonic\Linq\Iterator\DistinctIterator;
 use Fusonic\Linq\Iterator\GroupIterator;
@@ -32,7 +33,7 @@ use OutOfRangeException;
  *
  * @author David Roth <david.roth@fusonic.net>.
  */
-class Linq implements IteratorAggregate
+class Linq implements IteratorAggregate, Countable
 {
     private $iterator;
 
@@ -252,7 +253,7 @@ class Linq implements IteratorAggregate
      */
     public function count()
     {
-        if ($this->iterator instanceof \Countable) {
+        if ($this->iterator instanceof Countable) {
             return $this->iterator->count();
         }
 
