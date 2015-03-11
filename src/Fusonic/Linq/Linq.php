@@ -82,10 +82,10 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Filters the Linq object according to func return result.
      *
-     * @param callback $func    A func that returns boolean
+     * @param callable $func    A func that returns boolean
      * @return Linq             Filtered results according to $func
      */
-    public function where($func)
+    public function where(callable $func)
     {
         return new Linq(new WhereIterator($this->iterator, $func));
     }
@@ -144,12 +144,12 @@ class Linq implements IteratorAggregate, Countable
      * The first element of source is used as the initial aggregate value if $seed parameter is not specified.
      * If $seed is specified, this value will be used as the first value.
      *
-     * @param   callback $func An accumulator function to be invoked on each element.
+     * @param   callable $func An accumulator function to be invoked on each element.
      * @param   mixed $seed
      * @throws \RuntimeException if the input sequence contains no elements.
      * @return  mixed       Returns the final result of $func.
      */
-    public function aggregate($func, $seed = null)
+    public function aggregate(callable $func, $seed = null)
     {
         $result = null;
         $first = true;
@@ -176,14 +176,14 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Splits the sequence in chunks according to $chunksize.
      *
-     * @param $chunksize Specifies how many elements are grouped together per chunk.
+     * @param $chunkSize Specifies how many elements are grouped together per chunk.
      * @throws \InvalidArgumentException
      * @return Linq
      */
-    public function chunk($chunksize)
+    public function chunk($chunkSize)
     {
-        if ($chunksize < 1) {
-            throw new \InvalidArgumentException("chunksize", $chunksize);
+        if ($chunkSize < 1) {
+            throw new \InvalidArgumentException("chunksize", $chunkSize);
         }
 
         $i = -1;
@@ -194,8 +194,8 @@ class Linq implements IteratorAggregate, Countable
             }
         )
         ->groupBy(
-            function ($pair) use ($chunksize) {
-                return $pair["index"] / $chunksize;
+            function ($pair) use ($chunkSize) {
+                return $pair["index"] / $chunkSize;
             }
         )
         ->select(
@@ -212,10 +212,10 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Determines whether all elements satisfy a condition.
      *
-     * @param callback $func    A function to test each element for a condition.
+     * @param callable $func    A function to test each element for a condition.
      * @return bool             True if every element passes the test in the specified func, or if the sequence is empty; otherwise, false.
      */
-    public function all($func)
+    public function all(callable $func)
     {
         foreach ($this->iterator as $current) {
             $match = LinqHelper::getBoolOrThrowException($func($current));
@@ -229,10 +229,10 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Determines whether any element exists or satisfies a condition by invoking $func.
      *
-     * @param callback $func    A function to test each element for a condition or NULL to determine if any element exists.
+     * @param callable $func    A function to test each element for a condition or NULL to determine if any element exists.
      * @return bool             True if no $func given and the source sequence contains any elements or True if any elements passed the test in the specified func; otherwise, false.
      */
-    public function any($func = null)
+    public function any(callable $func = null)
     {
         foreach ($this->iterator as $current) {
             if ($func === null) {
@@ -263,11 +263,11 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Computes the average of all numeric values. Uses $func to obtain the value on each element.
      *
-     * @param callback $func    A func that returns any numeric type (int, float etc.)
+     * @param callable $func    A func that returns any numeric type (int, float etc.)
      * @throws \UnexpectedValueException if an item of the sequence is not a numeric value.
      * @return double        Average of items
      */
-    public function average($func = null)
+    public function average(callable $func = null)
     {
         $resultTotal = 0;
         $itemCount = 0;
@@ -288,10 +288,10 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Sorts the elements in ascending order according to a key provided by $func.
      *
-     * @param callback $func    A function to extract a key from an element.
+     * @param callable $func    A function to extract a key from an element.
      * @return Linq             A new Linq instance whose elements are sorted ascending according to a key.
      */
-    public function orderBy($func)
+    public function orderBy(callable $func)
     {
         return $this->order($func, LinqHelper::LINQ_ORDER_ASC);
     }
@@ -299,15 +299,15 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Sorts the elements in descending order according to a key provided by $func.
      *
-     * @param callback $func    A function to extract a key from an element.
+     * @param callable $func    A function to extract a key from an element.
      * @return Linq             A new Linq instance whose elements are sorted descending according to a key.
      */
-    public function orderByDescending($func)
+    public function orderByDescending(callable $func)
     {
         return $this->order($func, LinqHelper::LINQ_ORDER_DESC);
     }
 
-    private function order($func, $direction = LinqHelper::LINQ_ORDER_ASC)
+    private function order(callable $func, $direction = LinqHelper::LINQ_ORDER_ASC)
     {
         return new Linq(new OrderIterator($this->iterator, $func, $direction));
     }
@@ -315,11 +315,11 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Gets the sum of all items or by invoking a transform function on each item to get a numeric value.
      *
-     * @param callback $func    A func that returns any numeric type (int, float etc.) from the given element, or NULL to use the element itself.
+     * @param callable $func    A func that returns any numeric type (int, float etc.) from the given element, or NULL to use the element itself.
      * @throws \UnexpectedValueException if any element is not a numeric value.
      * @return  double         The sum of all items.
      */
-    public function sum($func = null)
+    public function sum(callable $func = null)
     {
         $sum = 0;
         $iterator = $this->getSelectIteratorOrInnerIterator($func);
@@ -336,12 +336,12 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Gets the minimum item value of all items or by invoking a transform function on each item to get a numeric value.
      *
-     * @param callback $func    A func that returns any numeric type (int, float etc.) from the given element, or NULL to use the element itself.
+     * @param callable $func    A func that returns any numeric type (int, float etc.) from the given element, or NULL to use the element itself.
      * @throws \RuntimeException if the sequence contains no elements
      * @throws \UnexpectedValueException
      * @return  double Minimum item value
      */
-    public function min($func = null)
+    public function min(callable $func = null)
     {
         $min = null;
         $iterator = $this->getSelectIteratorOrInnerIterator($func);
@@ -367,12 +367,12 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Returns the maximum item value according to $func
      *
-     * @param callback $func    A func that returns any numeric type (int, float etc.)
+     * @param callable $func    A func that returns any numeric type (int, float etc.)
      * @throws \RuntimeException if the sequence contains no elements
      * @throws \UnexpectedValueException if any element is not a numeric value or a string.
      * @return double          Maximum item value
      */
-    public function max($func = null)
+    public function max(callable $func = null)
     {
         $max = null;
         $iterator = $this->getSelectIteratorOrInnerIterator($func);
@@ -398,10 +398,10 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Projects each element into a new form by invoking the selector function.
      *
-     * @param callback $func    A transform function to apply to each element.
+     * @param callable $func    A transform function to apply to each element.
      * @return Linq             A new Linq object whose elements are the result of invoking the transform function on each element of the original Linq object.
      */
-    public function select($func)
+    public function select(callable $func)
     {
         return new Linq(new SelectIterator($this->iterator, $func));
     }
@@ -409,21 +409,21 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Projects each element of a sequence to a new Linq and flattens the resulting sequences into one sequence.
      *
-     * @param callback $func    A func that returns a sequence (array, Linq, Iterator).
+     * @param callable $func    A func that returns a sequence (array, Linq, Iterator).
      * @throws \UnexpectedValueException if an element is not a traversable sequence.
      * @return Linq             A new Linq object whose elements are the result of invoking the one-to-many transform function on each element of the input sequence.
      */
-    public function selectMany($func)
+    public function selectMany(callable $func)
     {
         return new Linq(new SelectManyIterator(new SelectIterator($this->iterator, $func)));
     }
 
     /**
      * Performs the specified action on each element of the Linq sequence and returns the Linq sequence.
-     * @param callback $func    A func that will be evaluated for each item in the linq sequence.
+     * @param callable $func    A func that will be evaluated for each item in the linq sequence.
      * @return Linq             The original Linq sequence that was used to perform the foreach.
      */
-    public function each($func)
+    public function each(callable $func)
     {
         foreach ($this->iterator as $item) {
             $func($item);
@@ -466,10 +466,10 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Returns distinct item values of this
      *
-     * @param callback $func
+     * @param callable $func
      * @return Linq Distinct item values of this
      */
-    public function distinct($func = null)
+    public function distinct(callable $func = null)
     {
         return new Linq(new DistinctIterator($this->getSelectIteratorOrInnerIterator($func)));
     }
@@ -543,10 +543,10 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Groups the object according to the $func generated key
      *
-     * @param callback $keySelector    a func that returns an item as key, item can be any type.
+     * @param callable $keySelector    a func that returns an item as key, item can be any type.
      * @return GroupedLinq
      */
-    public function groupBy($keySelector)
+    public function groupBy(callable $keySelector)
     {
         return new Linq(new GroupIterator($this->iterator, $keySelector));
     }
@@ -555,10 +555,10 @@ class Linq implements IteratorAggregate, Countable
      * Returns the last element that satisfies a specified condition.
      * @throws \RuntimeException if no element satisfies the condition in predicate or the source sequence is empty.
      *
-     * @param callback  $func a func that returns boolean.
+     * @param callable  $func a func that returns boolean.
      * @return  Object Last item in this
      */
-    public function last($func = null)
+    public function last(callable $func = null)
     {
         return $this->getLast($func, true);
     }
@@ -566,10 +566,10 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Returns the last element that satisfies a condition or NULL if no such element is found.
      *
-     * @param callback  $func a func that returns boolean.
+     * @param callable  $func a func that returns boolean.
      * @return mixed
      */
-    public function lastOrNull($func = null)
+    public function lastOrNull(callable $func = null)
     {
         return $this->getLast($func, false);
     }
@@ -578,10 +578,10 @@ class Linq implements IteratorAggregate, Countable
      * Returns the first element that satisfies a specified condition
      * @throws \RuntimeException if no element satisfies the condition in predicate -or- the source sequence is empty / does not match any elements.
      *
-     * @param callback $func a func that returns boolean.
+     * @param callable $func a func that returns boolean.
      * @return mixed
      */
-    public function first($func = null)
+    public function first(callable $func = null)
     {
         return $this->getFirst($func, true);
     }
@@ -589,10 +589,10 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Returns the first element, or NULL if the sequence contains no elements.
      *
-     * @param callback $func    a func that returns boolean.
+     * @param callable $func    a func that returns boolean.
      * @return mixed
      */
-    public function firstOrNull($func = null)
+    public function firstOrNull(callable $func = null)
     {
         return $this->getFirst($func, false);
     }
@@ -601,10 +601,10 @@ class Linq implements IteratorAggregate, Countable
      * Returns the only element that satisfies a specified condition.
      *
      * @throws \RuntimeException if no element exists or if more than one element exists.
-     * @param callback $func    a func that returns boolean.
+     * @param callable $func    a func that returns boolean.
      * @return mixed
      */
-    public function single($func = null)
+    public function single(callable $func = null)
     {
         return $this->getSingle($func, true);
     }
@@ -613,26 +613,26 @@ class Linq implements IteratorAggregate, Countable
      * Returns the only element that satisfies a specified condition or NULL if no such element exists.
      *
      * @throws \RuntimeException if more than one element satisfies the condition.
-     * @param callback $func    a func that returns boolean.
+     * @param callable $func    a func that returns boolean.
      * @return mixed
      */
-    public function singleOrNull($func = null)
+    public function singleOrNull(callable $func = null)
     {
         return $this->getSingle($func, false);
     }
 
 
-    private function getWhereIteratorOrInnerIterator($func)
+    private function getWhereIteratorOrInnerIterator(callable $func)
     {
         return $func === null ? $this->iterator : new WhereIterator($this->iterator, $func);
     }
 
-    private function getSelectIteratorOrInnerIterator($func)
+    private function getSelectIteratorOrInnerIterator(callable $func)
     {
         return $func === null ? $this->iterator : new SelectIterator($this->iterator, $func);
     }
 
-    private function getSingle($func, $throw)
+    private function getSingle(callable $func, $throw)
     {
         $source = $this->getWhereIteratorOrInnerIterator($func);
 
@@ -656,7 +656,7 @@ class Linq implements IteratorAggregate, Countable
         return $single;
     }
 
-    private function getFirst($func, $throw)
+    private function getFirst(callable $func, $throw)
     {
         $source = $this->getWhereIteratorOrInnerIterator($func);
 
@@ -676,7 +676,7 @@ class Linq implements IteratorAggregate, Countable
         return $first;
     }
 
-    private function getLast($func, $throw)
+    private function getLast(callable $func, $throw)
     {
         $source = $this->getWhereIteratorOrInnerIterator($func);
 
@@ -698,12 +698,12 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Creates an Array from this Linq object with key/value selector(s).
      *
-     * @param callback $keySelector     a func that returns the array-key for each element.
-     * @param callback $valueSelector   a func that returns the array-value for each element.
+     * @param callable $keySelector     a func that returns the array-key for each element.
+     * @param callable $valueSelector   a func that returns the array-value for each element.
      *
      * @return Array    An array with all values.
      */
-    public function toArray($keySelector = null, $valueSelector = null)
+    public function toArray(callable $keySelector = null, callable $valueSelector = null)
     {
         if ($keySelector === null && $valueSelector === null) {
             return iterator_to_array($this, false);

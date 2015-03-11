@@ -22,7 +22,7 @@ class GroupIterator implements Iterator
     private $grouped;
     private $keySelector;
 
-    public function __construct($iterator, $keySelector)
+    public function __construct(Iterator $iterator, callable $keySelector)
     {
         $this->iterator = $iterator;
         $this->keySelector = $keySelector;
