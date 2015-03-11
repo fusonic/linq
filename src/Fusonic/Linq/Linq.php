@@ -622,17 +622,17 @@ class Linq implements IteratorAggregate, Countable
     }
 
 
-    private function getWhereIteratorOrInnerIterator(callable $func)
+    private function getWhereIteratorOrInnerIterator($func)
     {
         return $func === null ? $this->iterator : new WhereIterator($this->iterator, $func);
     }
 
-    private function getSelectIteratorOrInnerIterator(callable $func)
+    private function getSelectIteratorOrInnerIterator($func)
     {
         return $func === null ? $this->iterator : new SelectIterator($this->iterator, $func);
     }
 
-    private function getSingle(callable $func, $throw)
+    private function getSingle($func, $throw)
     {
         $source = $this->getWhereIteratorOrInnerIterator($func);
 
@@ -656,7 +656,7 @@ class Linq implements IteratorAggregate, Countable
         return $single;
     }
 
-    private function getFirst(callable $func, $throw)
+    private function getFirst($func, $throw)
     {
         $source = $this->getWhereIteratorOrInnerIterator($func);
 
@@ -676,7 +676,7 @@ class Linq implements IteratorAggregate, Countable
         return $first;
     }
 
-    private function getLast(callable $func, $throw)
+    private function getLast($func, $throw)
     {
         $source = $this->getWhereIteratorOrInnerIterator($func);
 
