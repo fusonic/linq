@@ -61,11 +61,11 @@ class GroupIterator implements Iterator
     private function doGroup()
     {
         $keySelector = $this->keySelector;
-        $this->grouped = new \ArrayIterator(array());
+        $this->grouped = new \ArrayIterator([]);
         foreach ($this->iterator as $value) {
             $key = $keySelector($value);
             if (!isset($this->grouped[$key])) {
-                $this->grouped[$key] = array('key' => $key, 'values'=> array());
+                $this->grouped[$key] = ['key' => $key, 'values'=> []];
             }
 
             $this->grouped[$key]['values'][] = $value;

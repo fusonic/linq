@@ -115,7 +115,7 @@ class Linq implements IteratorAggregate, Countable
         $innerIterator = $this->iterator;
         if ($innerIterator instanceof \ArrayIterator) {
             if ($count >= $innerIterator->count()) {
-                return new Linq(array());
+                return new Linq([]);
             }
         }
 
@@ -131,7 +131,7 @@ class Linq implements IteratorAggregate, Countable
     public function take($count)
     {
         if ($count == 0) {
-            return new Linq(array());
+            return new Linq([]);
         }
 
         return new Linq(new \LimitIterator($this->iterator, 0, $count));
@@ -190,7 +190,7 @@ class Linq implements IteratorAggregate, Countable
         return $this->select(
             function ($x) use (&$i) {
                 $i++;
-                return array("index" => $i, "value" => $x);
+                return ["index" => $i, "value" => $x];
             }
         )
         ->groupBy(
@@ -458,7 +458,7 @@ class Linq implements IteratorAggregate, Countable
     {
         LinqHelper::assertArgumentIsIterable($second, "second");
 
-        $allItems = new \ArrayIterator(array($this->iterator, $second));
+        $allItems = new \ArrayIterator([$this->iterator, $second]);
 
         return new Linq(new SelectManyIterator($allItems));
     }
@@ -710,7 +710,7 @@ class Linq implements IteratorAggregate, Countable
         } elseif ($keySelector == null) {
             return iterator_to_array(new SelectIterator($this->getIterator(), $valueSelector), false);
         } else {
-            $array = array();
+            $array = [];
             foreach ($this as $value) {
                 $key = $keySelector($value);
                 $array[$key] = $valueSelector == null ? $value : $valueSelector($value);
