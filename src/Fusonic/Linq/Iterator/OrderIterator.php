@@ -70,27 +70,24 @@ class OrderIterator implements Iterator
         }
 
         $this->orderedIterator = $this->iterator;
-        $this->orderedIterator->uasort(function($a, $b) { return $this->sort($a, $b); });
-    }
+        $this->orderedIterator->uasort(function($a, $b) {
+            $result = 0;
+            foreach ($this->orderFuncs as &$orderFunc) {
+                $func = $orderFunc['func'];
 
-    private function sort($a, $b)
-    {
-        $result = 0;
-        foreach ($this->orderFuncs as &$orderFunc) {
-            $func = $orderFunc['func'];
+                if ($orderFunc['direction'] === Helper\LinqHelper::LINQ_ORDER_ASC) {
+                    $result = $this->compare($func($a), $func($b));
+                } else {
+                    $result = $this->compare($func($b), $func($a));
+                }
 
-            if ($orderFunc['direction'] === Helper\LinqHelper::LINQ_ORDER_ASC) {
-                $result = $this->compare($func($a), $func($b));
-            } else {
-                $result = $this->compare($func($b), $func($a));
+                if ($result !== 0) {
+                    break;
+                }
             }
 
-            if ($result !== 0) {
-                break;
-            }
-        }
-
-        return $result;
+            return $result;
+        });
     }
 
     private function compare($a, $b)
