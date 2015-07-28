@@ -26,10 +26,10 @@ class OrderIterator implements Iterator
     public function __construct(Iterator $items, $orderKeyFunc, $direction)
     {
         $this->iterator = $items;
-        $this->orderFuncs[] = [
+        $this->orderFuncs[] = array(
             'func' => $orderKeyFunc,
             'direction' => $direction
-        ];
+        );
     }
 
     public function current()
@@ -108,9 +108,9 @@ class OrderIterator implements Iterator
 
     public function thenBy($func, $direction)
     {
-        $this->orderFuncs[] = [
+        $this->orderFuncs[] = array(
             "func" => $func,
             "direction" => $direction,
-        ];
+        );
     }
 }
