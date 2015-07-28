@@ -70,9 +70,13 @@ class OrderIterator implements Iterator
         }
 
         $this->orderedIterator = $this->iterator;
-        $this->orderedIterator->uasort(function($a, $b) {
+
+        // Ugly hack for PHP 5.3 as the calling context is not handled correctly in anonymous functions
+        $orderFuncs = $this->orderFuncs;
+
+        $this->orderedIterator->uasort(function($a, $b) use ($orderFuncs) {
             $result = 0;
-            foreach ($this->orderFuncs as &$orderFunc) {
+            foreach ($orderFuncs as &$orderFunc) {
                 $func = $orderFunc['func'];
 
                 if ($orderFunc['direction'] === Helper\LinqHelper::LINQ_ORDER_ASC) {
