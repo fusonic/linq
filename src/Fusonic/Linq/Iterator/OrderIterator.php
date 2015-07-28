@@ -20,15 +20,16 @@ use Fusonic\Linq\Helper;
 class OrderIterator implements Iterator
 {
     private $iterator;
-    private $direction;
     private $orderedIterator;
-    private $orderKeyFunc;
+    private $orderFuncs = array();
 
     public function __construct(Iterator $items, $orderKeyFunc, $direction)
     {
         $this->iterator = $items;
-        $this->direction = $direction;
-        $this->orderKeyFunc = $orderKeyFunc;
+        $this->orderFuncs[] = [
+            'func' => $orderKeyFunc,
+            'direction' => $direction
+        ];
     }
 
     public function current()
@@ -61,9 +62,6 @@ class OrderIterator implements Iterator
 
     public function orderItems()
     {
-        $orderKeyFunc = $this->orderKeyFunc;
-        $direction = $this->direction;
-
         $itemIterator = $this->iterator;
         $itemIterator->rewind();
         if (!$itemIterator->valid()) {
@@ -71,43 +69,48 @@ class OrderIterator implements Iterator
             return;
         }
 
-        $firstOrderKey = $orderKeyFunc($itemIterator->current());
+        $this->orderedIterator = $this->iterator;
+        $this->orderedIterator->uasort(function($a, $b) { return $this->sort($a, $b); });
+    }
 
-        $sortType = Helper\LinqHelper::LINQ_ORDER_TYPE_NUMERIC;
+    private function sort($a, $b)
+    {
+        $result = 0;
+        foreach ($this->orderFuncs as &$orderFunc) {
+            $func = $orderFunc['func'];
 
-        if ($firstOrderKey instanceof \DateTime) {
-            $sortType = Helper\LinqHelper::LINQ_ORDER_TYPE_DATETIME;
-        } elseif (!is_numeric($firstOrderKey)) {
-            $sortType = Helper\LinqHelper::LINQ_ORDER_TYPE_ALPHANUMERIC;
-        }
-
-        $keyMap = array();
-        $valueMap = array();
-
-        foreach ($itemIterator as $value) {
-            $orderKey = $orderKeyFunc != null ? $orderKeyFunc($value) : $value;
-            if ($sortType == Helper\LinqHelper::LINQ_ORDER_TYPE_DATETIME) {
-                $orderKey = $orderKey->getTimeStamp();
+            if ($orderFunc['direction'] === Helper\LinqHelper::LINQ_ORDER_ASC) {
+                $result = $this->compare($func($a), $func($b));
+            } else {
+                $result = $this->compare($func($b), $func($a));
             }
-            $keyMap[] = $orderKey;
-            $valueMap[] = $value;
+
+            if ($result !== 0) {
+                break;
+            }
         }
 
-        if ($sortType == Helper\LinqHelper::LINQ_ORDER_TYPE_DATETIME) {
-            $sortType = Helper\LinqHelper::LINQ_ORDER_TYPE_NUMERIC;
-        }
+        return $result;
+    }
 
-        if ($direction == Helper\LinqHelper::LINQ_ORDER_ASC) {
-            asort($keyMap, $sortType == Helper\LinqHelper::LINQ_ORDER_TYPE_NUMERIC ? SORT_NUMERIC : SORT_LOCALE_STRING);
-        } else {
-            arsort($keyMap, $sortType == Helper\LinqHelper::LINQ_ORDER_TYPE_NUMERIC ? SORT_NUMERIC : SORT_LOCALE_STRING);
+    private function compare($a, $b)
+    {
+        if(is_string($a) && is_string($b))
+        {
+            return strcasecmp($a, $b);
         }
-
-        $sorted = new ArrayIterator(array());
-        foreach ($keyMap as $key => $value) {
-            $sorted[] = $valueMap[$key];
+        else
+        {
+            if($a == $b) return 0;
+            return $a < $b ? -1 : 1;
         }
+    }
 
-        $this->orderedIterator = $sorted;
+    public function thenBy($func, $direction)
+    {
+        $this->orderFuncs[] = [
+            "func" => $func,
+            "direction" => $direction,
+        ];
     }
 }

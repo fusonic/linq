@@ -35,7 +35,7 @@ use OutOfRangeException;
  */
 class Linq implements IteratorAggregate, Countable
 {
-    private $iterator;
+    protected $iterator;
 
     /**
      * Creates a new Linq object using the provided dataSource.
@@ -289,7 +289,7 @@ class Linq implements IteratorAggregate, Countable
      * Sorts the elements in ascending order according to a key provided by $func.
      *
      * @param callback $func    A function to extract a key from an element.
-     * @return Linq             A new Linq instance whose elements are sorted ascending according to a key.
+     * @return OrderedLinq             A new Linq instance whose elements are sorted ascending according to a key.
      */
     public function orderBy($func)
     {
@@ -300,7 +300,7 @@ class Linq implements IteratorAggregate, Countable
      * Sorts the elements in descending order according to a key provided by $func.
      *
      * @param callback $func    A function to extract a key from an element.
-     * @return Linq             A new Linq instance whose elements are sorted descending according to a key.
+     * @return OrderedLinq             A new Linq instance whose elements are sorted descending according to a key.
      */
     public function orderByDescending($func)
     {
@@ -309,7 +309,7 @@ class Linq implements IteratorAggregate, Countable
 
     private function order($func, $direction = LinqHelper::LINQ_ORDER_ASC)
     {
-        return new Linq(new OrderIterator($this->iterator, $func, $direction));
+        return new OrderedLinq(new OrderIterator($this->iterator, $func, $direction));
     }
 
     /**
