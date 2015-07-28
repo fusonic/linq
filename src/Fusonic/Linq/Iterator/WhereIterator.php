@@ -19,7 +19,7 @@ class WhereIterator extends \FilterIterator
 {
     private $func;
 
-    public function __construct(Iterator $iterator, $func)
+    public function __construct(Iterator $iterator, callable $func)
     {
         parent::__construct($iterator);
         $this->func = $func;

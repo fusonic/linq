@@ -24,7 +24,7 @@ class OrderIterator implements Iterator
     private $orderedIterator;
     private $orderKeyFunc;
 
-    public function __construct(Iterator $items, $orderKeyFunc, $direction)
+    public function __construct(Iterator $items, callable $orderKeyFunc, $direction)
     {
         $this->iterator = $items;
         $this->direction = $direction;
@@ -81,8 +81,8 @@ class OrderIterator implements Iterator
             $sortType = Helper\LinqHelper::LINQ_ORDER_TYPE_ALPHANUMERIC;
         }
 
-        $keyMap = array();
-        $valueMap = array();
+        $keyMap = [];
+        $valueMap = [];
 
         foreach ($itemIterator as $value) {
             $orderKey = $orderKeyFunc != null ? $orderKeyFunc($value) : $value;
@@ -103,7 +103,7 @@ class OrderIterator implements Iterator
             arsort($keyMap, $sortType == Helper\LinqHelper::LINQ_ORDER_TYPE_NUMERIC ? SORT_NUMERIC : SORT_LOCALE_STRING);
         }
 
-        $sorted = new ArrayIterator(array());
+        $sorted = new ArrayIterator([]);
         foreach ($keyMap as $key => $value) {
             $sorted[] = $valueMap[$key];
         }

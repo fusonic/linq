@@ -11,8 +11,6 @@
 
 namespace Fusonic\Linq;
 
-use Fusonic\Linq\Linq;
-
 /**
  * Class GroupedLinq
  * Represents a Linq object that groups together other elements with a group key().

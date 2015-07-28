@@ -19,7 +19,7 @@ class SelectIterator extends \IteratorIterator
 {
     private $selector;
 
-    public function __construct(Iterator $iterator, $selector)
+    public function __construct(Iterator $iterator, callable $selector)
     {
         parent::__construct($iterator);
         if ($selector === null) {
