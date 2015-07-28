@@ -1,6 +1,6 @@
 # fusonic/linq
 
-[![Build Status](https://travis-ci.org/fusonic/linq.png)](https://travis-ci.org/fusonic/linq)
+[![Build Status](https://travis-ci.org/fusonic/linq.svg?branch=master)](https://travis-ci.org/fusonic/linq)
 [![Total Downloads](https://poser.pugx.org/fusonic/linq/downloads.png)](https://packagist.org/packages/fusonic/linq)
 
 fusonic/linq is a lightweight PHP library inspired by the LINQ 2 Objects extension methods in .NET.
