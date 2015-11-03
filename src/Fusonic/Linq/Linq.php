@@ -12,6 +12,7 @@
 namespace Fusonic\Linq;
 
 use Countable;
+use Fusonic\Linq\Iterator\ChunkIterator;
 use Fusonic\Linq\Iterator\ExceptIterator;
 use Fusonic\Linq\Iterator\DistinctIterator;
 use Fusonic\Linq\Iterator\GroupIterator;
@@ -176,7 +177,7 @@ class Linq implements IteratorAggregate, Countable
     /**
      * Splits the sequence in chunks according to $chunksize.
      *
-     * @param $chunksize Specifies how many elements are grouped together per chunk.
+     * @param int $chunksize Specifies how many elements are grouped together per chunk.
      * @throws \InvalidArgumentException
      * @return Linq
      */
@@ -186,27 +187,7 @@ class Linq implements IteratorAggregate, Countable
             throw new \InvalidArgumentException("chunksize", $chunksize);
         }
 
-        $i = -1;
-        return $this->select(
-            function ($x) use (&$i) {
-                $i++;
-                return array("index" => $i, "value" => $x);
-            }
-        )
-        ->groupBy(
-            function ($pair) use ($chunksize) {
-                return $pair["index"] / $chunksize;
-            }
-        )
-        ->select(
-            function (GroupedLinq $group) {
-                return $group->select(
-                    function ($v) {
-                        return $v["value"];
-                    }
-                );
-            }
-        );
+        return Linq::from(new ChunkIterator($this->iterator, $chunksize));
     }
 
     /**

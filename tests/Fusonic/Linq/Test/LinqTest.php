@@ -1698,6 +1698,28 @@ class LinqTest extends PHPUnit_Framework_TestCase
             ->toArray();
     }
 
+    public function testChunkWithoutGrouping()
+    {
+        $log = [];
+        Linq::from([0, 1, 2, 3])
+            ->where(function($x) use(&$log) {
+                $log[] = 'where';
+                return true;
+            })
+            ->select(function($x) use(&$log) {
+                $log[] = 'select';
+                return $x;
+            })
+            ->chunk(2)
+            ->each(function(Linq $chunk) use(&$log) {
+                $log[] = 'each';
+                return $chunk;
+            })
+        ;
+
+        $this->assertEquals('where select where select each where select where select each', implode(' ', $log));
+    }
+
 	/**
 	 * @test
 	 */
