@@ -824,6 +824,73 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($eval);
     }
 
+    public function testOrderByThenBy_singleThenBy()
+    {
+        $items = array("a/b/c", "a/c", "a/d", "a/b", "a");
+
+        $linq = Linq::from($items)->orderBy(function($x)
+        {
+            return substr_count($x, "/");
+        })
+        ->thenBy(function($x) {
+            return $x;
+        });
+
+        $this->assertEquals($items[4], $linq->elementAt(0));
+        $this->assertEquals($items[3], $linq->elementAt(1));
+        $this->assertEquals($items[1], $linq->elementAt(2));
+        $this->assertEquals($items[2], $linq->elementAt(3));
+        $this->assertEquals($items[0], $linq->elementAt(4));
+    }
+
+    public function testOrderByThenBy_subsequentSorts()
+    {
+        $items = array("aaa", "aab", "aac", "aba", "abb", "abc", "baa");
+
+        $linq = Linq::from($items)->orderBy(function($x)
+        {
+            return substr($x, 0, 1);
+        })
+        ->thenBy(function($x) {
+            return substr($x, 1, 1);
+        })
+        ->thenBy(function($x) {
+            return substr($x, 2, 1);
+        });
+
+        $this->assertEquals("aaa", $linq->elementAt(0));
+        $this->assertEquals("aab", $linq->elementAt(1));
+        $this->assertEquals("aac", $linq->elementAt(2));
+        $this->assertEquals("aba", $linq->elementAt(3));
+        $this->assertEquals("abb", $linq->elementAt(4));
+        $this->assertEquals("abc", $linq->elementAt(5));
+        $this->assertEquals("baa", $linq->elementAt(6));
+    }
+
+    public function testOrderByThenByDescending_subsequentSorts()
+    {
+        $items = array("aaa", "aab", "aac", "aba", "abb", "abc", "bca");
+
+        $linq = Linq::from($items)->orderBy(function($x)
+        {
+            return substr($x, 0, 1);
+        })
+        ->thenByDescending(function($x) {
+            return substr($x, 1, 1);
+        })
+        ->thenByDescending(function($x) {
+            return substr($x, 2, 1);
+        });
+
+        $this->assertEquals("abc", $linq->elementAt(0));
+        $this->assertEquals("abb", $linq->elementAt(1));
+        $this->assertEquals("aba", $linq->elementAt(2));
+        $this->assertEquals("aac", $linq->elementAt(3));
+        $this->assertEquals("aab", $linq->elementAt(4));
+        $this->assertEquals("aaa", $linq->elementAt(5));
+        $this->assertEquals("bca", $linq->elementAt(6));
+    }
+
     public function testGroupBy()
     {
         $a1 = new stdClass(); $a1->id = 1; $a1->value = "a";
