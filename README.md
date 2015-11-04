@@ -17,7 +17,7 @@ LINQ queries offer three main advantages over traditional foreach loops:
 
 ## Requirements
 
-fusonic/linq is supported on PHP 5.3 and up.
+fusonic/linq is supported on PHP 5.5 and up.
 
 
 ## Installation & Usage
@@ -202,6 +202,6 @@ Linq::from(array(1, 2, "Not a numeric value"))
 You can run the test suite with the following command:
 
 ```bash
-phpunit --bootstrap tests/bootstrap.php .
+vendor/bin/phpunit --bootstrap tests/bootstrap.php .
 ``` 
 
