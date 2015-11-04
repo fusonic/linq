@@ -11,6 +11,7 @@ class ChunkIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $x = new ChunkIterator(new \ArrayIterator([]), 1);
 
+        $x->rewind();
         $this->assertEquals(false, $x->valid());
     }
 
@@ -18,6 +19,7 @@ class ChunkIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $x = new ChunkIterator(new \ArrayIterator([0, 1]), 100);
 
+        $x->rewind();
         $this->assertEquals(true, $x->valid());
         $this->assertEquals([0, 1], $x->current()->toArray());
     }
@@ -26,6 +28,7 @@ class ChunkIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $x = new ChunkIterator(new \ArrayIterator([0, 1, 2]), 2);
 
+        $x->rewind();
         $this->assertEquals(true, $x->valid());
         $this->assertEquals([0, 1], $x->current()->toArray());
 
@@ -41,6 +44,7 @@ class ChunkIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $x = new ChunkIterator(new \ArrayIterator(["a", "b", "c", "d", "e"]), 2);
 
+        $x->rewind();
         $this->assertEquals(true, $x->valid());
         $this->assertEquals(["a", "b"], $x->current()->toArray());
 
@@ -76,6 +80,7 @@ class ChunkIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $x = new ChunkIterator(new \ArrayIterator([0, 1, 2]), 2);
 
+        $x->rewind();
         $this->assertEquals(true, $x->valid());
         $this->assertEquals([0, 1], $x->current()->toArray());
         $this->assertEquals([0, 1], $x->current()->toArray());
@@ -89,6 +94,7 @@ class ChunkIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $x = new ChunkIterator(new \ArrayIterator([0, 1, 2]), 2);
 
+        $x->rewind();
         $x->next();
         $this->assertEquals([2], $x->current()->toArray());
     }
@@ -97,6 +103,7 @@ class ChunkIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $x = new ChunkIterator(new \ArrayIterator([0, 1, 2]), 2);
 
+        $x->rewind();
         $this->assertEquals(0, $x->key());
         $x->next();
         $this->assertEquals(1, $x->key());
@@ -106,6 +113,7 @@ class ChunkIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $x = new ChunkIterator(new \ArrayIterator([0, 1, 2]), 2);
 
+        $x->rewind();
         $x->next();
         $x->rewind();
         $this->assertEquals(true, $x->valid());

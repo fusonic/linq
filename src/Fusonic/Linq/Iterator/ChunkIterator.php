@@ -44,8 +44,6 @@ class ChunkIterator implements Iterator
     {
         $this->iterator = $iterator;
         $this->chunkSize = $chunkSize;
-
-        $this->chunk = $this->getNextChunk();
     }
 
     /**
