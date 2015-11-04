@@ -33,6 +33,7 @@ class ChunkIteratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $x->valid());
         $this->assertEquals([2], $x->current()->toArray());
 
+        $x->next();
         $this->assertEquals(false, $x->valid());
     }
 
@@ -51,6 +52,7 @@ class ChunkIteratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $x->valid());
         $this->assertEquals(["e"], $x->current()->toArray());
 
+        $x->next();
         $this->assertEquals(false, $x->valid());
     }
 
@@ -68,5 +70,46 @@ class ChunkIteratorTest extends \PHPUnit_Framework_TestCase
             ["0,1,2", "3,4,5", "6,7,8"],
             $arr
         );
+    }
+
+    public function testIdempotency()
+    {
+        $x = new ChunkIterator(new \ArrayIterator([0, 1, 2]), 2);
+
+        $this->assertEquals(true, $x->valid());
+        $this->assertEquals([0, 1], $x->current()->toArray());
+        $this->assertEquals([0, 1], $x->current()->toArray());
+        $x->next();
+
+        $this->assertEquals([2], $x->current()->toArray());
+        $this->assertEquals([2], $x->current()->toArray());
+    }
+
+    public function testNext()
+    {
+        $x = new ChunkIterator(new \ArrayIterator([0, 1, 2]), 2);
+
+        $x->next();
+        $this->assertEquals([2], $x->current()->toArray());
+    }
+
+    public function testKey()
+    {
+        $x = new ChunkIterator(new \ArrayIterator([0, 1, 2]), 2);
+
+        $this->assertEquals(0, $x->key());
+        $x->next();
+        $this->assertEquals(1, $x->key());
+    }
+
+    public function testRewind()
+    {
+        $x = new ChunkIterator(new \ArrayIterator([0, 1, 2]), 2);
+
+        $x->next();
+        $x->rewind();
+        $this->assertEquals(true, $x->valid());
+        $this->assertEquals(0, $x->key());
+        $this->assertEquals([0, 1], $x->current()->toArray());
     }
 }

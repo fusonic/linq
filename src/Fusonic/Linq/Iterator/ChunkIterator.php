@@ -12,19 +12,23 @@
 
 namespace Fusonic\Linq\Iterator;
 
-use Countable;
 use Fusonic\Linq\Linq;
 use Iterator;
 
 /**
  * Iterates over an iterator, returning Linq objects of the given chunk size.
  */
-class ChunkIterator implements Iterator, Countable
+class ChunkIterator implements Iterator
 {
     /**
      * @var Iterator
      */
     private $iterator;
+
+    /**
+     * @var array
+     */
+    private $chunk;
 
     /**
      * @var int
@@ -40,18 +44,29 @@ class ChunkIterator implements Iterator, Countable
     {
         $this->iterator = $iterator;
         $this->chunkSize = $chunkSize;
+
+        $this->chunk = $this->getNextChunk();
     }
 
     /**
      * @return Linq
-     * @todo Should this chunking logic stay here? This might be better in `next()` but then `current()` should return
-     *       the first chunk before we call `next()`. With current implementation, looping through without calling
-     *       `current()` is inconsistent, hence the `count()` implementation.
      */
     public function current()
     {
+        return new Linq($this->chunk);
+    }
+
+    public function next()
+    {
+        $this->iterator->next();
+        $this->chunk = $this->getNextChunk();
+        $this->i++;
+    }
+
+    private function getNextChunk()
+    {
         $chunk = [];
-        while ($this->valid()) {
+        while ($this->iterator->valid()) {
             $chunk[] = $this->iterator->current();
 
             if (count($chunk) < $this->chunkSize) {
@@ -61,13 +76,7 @@ class ChunkIterator implements Iterator, Countable
             }
         }
 
-        return new Linq($chunk);
-    }
-
-    public function next()
-    {
-        $this->iterator->next();
-        $this->i++;
+        return $chunk;
     }
 
     public function key()
@@ -77,22 +86,13 @@ class ChunkIterator implements Iterator, Countable
 
     public function valid()
     {
-        return $this->iterator->valid();
+        return !empty($this->chunk);
     }
 
     public function rewind()
     {
         $this->iterator->rewind();
         $this->i = 0;
-    }
-
-    /**
-     * Implemented to ensure tests pass.
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return (int) ceil(iterator_count($this->iterator) / $this->chunkSize);
+        $this->chunk = $this->getNextChunk();
     }
 }
