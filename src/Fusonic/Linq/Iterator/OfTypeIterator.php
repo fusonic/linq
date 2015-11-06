@@ -19,9 +19,7 @@ use Iterator;
  * Iterator for filtering the Linq query with a specified <b>type</b>.
  * @package Fusonic\Linq\Iterator
  */
-final class OfTypeIterator
-	extends
-	\FilterIterator
+final class OfTypeIterator extends \FilterIterator
 {
 	/**
 	 * @var callable $acceptCallback
@@ -76,17 +74,9 @@ final class OfTypeIterator
 		}
 	}
 
-	/**
-	 * (PHP 5 &gt;= 5.1.0)<br/>
-	 * Check whether the current element of the iterator is acceptable
-	 * @link http://php.net/manual/en/filteriterator.accept.php
-	 * @return bool true if the current element is acceptable, otherwise false.
-	 */
 	public function accept()
 	{
-		/** @var mixed $current */
 		$current = $this->current();
-		/** @var callable $func */
 		$func = $this->acceptCallback;
 
 		return $func($current);
