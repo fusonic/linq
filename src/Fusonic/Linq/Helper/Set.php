@@ -72,7 +72,7 @@ class Set
         } elseif (is_resource($value)) {
             return "r_$value";
         } elseif (is_array($value)) {
-            return 'a_' . md5(serialize());
+            return 'a_' . md5(serialize($value));
         }
     }
 }
