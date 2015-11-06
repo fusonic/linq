@@ -21,7 +21,7 @@ class IntersectIterator implements Iterator
     private $second;
     private $intersections;
 
-    public function __construct(Iterator $first, Iterator $second)
+    public function __construct(\Traversable $first, \Traversable $second)
     {
         $this->first = $first;
         $this->second = $second;
