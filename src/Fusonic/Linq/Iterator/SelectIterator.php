@@ -13,13 +13,13 @@
 namespace Fusonic\Linq\Iterator;
 
 use InvalidArgumentException;
-use Iterator;
+use Traversable;
 
 class SelectIterator extends \IteratorIterator
 {
     private $selector;
 
-    public function __construct(Iterator $iterator, $selector)
+    public function __construct(Traversable $iterator, $selector)
     {
         parent::__construct($iterator);
         if ($selector === null) {

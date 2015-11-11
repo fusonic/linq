@@ -20,7 +20,7 @@ final class ExceptIterator implements \IteratorAggregate
     private $first;
     private $second;
 
-    public function __construct(\Traversable $first, \Traversable $second)
+    public function __construct(Traversable $first, Traversable $second)
     {
         $this->first = $first;
         $this->second = $second;

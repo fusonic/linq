@@ -14,6 +14,7 @@ namespace Fusonic\Linq\Iterator;
 use FilterIterator;
 use Fusonic\Linq\Helper;
 use Iterator;
+use Traversable;
 
 /**
  * Iterator for filtering the Linq query with a specified <b>type</b>.
@@ -32,7 +33,7 @@ final class OfTypeIterator extends \FilterIterator
 	 * @param Iterator $iterator
 	 * @param string   $type
 	 */
-	public function __construct(Iterator $iterator, $type)
+	public function __construct(Traversable $iterator, $type)
 	{
 		parent::__construct($iterator);
 

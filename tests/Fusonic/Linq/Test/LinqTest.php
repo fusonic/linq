@@ -1962,6 +1962,35 @@ class LinqTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expectedResult, $result);
 	}
 
+    /**
+     * @test
+     */
+    public function testChunkWithGenerator()
+    {
+        $gen = $this->createGenerator([0, 1, 2, 3]);
+        $result = Linq::from($gen)
+            ->where(function($x) {
+                return true;
+            })
+            ->select(function($x) {
+                return $x;
+            })
+            ->chunk(2)
+            ->select(function(Linq $chunk) {
+                return implode(",", $chunk->toArray());
+            })
+        ;
+
+        $this->assertEquals('0,1|2,3', implode('|', $result->toArray()));
+    }
+
+    private function createGenerator(array $arr)
+    {
+        foreach ($arr as $x) {
+            yield $x;
+        }
+    }
+
 	private function assertException($closure, $expected = self::ExceptionName_Runtime)
     {
         try

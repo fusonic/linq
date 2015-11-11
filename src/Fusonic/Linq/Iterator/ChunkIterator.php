@@ -13,7 +13,7 @@
 namespace Fusonic\Linq\Iterator;
 
 use Fusonic\Linq\Linq;
-use Iterator;
+use Traversable;
 
 /**
  * Iterates over an iterator, returning Linq objects of the given chunk size.
@@ -23,7 +23,7 @@ class ChunkIterator implements \IteratorAggregate
     private $iterator;
     private $chunkSize;
 
-    public function __construct(Iterator $iterator, $chunkSize)
+    public function __construct(Traversable $iterator, $chunkSize)
     {
         $this->iterator = $iterator;
         $this->chunkSize = $chunkSize;

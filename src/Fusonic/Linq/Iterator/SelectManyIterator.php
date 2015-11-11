@@ -12,14 +12,14 @@
 
 namespace Fusonic\Linq\Iterator;
 
-use Iterator;
 use Fusonic\Linq\Helper;
+use Traversable;
 
 class SelectManyIterator implements \IteratorAggregate
 {
     private $iterator;
 
-    public function __construct(Iterator $iterator)
+    public function __construct(Traversable $iterator)
     {
         $this->iterator = $iterator;
     }

@@ -13,13 +13,13 @@
 namespace Fusonic\Linq\Iterator;
 
 use Fusonic\Linq\Helper\Set;
-use Iterator;
+use Traversable;
 
 final class DistinctIterator implements \IteratorAggregate
 {
     private $iterator;
 
-    public function __construct(Iterator $iterator)
+    public function __construct(Traversable $iterator)
     {
         $this->iterator = $iterator;
     }
