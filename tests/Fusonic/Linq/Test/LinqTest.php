@@ -1464,13 +1464,13 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("c", $looped[2]);
     }
 
-    public function testEach_ReturnsOriginalLinqSequence()
+    public function testEach_ReturnsVoid()
     {
         $linq = Linq::from(array(1,2,3,4))
             ->skip(2)->take(1);
 
         $linqAfterEach = $linq->each(function($x) {});
-        $this->assertSame($linq, $linqAfterEach);
+        $this->assertSame(null, $linqAfterEach);
     }
 
     public function testToArray_WithoutKeySelector_ReturnsIteratorValuesAsArray_UsesDefaultNumericArrayKeys()
