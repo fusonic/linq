@@ -39,13 +39,13 @@ class LinqTest extends PHPUnit_Framework_TestCase
     {
         // more than one
         $items = array(1, 2);
-        $this->assertException(function() use ($items) {
+        $this->assertException(function () use ($items) {
             Linq::from($items)->single();
         });
 
         // no matching elements
         $items = array();
-        $this->assertException(function() use ($items) {
+        $this->assertException(function () use ($items) {
             Linq::from($items)->single();
         });
 
@@ -57,25 +57,33 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
         // more than one
         $items = array(1, 2);
-        $this->assertException(function() use ($items) {
-            Linq::from($items)->single(function($x) { return true; });
+        $this->assertException(function () use ($items) {
+            Linq::from($items)->single(function ($x) {
+                return true;
+            });
         });
 
         // no matching elements
         // because of false closure
-        $this->assertException(function() use ($items) {
-            Linq::from($items)->single(function($x) { return false; });
+        $this->assertException(function () use ($items) {
+            Linq::from($items)->single(function ($x) {
+                return false;
+            });
         });
 
         // because of empty array
         $items = array();
-        $this->assertException(function() use ($items) {
-            Linq::from($items)->single(function($x) { return true; });
+        $this->assertException(function () use ($items) {
+            Linq::from($items)->single(function ($x) {
+                return true;
+            });
         });
 
         // OK
         $items = array(77);
-        $this->assertSame(77, Linq::from($items)->single(function($x) { return true; }));
+        $this->assertSame(77, Linq::from($items)->single(function ($x) {
+            return true;
+        }));
     }
 
     public function testCount_ReturnsCorrectAmounts()
@@ -84,12 +92,12 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, Linq::from($items)->count());
 
         $items = array(1, 2);
-        $this->assertEquals(1, Linq::from($items)->where(function($x) {
+        $this->assertEquals(1, Linq::from($items)->where(function ($x) {
             return $x == 2;
         })->count());
 
         $items = array(1, 2);
-        $this->assertEquals(0, Linq::from($items)->where(function($x) {
+        $this->assertEquals(0, Linq::from($items)->where(function ($x) {
             return false;
         })->count());
 
@@ -104,7 +112,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
     {
         // more than one
         $items = array(1, 2);
-        $this->assertException(function() use ($items) {
+        $this->assertException(function () use ($items) {
             Linq::from($items)->singleOrNull();
         });
 
@@ -120,13 +128,17 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
         // more than one
         $items = array(1, 2);
-        $this->assertException(function() use ($items) {
-            Linq::from($items)->singleOrNull(function($x) { return true; });
+        $this->assertException(function () use ($items) {
+            Linq::from($items)->singleOrNull(function ($x) {
+                return true;
+            });
         });
 
         // no matching elements
         // because of false closure
-        $this->assertNull(Linq::from($items)->singleOrNull(function($x) { return false; }));
+        $this->assertNull(Linq::from($items)->singleOrNull(function ($x) {
+            return false;
+        }));
 
         // because of empty array
         $items = array();
@@ -134,15 +146,17 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
         // OK
         $items = array(77);
-        $this->assertSame(77, Linq::from($items)->singleOrNull(function($x) { return true; }));
+        $this->assertSame(77, Linq::from($items)->singleOrNull(function ($x) {
+            return true;
+        }));
     }
 
     /** Returns the first element in a sequence that satisfies a specified condition.
      *
      *  Exceptions:
      *  No element satisfies the condition in predicate.
-        -or-
-        The source sequence is empty.
+     * -or-
+     * The source sequence is empty.
      */
     public function testFirst_TestBehaviour()
     {
@@ -164,7 +178,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
         // no matching elements
         $items = array();
-        $this->assertException(function() use ($items) {
+        $this->assertException(function () use ($items) {
             Linq::from($items)->first();
         });
 
@@ -175,23 +189,31 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
         // more than one
         $items = array($a, $b1, $b2, $c);
-        $this->assertSame($b1, Linq::from($items)->first(function($x) { return $x->value == "b"; }));
+        $this->assertSame($b1, Linq::from($items)->first(function ($x) {
+            return $x->value == "b";
+        }));
 
         // no matching elements
         // because of false closure
-        $this->assertException(function() use ($items) {
-            Linq::from($items)->first(function($x) { return false; });
+        $this->assertException(function () use ($items) {
+            Linq::from($items)->first(function ($x) {
+                return false;
+            });
         });
 
         // because of empty array
         $items = array();
-        $this->assertException(function() use ($items) {
-            Linq::from($items)->first(function($x) { return true; });
+        $this->assertException(function () use ($items) {
+            Linq::from($items)->first(function ($x) {
+                return true;
+            });
         });
 
         // OK
         $items = array($a);
-        $this->assertSame($a, Linq::from($items)->first(function($x) { return true; }));
+        $this->assertSame($a, Linq::from($items)->first(function ($x) {
+            return true;
+        }));
     }
 
     /**
@@ -220,13 +242,19 @@ class LinqTest extends PHPUnit_Framework_TestCase
         // #### With closures ###
 
         $items = array($a, $b1, $b2, $c);
-        $this->assertSame($b1, Linq::from($items)->firstOrNull(function($x) { return $x->value == "b"; }));
+        $this->assertSame($b1, Linq::from($items)->firstOrNull(function ($x) {
+            return $x->value == "b";
+        }));
 
         $items = array($a, $b1, $b2, $c);
-        $this->assertSame($c, Linq::from($items)->firstOrNull(function($x) { return $x->value == "c"; }));
+        $this->assertSame($c, Linq::from($items)->firstOrNull(function ($x) {
+            return $x->value == "c";
+        }));
 
         $items = array();
-        $this->assertNull(Linq::from($items)->firstOrNull(function($x) { return true; }));
+        $this->assertNull(Linq::from($items)->firstOrNull(function ($x) {
+            return true;
+        }));
     }
 
 
@@ -251,7 +279,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
         // no matching elements
         $items = array();
-        $this->assertException(function() use ($items) {
+        $this->assertException(function () use ($items) {
             Linq::from($items)->last();
         });
 
@@ -262,23 +290,31 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
         // more than one
         $items = array($a, $b1, $b2, $c);
-        $this->assertSame($b2, Linq::from($items)->last(function($x) { return $x->value == "b"; }));
+        $this->assertSame($b2, Linq::from($items)->last(function ($x) {
+            return $x->value == "b";
+        }));
 
         // no matching elements
         // because of false closure
-        $this->assertException(function() use ($items) {
-            Linq::from($items)->last(function($x) { return false; });
+        $this->assertException(function () use ($items) {
+            Linq::from($items)->last(function ($x) {
+                return false;
+            });
         });
 
         // because of empty array
         $items = array();
-        $this->assertException(function() use ($items) {
-            Linq::from($items)->last(function($x) { return true; });
+        $this->assertException(function () use ($items) {
+            Linq::from($items)->last(function ($x) {
+                return true;
+            });
         });
 
         // OK
         $items = array($a);
-        $this->assertSame($a, Linq::from($items)->last(function($x) { return true; }));
+        $this->assertSame($a, Linq::from($items)->last(function ($x) {
+            return true;
+        }));
     }
 
     public function testLastOrDefault_DoesReturnTheLastElement_OrNull_DoesNotThrowExceptions()
@@ -304,13 +340,19 @@ class LinqTest extends PHPUnit_Framework_TestCase
         // #### With closures ###
 
         $items = array($a, $b1, $b2, $c);
-        $this->assertSame($c, Linq::from($items)->lastOrNull(function($x) { return true; }));
+        $this->assertSame($c, Linq::from($items)->lastOrNull(function ($x) {
+            return true;
+        }));
 
         $items = array($a, $b1, $b2, $c);
-        $this->assertSame($b2, Linq::from($items)->lastOrNull(function($x) { return $x->value == "b"; }));
+        $this->assertSame($b2, Linq::from($items)->lastOrNull(function ($x) {
+            return $x->value == "b";
+        }));
 
         $items = array();
-        $this->assertNull(Linq::from($items)->lastOrNull(function($x) { return true; }));
+        $this->assertNull(Linq::from($items)->lastOrNull(function ($x) {
+            return true;
+        }));
     }
 
     public function testWhere_ReturnsOnlyValuesMatching()
@@ -328,21 +370,27 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $c->value = "c";
 
         $items = array($a, $b1, $b2, $c);
-        $matching = Linq::from($items)->where(function ($v) { return false; });
+        $matching = Linq::from($items)->where(function ($v) {
+            return false;
+        });
         $this->assertTrue($matching instanceof Linq);
 
         $matching = $matching->toArray();
 
         $this->assertEquals(0, count($matching));
 
-        $matching = Linq::from($items)->where(function ($v) { return true; })->toArray();
+        $matching = Linq::from($items)->where(function ($v) {
+            return true;
+        })->toArray();
         $this->assertEquals(4, count($matching));
         $this->assertTrue(in_array($a, (array)$matching));
         $this->assertTrue(in_array($b1, (array)$matching));
         $this->assertTrue(in_array($b2, (array)$matching));
         $this->assertTrue(in_array($c, (array)$matching));
 
-        $matching = Linq::from($items)->where(function ($v) { return $v->value == "b"; })->toArray();
+        $matching = Linq::from($items)->where(function ($v) {
+            return $v->value == "b";
+        })->toArray();
         $this->assertEquals(2, count($matching));
         $this->assertFalse(in_array($a, (array)$matching));
         $this->assertTrue(in_array($b1, (array)$matching));
@@ -352,10 +400,11 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testWhere_ThrowsExceptionIfPredicateDoesNotReturnABoolean()
     {
-        $this->assertException(function()
-        {
+        $this->assertException(function () {
             $items = array("1", "2", "3");
-            $matching = Linq::from($items)->where(function ($v) { return "NOT A BOOLEAN"; });
+            $matching = Linq::from($items)->where(function ($v) {
+                return "NOT A BOOLEAN";
+            });
             $matching->toArray();
         }, self::ExceptionName_UnexpectedValue);
     }
@@ -364,8 +413,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
     {
         $eval = false;
         $items = array("1", "2", "3");
-        $matching = Linq::from($items)->where(function ($v) use(&$eval)
-        {
+        $matching = Linq::from($items)->where(function ($v) use (&$eval) {
             $eval = true;
             return true;
         });
@@ -378,8 +426,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
     public function testWhere_EmptySequence_ReturnsEmptySequence()
     {
         $items = array();
-        $matching = Linq::from($items)->where(function ($v)
-        {
+        $matching = Linq::from($items)->where(function ($v) {
             return true;
         });
 
@@ -390,7 +437,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testCountable_implementedSqlInterface()
     {
-        $items = array(1,2,3);
+        $items = array(1, 2, 3);
 
         $matching = Linq::from($items);
 
@@ -509,18 +556,26 @@ class LinqTest extends PHPUnit_Framework_TestCase
     {
         // All must always return true on empty sequences:
         $items = array();
-        $all = Linq::from($items)->all(function($v) { return true; });
+        $all = Linq::from($items)->all(function ($v) {
+            return true;
+        });
         $this->assertTrue($all);
 
-        $all = Linq::from($items)->all(function($v) { return false; });
+        $all = Linq::from($items)->all(function ($v) {
+            return false;
+        });
         $this->assertTrue($all);
 
         // Test with values:
         $items = array("a", "b");
-        $all = Linq::from($items)->all(function($v) { return $v == "a"; });
+        $all = Linq::from($items)->all(function ($v) {
+            return $v == "a";
+        });
         $this->assertFalse($all);
 
-        $all = Linq::from($items)->all(function($v) { return $v == "a" || $v == "b"; });
+        $all = Linq::from($items)->all(function ($v) {
+            return $v == "a" || $v == "b";
+        });
         $this->assertTrue($all);
     }
 
@@ -528,18 +583,26 @@ class LinqTest extends PHPUnit_Framework_TestCase
     {
         // Any must always return false on empty sequences:
         $items = array();
-        $any = Linq::from($items)->any(function($v) { return true; });
+        $any = Linq::from($items)->any(function ($v) {
+            return true;
+        });
         $this->assertFalse($any);
 
-        $any = Linq::from($items)->any(function($v) { return false; });
+        $any = Linq::from($items)->any(function ($v) {
+            return false;
+        });
         $this->assertFalse($any);
 
         // Test with values:
         $items = array("a", "b");
-        $any = Linq::from($items)->any(function($v) { return $v == "not existing"; });
+        $any = Linq::from($items)->any(function ($v) {
+            return $v == "not existing";
+        });
         $this->assertFalse($any);
 
-        $any = Linq::from($items)->any(function($v) { return $v == "a"; });
+        $any = Linq::from($items)->any(function ($v) {
+            return $v == "a";
+        });
         $this->assertTrue($any);
     }
 
@@ -557,21 +620,23 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testAverage_throwsExceptionIfClosureReturnsNotNumericValue()
     {
-        $this->assertException(function() {
-           $items = array(2, new stdClass());
+        $this->assertException(function () {
+            $items = array(2, new stdClass());
             Linq::from($items)->average();
         }, self::ExceptionName_UnexpectedValue);
 
-        $this->assertException(function() {
+        $this->assertException(function () {
             $items = array(2, "no numeric value");
             Linq::from($items)->average();
         }, self::ExceptionName_UnexpectedValue);
 
-        $this->assertException(function() {
+        $this->assertException(function () {
             $cls = new stdClass();
             $cls->value = "no numeric value";
             $items = array($cls);
-            Linq::from($items)->average(function($x) { return $x->value; });
+            Linq::from($items)->average(function ($x) {
+                return $x->value;
+            });
         }, self::ExceptionName_UnexpectedValue);
     }
 
@@ -590,11 +655,15 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(4, $avg);
 
         $items = array(2, 4, 6);
-        $avg = Linq::from($items)->average(function($v) { return 1; });
+        $avg = Linq::from($items)->average(function ($v) {
+            return 1;
+        });
         $this->assertEquals(1, $avg);
 
         $items = array(2.5, 2.5);
-        $avg = Linq::from($items)->average(function($v) { return $v; });
+        $avg = Linq::from($items)->average(function ($v) {
+            return $v;
+        });
         $this->assertEquals(2.5, $avg);
 
         $a = new stdClass();
@@ -607,19 +676,23 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $c->value = "6";
 
         $items = array($a, $b, $c);
-        $avg = Linq::from($items)->average(function($v) { return $v->value; });
+        $avg = Linq::from($items)->average(function ($v) {
+            return $v->value;
+        });
         $this->assertEquals(4, $avg);
     }
 
     public function testOrderBy_NumericValues_WithSelector_ReturnsOrderedObjects()
     {
-        $a = new stdClass(); $a->value = 77;
-        $b = new stdClass(); $b->value = 10;
-        $c = new stdClass(); $c->value = 20;
+        $a = new stdClass();
+        $a->value = 77;
+        $b = new stdClass();
+        $b->value = 10;
+        $c = new stdClass();
+        $c->value = 20;
         $items = array($a, $b, $c);
 
-        $ascending = Linq::from($items)->orderBy(function($x)
-        {
+        $ascending = Linq::from($items)->orderBy(function ($x) {
             return $x->value;
         });
         $this->assertEquals(3, $ascending->count());
@@ -629,13 +702,19 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertSame($c, $items[1]);
         $this->assertSame($a, $items[2]);
 
-        $a = new stdClass(); $a->value = 77;
-        $b = new stdClass(); $b->value = 10.44;
-        $c = new stdClass(); $c->value = 20;
-        $d = new stdClass(); $d->value = 20;
+        $a = new stdClass();
+        $a->value = 77;
+        $b = new stdClass();
+        $b->value = 10.44;
+        $c = new stdClass();
+        $c->value = 20;
+        $d = new stdClass();
+        $d->value = 20;
         $items = array($a, $b, $c, $d);
 
-        $ascending = Linq::from($items)->orderBy(function($x) { return $x->value; });
+        $ascending = Linq::from($items)->orderBy(function ($x) {
+            return $x->value;
+        });
         $this->assertEquals(4, $ascending->count());
         $items = $ascending->toArray();
 
@@ -654,7 +733,9 @@ class LinqTest extends PHPUnit_Framework_TestCase
     public function testOrderBy_NumericValues_ReturnsCorrectOrders()
     {
         $items = array(77, 10, 20);
-        $ascending = Linq::from($items)->orderBy(function($x) { return $x; });
+        $ascending = Linq::from($items)->orderBy(function ($x) {
+            return $x;
+        });
         $this->assertTrue($ascending instanceof Linq);
 
         $ascending = $ascending->toArray();
@@ -669,7 +750,9 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(20, $items[2]);
 
         $items = array(12.33, 8.21, 11.3, 8.21, 33);
-        $ascending = Linq::from($items)->orderBy(function($x) { return $x; });
+        $ascending = Linq::from($items)->orderBy(function ($x) {
+            return $x;
+        });
 
         $ascending = $ascending->toArray();
         $this->assertEquals(8.21, $ascending[0]);
@@ -682,7 +765,9 @@ class LinqTest extends PHPUnit_Framework_TestCase
     public function testOrderBy_StringValues_ReturnsCorrectOrders()
     {
         $items = array("e", "a", "c");
-        $ascending = Linq::from($items)->orderBy(function($x) { return $x; });
+        $ascending = Linq::from($items)->orderBy(function ($x) {
+            return $x;
+        });
         $this->assertTrue($ascending instanceof Linq);
 
         $ascending = $ascending->toArray();
@@ -699,7 +784,9 @@ class LinqTest extends PHPUnit_Framework_TestCase
     public function testOrderBy_DateTimeValues_ReturnsCorrectOrders()
     {
         $items = array(new DateTime("27.10.2011"), new DateTime("03.04.2012"), new DateTime("01.01.2005"));
-        $ascending = Linq::from($items)->orderBy(function($x) { return $x; });
+        $ascending = Linq::from($items)->orderBy(function ($x) {
+            return $x;
+        });
         $this->assertTrue($ascending instanceof Linq);
         $ascending = $ascending->toArray();
 
@@ -716,7 +803,9 @@ class LinqTest extends PHPUnit_Framework_TestCase
     public function testOrderByDescending_NumericValues_ReturnsCorrectOrders()
     {
         $items = array(77, 10, 20);
-        $desc = Linq::from($items)->orderByDescending(function($x) { return $x; });
+        $desc = Linq::from($items)->orderByDescending(function ($x) {
+            return $x;
+        });
         $this->assertTrue($desc instanceof Linq);
         $desc = $desc->toArray();
 
@@ -730,7 +819,9 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(20, $items[2]);
 
         $items = array(12.33, 8.21, 11.3, 8.21, 33);
-        $desc = Linq::from($items)->orderByDescending(function($x) { return $x; });
+        $desc = Linq::from($items)->orderByDescending(function ($x) {
+            return $x;
+        });
         $desc = $desc->toArray();
         $this->assertEquals(33, $desc[0]);
         $this->assertEquals(12.33, $desc[1]);
@@ -741,12 +832,17 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testOrderByDescending_NumericValues_WithSelector_ReturnsOrderedObjects()
     {
-        $a = new stdClass(); $a->value = 77;
-        $b = new stdClass(); $b->value = 10;
-        $c = new stdClass(); $c->value = 20;
+        $a = new stdClass();
+        $a->value = 77;
+        $b = new stdClass();
+        $b->value = 10;
+        $c = new stdClass();
+        $c->value = 20;
         $items = array($a, $b, $c);
 
-        $ascending = Linq::from($items)->orderByDescending(function($x) { return $x->value; });
+        $ascending = Linq::from($items)->orderByDescending(function ($x) {
+            return $x->value;
+        });
         $this->assertEquals(3, $ascending->count());
         $items = $ascending->toArray();
 
@@ -754,13 +850,19 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertSame($c, $items[1]);
         $this->assertSame($b, $items[2]);
 
-        $a = new stdClass(); $a->value = 77;
-        $b = new stdClass(); $b->value = 10.44;
-        $c = new stdClass(); $c->value = 20;
-        $d = new stdClass(); $d->value = 20;
+        $a = new stdClass();
+        $a->value = 77;
+        $b = new stdClass();
+        $b->value = 10.44;
+        $c = new stdClass();
+        $c->value = 20;
+        $d = new stdClass();
+        $d->value = 20;
         $items = array($a, $b, $c, $d);
 
-        $ascending = Linq::from($items)->orderByDescending(function($x) { return $x->value; });
+        $ascending = Linq::from($items)->orderByDescending(function ($x) {
+            return $x->value;
+        });
         $this->assertEquals(4, $ascending->count());
         $items = $ascending->toArray();
 
@@ -778,7 +880,9 @@ class LinqTest extends PHPUnit_Framework_TestCase
     public function testOrderByDescending_DateTimeValues_ReturnsCorrectOrders()
     {
         $items = array(new DateTime("27.10.2011"), new DateTime("03.04.2012"), new DateTime("01.01.2005"));
-        $desc = Linq::from($items)->orderByDescending(function($x) { return $x; });
+        $desc = Linq::from($items)->orderByDescending(function ($x) {
+            return $x;
+        });
         $this->assertTrue($desc instanceof Linq);
         $desc = $desc->toArray();
 
@@ -795,7 +899,9 @@ class LinqTest extends PHPUnit_Framework_TestCase
     public function testOrderBy_Descending_StringValues_ReturnsCorrectOrders()
     {
         $items = array("e", "a", "c");
-        $desc = Linq::from($items)->orderByDescending(function($x) { return $x; });
+        $desc = Linq::from($items)->orderByDescending(function ($x) {
+            return $x;
+        });
         $this->assertTrue($desc instanceof Linq);
         $desc = $desc->toArray();
 
@@ -813,8 +919,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
     {
         $items = array("e", "a", "c");
         $eval = false;
-        $linq = Linq::from($items)->orderByDescending(function($x) use(&$eval)
-        {
+        $linq = Linq::from($items)->orderByDescending(function ($x) use (&$eval) {
             $eval = true;
             return $x;
         });
@@ -826,12 +931,18 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testGroupBy()
     {
-        $a1 = new stdClass(); $a1->id = 1; $a1->value = "a";
-        $a2 = new stdClass(); $a2->id = 2; $a2->value = "a";
-        $b1 = new stdClass(); $b1->id = 3; $b1->value = "b";
+        $a1 = new stdClass();
+        $a1->id = 1;
+        $a1->value = "a";
+        $a2 = new stdClass();
+        $a2->id = 2;
+        $a2->value = "a";
+        $b1 = new stdClass();
+        $b1->id = 3;
+        $b1->value = "b";
 
-        $items = array ($a1, $a2, $b1);
-        $grouped = Linq::from($items)->groupBy(function($x) {
+        $items = array($a1, $a2, $b1);
+        $grouped = Linq::from($items)->groupBy(function ($x) {
             return $x->value;
         });
 
@@ -854,7 +965,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testElementAt_ReturnsElementAtPositionOrThrowsException()
     {
-        $items = array ("a", "b", "c");
+        $items = array("a", "b", "c");
         $this->assertEquals("a", Linq::from($items)->elementAt(0));
         $this->assertEquals("b", Linq::from($items)->elementAt(1));
         $this->assertEquals("c", Linq::from($items)->elementAt(2));
@@ -863,37 +974,37 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("aValue", Linq::from($items)->elementAt(0));
         $this->assertEquals("bValue", Linq::from($items)->elementAt(1));
 
-        $this->assertException(function() {
+        $this->assertException(function () {
             $items = array();
             Linq::from($items)->elementAt(0);
         }, self::ExceptionName_OutOfRange);
 
-        $this->assertException(function() {
+        $this->assertException(function () {
             $items = array();
             Linq::from($items)->elementAt(1);
         }, self::ExceptionName_OutOfRange);
 
-        $this->assertException(function() {
+        $this->assertException(function () {
             $items = array();
             Linq::from($items)->elementAt(-1);
         }, self::ExceptionName_OutOfRange);
 
-        $this->assertException(function() {
+        $this->assertException(function () {
             $items = array("a");
             Linq::from($items)->elementAt(1);
         }, self::ExceptionName_OutOfRange);
 
-        $this->assertException(function() {
+        $this->assertException(function () {
             $items = array("a", "b");
             Linq::from($items)->elementAt(2);
         }, self::ExceptionName_OutOfRange);
 
-        $this->assertException(function() {
+        $this->assertException(function () {
             $items = array("a", "b");
             Linq::from($items)->elementAt(-1);
         }, self::ExceptionName_OutOfRange);
 
-        $this->assertException(function() {
+        $this->assertException(function () {
             $items = array("a" => "value", "b" => "bValue");
             Linq::from($items)->elementAt(2);
         }, self::ExceptionName_OutOfRange);
@@ -901,7 +1012,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testElementAtOrNull_ReturnsElementAtPositionOrNull()
     {
-        $items = array ("a", "b", "c");
+        $items = array("a", "b", "c");
         $this->assertEquals("a", Linq::from($items)->elementAtOrNull(0));
         $this->assertEquals("b", Linq::from($items)->elementAtOrNull(1));
         $this->assertEquals("c", Linq::from($items)->elementAtOrNull(2));
@@ -922,16 +1033,20 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testSelect_ReturnsProjectedSequence()
     {
-        $a1 = new stdClass(); $a1->value = "a1";
-        $a2 = new stdClass(); $a2->value = "a2";
-        $a3 = new stdClass(); $a3->value = "a3";
-        $a4 = new stdClass(); $a4->value = "a4";
+        $a1 = new stdClass();
+        $a1->value = "a1";
+        $a2 = new stdClass();
+        $a2->value = "a2";
+        $a3 = new stdClass();
+        $a3->value = "a3";
+        $a4 = new stdClass();
+        $a4->value = "a4";
 
         // more than one
         $items = array($a1, $a2, $a3, $a4);
 
-        $projected = Linq::from($items)->select(function($v){
-           return $v->value;
+        $projected = Linq::from($items)->select(function ($v) {
+            return $v->value;
         });
 
         $this->assertTrue($projected instanceof Linq);
@@ -945,7 +1060,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
         $items = array();
 
-        $projected = Linq::from($items)->select(function($v){
+        $projected = Linq::from($items)->select(function ($v) {
             return $v->value;
         });
 
@@ -954,18 +1069,19 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testSelectMany_throwsExceptionIfElementIsNotIterable()
     {
-        $a1 = new stdClass(); $a1->value = "a1";
+        $a1 = new stdClass();
+        $a1->value = "a1";
         $items = array($a1);
 
-        $this->assertException(function() use($items) {
-            Linq::from($items)->selectMany(function($v) {
+        $this->assertException(function () use ($items) {
+            Linq::from($items)->selectMany(function ($v) {
                 return $v->value;
             })->toArray();
 
         }, self::ExceptionName_UnexpectedValue);
 
-        $this->assertException(function() use($items) {
-            Linq::from($items)->selectMany(function($v) {
+        $this->assertException(function () use ($items) {
+            Linq::from($items)->selectMany(function ($v) {
                 return null;
             })->toArray();
         }, self::ExceptionName_UnexpectedValue);
@@ -973,12 +1089,13 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testSelectMany_ReturnsFlattenedSequence()
     {
-        $a1 = new stdClass(); $a1->value = array("a", "b");
-        $a2 = new stdClass(); $a2->value = array("c", "d");
+        $a1 = new stdClass();
+        $a1->value = array("a", "b");
+        $a2 = new stdClass();
+        $a2->value = array("c", "d");
         $items = array($a1, $a2);
 
-        $linq = Linq::from($items)->selectMany(function($x)
-        {
+        $linq = Linq::from($items)->selectMany(function ($x) {
             return $x->value;
         });
 
@@ -1004,8 +1121,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testSelectMany_EmptySequence_ReturnsEmptySequence()
     {
-        $linq = Linq::from(array())->selectMany(function($x)
-        {
+        $linq = Linq::from(array())->selectMany(function ($x) {
             return $x->value;
         });
 
@@ -1021,13 +1137,14 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testSelectMany_DoesLazyEvaluation()
     {
-        $a1 = new stdClass(); $a1->value = array("a", "b");
-        $a2 = new stdClass(); $a2->value = array("c", "d");
+        $a1 = new stdClass();
+        $a1->value = array("a", "b");
+        $a2 = new stdClass();
+        $a2->value = array("c", "d");
         $items = array($a1, $a2);
 
         $eval = false;
-        $flattened = Linq::from($items)->selectMany(function($x) use(&$eval)
-        {
+        $flattened = Linq::from($items)->selectMany(function ($x) use (&$eval) {
             $eval = true;
             return $x->value;
         });
@@ -1056,17 +1173,17 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testConcat_ThrowsArgumentExceptionIfNoTraversableArgument()
     {
-        $this->assertException(function() {
-                $input = array();
-                $linq = Linq::from($input);
-                $linq->concat(null);
-            },self::ExceptionName_InvalidArgument);
+        $this->assertException(function () {
+            $input = array();
+            $linq = Linq::from($input);
+            $linq->concat(null);
+        }, self::ExceptionName_InvalidArgument);
 
-        $this->assertException(function() {
+        $this->assertException(function () {
             $input = array();
             $second = new stdClass();
             Linq::from($input)->concat($second);
-        },self::ExceptionName_InvalidArgument);
+        }, self::ExceptionName_InvalidArgument);
     }
 
     public function testLinqFrom_WorksWith_Arrays_Iterators_And_IteratorAggregates()
@@ -1111,17 +1228,17 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testIntersect_ThrowsArgumentExceptionIfSecondSequenceIsNotTraversable()
     {
-        $this->assertException(function() {
+        $this->assertException(function () {
             $input = array();
             $linq = Linq::from($input);
             $linq->intersect(null);
-        },self::ExceptionName_InvalidArgument);
+        }, self::ExceptionName_InvalidArgument);
 
-        $this->assertException(function() {
+        $this->assertException(function () {
             $input = array();
             $linq = Linq::from($input);
             $linq->intersect("Not a sequence");
-        },self::ExceptionName_InvalidArgument);
+        }, self::ExceptionName_InvalidArgument);
     }
 
     public function testIntersect_EmptySequence_ReturnsEmptySequence()
@@ -1150,17 +1267,17 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testExcept_ThrowsArgumentExceptionIfSecondSequenceIsNotTraversable()
     {
-        $this->assertException(function() {
+        $this->assertException(function () {
             $input = array();
             $linq = Linq::from($input);
             $linq->except(null);
-        },self::ExceptionName_InvalidArgument);
+        }, self::ExceptionName_InvalidArgument);
 
-        $this->assertException(function() {
+        $this->assertException(function () {
             $input = array();
             $linq = Linq::from($input);
             $linq->except("Not a sequence");
-        },self::ExceptionName_InvalidArgument);
+        }, self::ExceptionName_InvalidArgument);
     }
 
     public function testExcept_EmptySequence_ReturnsAllElementsFromFirst()
@@ -1190,24 +1307,35 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("a", $distinct[0]);
         $this->assertEquals("b", $distinct[1]);
 
-        $a1 = new stdClass(); $a1->id = 1; $a1->value = "a";
-        $a2 = new stdClass(); $a2->id = 2; $a2->value = "a";
-        $b1 = new stdClass(); $b1->id = 3; $b1->value = "b";
+        $a1 = new stdClass();
+        $a1->id = 1;
+        $a1->value = "a";
+        $a2 = new stdClass();
+        $a2->id = 2;
+        $a2->value = "a";
+        $b1 = new stdClass();
+        $b1->id = 3;
+        $b1->value = "b";
 
         $items = array($a1, $a2, $b1);
-        $distinct = Linq::from($items)->distinct(function($v) { return $v->value; });
+        $distinct = Linq::from($items)->distinct(function ($v) {
+            return $v->value;
+        });
         $this->assertEquals(2, $distinct->count());
     }
 
     public function testDistinct_DoesLazyEvaluation()
     {
         $eval = false;
-        $a1 = new stdClass(); $a1->id = 1; $a1->value = "a";
-        $a2 = new stdClass(); $a2->id = 2; $a2->value = "a";
+        $a1 = new stdClass();
+        $a1->id = 1;
+        $a1->value = "a";
+        $a2 = new stdClass();
+        $a2->id = 2;
+        $a2->value = "a";
 
         $items = array($a1, $a2);
-        $distinct = Linq::from($items)->distinct(function($v) use(&$eval)
-        {
+        $distinct = Linq::from($items)->distinct(function ($v) use (&$eval) {
             $eval = true;
             return $v->value;
         });
@@ -1264,8 +1392,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testMin_ThrowsExceptionIfSequenceIsEmpty()
     {
-        $this->assertException(function()
-        {
+        $this->assertException(function () {
             $data = array();
             $min = Linq::from($data)->min();
         });
@@ -1273,30 +1400,26 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testMin_ThrowsExceptionIfSequenceContainsNoneNumericValuesOrStrings()
     {
-        $this->assertException(function()
-        {
+        $this->assertException(function () {
             $data = array(null);
             $max = Linq::from($data)->min();
         }, self::ExceptionName_UnexpectedValue);
 
-        $this->assertException(function()
-        {
+        $this->assertException(function () {
             $data = array(new stdClass());
             $min = Linq::from($data)->min();
         }, self::ExceptionName_UnexpectedValue);
 
-        $this->assertException(function()
-        {
+        $this->assertException(function () {
             $data = array("string value", 1, new stdClass());
             $min = Linq::from($data)->min();
         }, self::ExceptionName_UnexpectedValue);
 
-        $this->assertException(function()
-        {
-            $a = new stdClass(); $a->nonNumeric = new stdClass();
+        $this->assertException(function () {
+            $a = new stdClass();
+            $a->nonNumeric = new stdClass();
             $data = array($a);
-            $min = Linq::from($data)->min(function($x)
-            {
+            $min = Linq::from($data)->min(function ($x) {
                 return $x->nonNumeric;
             });
         }, self::ExceptionName_UnexpectedValue);
@@ -1338,31 +1461,31 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testSum_ThrowsExceptionIfSequenceContainsNoneNumericValues()
     {
-        $this->assertException(function()
-        {
+        $this->assertException(function () {
             $data = array(null);
             $max = Linq::from($data)->sum();
         }, self::ExceptionName_UnexpectedValue);
 
-        $this->assertException(function()
-        {
+        $this->assertException(function () {
             $data = array(new stdClass());
             $min = Linq::from($data)->sum();
         }, self::ExceptionName_UnexpectedValue);
 
-        $this->assertException(function()
-        {
+        $this->assertException(function () {
             $data = array("string value", 1, new stdClass());
             $min = Linq::from($data)->sum();
         }, self::ExceptionName_UnexpectedValue);
 
-        $this->assertException(function()
-        {
-            $a = new stdClass(); $a->value = 100; $a->nonNumeric = "asdf";
-            $b = new stdClass(); $b-> value = 133;  $a->nonNumeric = "asdf";
+        $this->assertException(function () {
+            $a = new stdClass();
+            $a->value = 100;
+            $a->nonNumeric = "asdf";
+            $b = new stdClass();
+            $b->value = 133;
+            $a->nonNumeric = "asdf";
 
             $data = array($a, $b);
-            $sum = Linq::from($data)->sum(function($x) {
+            $sum = Linq::from($data)->sum(function ($x) {
                 return $x->nonNumeric;
             });
         }, self::ExceptionName_UnexpectedValue);
@@ -1386,11 +1509,13 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $sum = Linq::from($data)->sum();
         $this->assertEquals(-12, $sum);
 
-        $a = new stdClass(); $a->value = 100;
-        $b = new stdClass(); $b-> value = 133;
+        $a = new stdClass();
+        $a->value = 100;
+        $b = new stdClass();
+        $b->value = 133;
 
         $data = array($a, $b);
-        $sum = Linq::from($data)->sum(function($x) {
+        $sum = Linq::from($data)->sum(function ($x) {
             return $x->value;
         });
 
@@ -1410,8 +1535,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testMax_ThrowsExceptionIfSequenceIsEmpty()
     {
-        $this->assertException(function()
-        {
+        $this->assertException(function () {
             $data = array();
             $max = Linq::from($data)->max();
         });
@@ -1419,30 +1543,26 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testMax_ThrowsExceptionIfSequenceContainsNoneNumericValuesOrStrings()
     {
-        $this->assertException(function()
-        {
+        $this->assertException(function () {
             $data = array(new stdClass());
             $max = Linq::from($data)->max();
         }, self::ExceptionName_UnexpectedValue);
 
-        $this->assertException(function()
-        {
+        $this->assertException(function () {
             $data = array(null);
             $max = Linq::from($data)->max();
         }, self::ExceptionName_UnexpectedValue);
 
-        $this->assertException(function()
-        {
+        $this->assertException(function () {
             $data = array("string value", 1, new stdClass());
             $max = Linq::from($data)->max();
         }, self::ExceptionName_UnexpectedValue);
 
-        $this->assertException(function()
-        {
-            $a = new stdClass(); $a->nonNumeric = new stdClass();
+        $this->assertException(function () {
+            $a = new stdClass();
+            $a->nonNumeric = new stdClass();
             $data = array($a);
-            $min = Linq::from($data)->max(function($x)
-            {
+            $min = Linq::from($data)->max(function ($x) {
                 return $x->nonNumeric;
             });
         }, self::ExceptionName_UnexpectedValue);
@@ -1453,9 +1573,8 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $items = array("a", "b", "c");
         $looped = array();
         Linq::from($items)
-            ->each(function($x) use(&$looped)
-            {
-               $looped[] = $x;
+            ->each(function ($x) use (&$looped) {
+                $looped[] = $x;
             });
 
         $this->assertEquals(3, count($looped));
@@ -1466,10 +1585,11 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testEach_ReturnsVoid()
     {
-        $linq = Linq::from(array(1,2,3,4))
+        $linq = Linq::from(array(1, 2, 3, 4))
             ->skip(2)->take(1);
 
-        $linqAfterEach = $linq->each(function($x) {});
+        $linqAfterEach = $linq->each(function ($x) {
+        });
         $this->assertSame(null, $linqAfterEach);
     }
 
@@ -1495,7 +1615,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $linq = Linq::from(array("a", "b", "c"))
             ->skip(1)->take(3);
 
-        $array = $linq->toArray(function($x) {
+        $array = $linq->toArray(function ($x) {
             return "keyprefix_" . $x;
         });
 
@@ -1518,9 +1638,9 @@ class LinqTest extends PHPUnit_Framework_TestCase
         );
         $linq = Linq::from($source);
 
-        $array = $linq->toArray(function($x) {
+        $array = $linq->toArray(function ($x) {
             return $x["catId"];
-        }, function($y) {
+        }, function ($y) {
             return $y["name"];
         });
 
@@ -1544,7 +1664,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
         $linq = Linq::from($source);
 
-        $array = $linq->toArray(null, function($y) {
+        $array = $linq->toArray(null, function ($y) {
             return $y["additionalcolumn"];
         });
 
@@ -1561,38 +1681,57 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testAggregate_novalues_throwsException()
     {
-        $this->assertException(function() {
+        $this->assertException(function () {
 
-            Linq::from(array())->aggregate(function() {});
+            Linq::from(array())->aggregate(function () {
+            });
         }, self::ExceptionName_Runtime);
 
 
-        $this->assertException(function() {
+        $this->assertException(function () {
 
-            Linq::from(array())->aggregate(function() {}, null);
+            Linq::from(array())->aggregate(function () {
+            }, null);
         }, self::ExceptionName_Runtime);
     }
 
     public function testAggregate_returnsCorrectResult()
     {
-        $this->assertEquals("value", Linq::from(array("value"))->aggregate(function($a, $b) { throw new Exception("Must not becalled"); }));
-        $this->assertEquals(2, Linq::from(array(2))->aggregate(function($a, $b) { throw new Exception("Must not becalled"); }));
-        $this->assertEquals(5, Linq::from(array(2, 3))->aggregate(function($a, $b) { return $a + $b; }));
-        $this->assertEquals(17, Linq::from(array(2, 3, 3, 4, 5))->aggregate(function($a, $b) { return $a + $b; }));
-        $this->assertEquals("abcde", Linq::from(array("a","b","c","d","e"))->aggregate(function($a, $b) { return $a . $b; }));
+        $this->assertEquals("value", Linq::from(array("value"))->aggregate(function ($a, $b) {
+            throw new Exception("Must not becalled");
+        }));
+        $this->assertEquals(2, Linq::from(array(2))->aggregate(function ($a, $b) {
+            throw new Exception("Must not becalled");
+        }));
+        $this->assertEquals(5, Linq::from(array(2, 3))->aggregate(function ($a, $b) {
+            return $a + $b;
+        }));
+        $this->assertEquals(17, Linq::from(array(2, 3, 3, 4, 5))->aggregate(function ($a, $b) {
+            return $a + $b;
+        }));
+        $this->assertEquals("abcde", Linq::from(array("a", "b", "c", "d", "e"))->aggregate(function ($a, $b) {
+            return $a . $b;
+        }));
     }
 
     public function testAggregate_withSeedValue_returnsCorrectResult()
     {
-        $this->assertEquals(9999, Linq::from(array())->aggregate(function() {}, 9999));
-        $this->assertEquals(104, Linq::from(array(2))->aggregate(function($a, $b) { return $a + $b; }, 102));
-        $this->assertEquals(137, Linq::from(array(2, 2, 20, 11))->aggregate(function($a, $b) { return $a + $b; }, 102));
-        $this->assertEquals("begin_abcde", Linq::from(array("a","b","c","d","e"))->aggregate(function($a, $b) { return $a . $b; }, "begin_"));
+        $this->assertEquals(9999, Linq::from(array())->aggregate(function () {
+        }, 9999));
+        $this->assertEquals(104, Linq::from(array(2))->aggregate(function ($a, $b) {
+            return $a + $b;
+        }, 102));
+        $this->assertEquals(137, Linq::from(array(2, 2, 20, 11))->aggregate(function ($a, $b) {
+            return $a + $b;
+        }, 102));
+        $this->assertEquals("begin_abcde", Linq::from(array("a", "b", "c", "d", "e"))->aggregate(function ($a, $b) {
+            return $a . $b;
+        }, "begin_"));
     }
 
     public function testRange_throwsExceptionIfCountIsNegative()
     {
-        $this->assertException(function() {
+        $this->assertException(function () {
 
             Linq::range(0, -1);
         }, self::ExceptionName_OutOfRange);
@@ -1646,11 +1785,11 @@ class LinqTest extends PHPUnit_Framework_TestCase
 
     public function testChunk_throwsException_IfchunksizeIsInvalid()
     {
-        $this->assertException(function() {
-           Linq::from(array())->chunk(0);
+        $this->assertException(function () {
+            Linq::from(array())->chunk(0);
         }, self::ExceptionName_InvalidArgument);
 
-        $this->assertException(function() {
+        $this->assertException(function () {
             Linq::from(array())->chunk(-1);
         }, self::ExceptionName_InvalidArgument);
     }
@@ -1665,7 +1804,7 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $groups->ElementAt(0)->count());
         $this->assertEquals("a", $groups->ElementAt(0)->ElementAt(0));
 
-        $groups = Linq::from(array("a","b","c","d","e"))->chunk(2);
+        $groups = Linq::from(array("a", "b", "c", "d", "e"))->chunk(2);
         $this->assertEquals(3, $groups->count());
         $this->assertEquals(2, $groups->ElementAt(0)->count());
         $this->assertEquals("a", $groups->ElementAt(0)->ElementAt(0));
@@ -1678,23 +1817,25 @@ class LinqTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $groups->ElementAt(2)->count());
         $this->assertEquals("e", $groups->ElementAt(2)->ElementAt(0));
 
-        $groups = Linq::from(array("a","b","c","d","e"))->chunk(3);
+        $groups = Linq::from(array("a", "b", "c", "d", "e"))->chunk(3);
         $this->assertEquals(2, $groups->count());
 
-        $groups = Linq::from(array("a","b","c","d","e"))->chunk(4);
+        $groups = Linq::from(array("a", "b", "c", "d", "e"))->chunk(4);
         $this->assertEquals(2, $groups->count());
 
-        $groups = Linq::from(array("a","b","c","d","e"))->chunk(5);
+        $groups = Linq::from(array("a", "b", "c", "d", "e"))->chunk(5);
         $this->assertEquals(1, $groups->count());
 
-        $groups = Linq::from(array("a","b","c","d","e"))->chunk(117);
+        $groups = Linq::from(array("a", "b", "c", "d", "e"))->chunk(117);
         $this->assertEquals(1, $groups->count());
     }
 
     public function testIssue3_emtpyCollectionOrdering()
     {
         Linq::from(array())
-            ->orderBy(function(array $x) { return $x["name"]; })
+            ->orderBy(function (array $x) {
+                return $x["name"];
+            })
             ->toArray();
     }
 
@@ -1702,265 +1843,264 @@ class LinqTest extends PHPUnit_Framework_TestCase
     {
         $log = [];
         Linq::from([0, 1, 2, 3])
-            ->where(function($x) use(&$log) {
+            ->where(function ($x) use (&$log) {
                 $log[] = 'where';
                 return true;
             })
-            ->select(function($x) use(&$log) {
+            ->select(function ($x) use (&$log) {
                 $log[] = 'select';
                 return $x;
             })
             ->chunk(2)
-            ->each(function(Linq $chunk) use(&$log) {
+            ->each(function (Linq $chunk) use (&$log) {
                 $log[] = 'each';
                 return $chunk;
-            })
-        ;
+            });
 
         $this->assertEquals('where select where select each where select where select each', implode(' ', $log));
     }
 
-	/**
-	 * @test
-	 */
-	public function when_ofType_is_called_with_empty_array()
-	{
-		/** @var array $result */
-		$result = Linq::from(array())
-		              ->ofType('StubInterface')
-		              ->toArray();
+    /**
+     * @test
+     */
+    public function when_ofType_is_called_with_empty_array()
+    {
+        /** @var array $result */
+        $result = Linq::from(array())
+            ->ofType('StubInterface')
+            ->toArray();
 
-		$this->assertNotNull($result);
-		$this->assertCount(0, $result);
-	}
+        $this->assertNotNull($result);
+        $this->assertCount(0, $result);
+    }
 
-	/**
-	 * @test
-	 */
-	public function when_ofType_is_called_with_array_containing_expected_interface()
-	{
-		/** @var Stub $expectedResult */
-		$expectedResult = new Stub();
+    /**
+     * @test
+     */
+    public function when_ofType_is_called_with_array_containing_expected_interface()
+    {
+        /** @var Stub $expectedResult */
+        $expectedResult = new Stub();
 
-		/** @var array $result */
-		$result = Linq::from(array($expectedResult,
-		                           new StubWithoutInterface()))
-		              ->ofType('StubInterface')
-		              ->toArray();
+        /** @var array $result */
+        $result = Linq::from(array($expectedResult,
+            new StubWithoutInterface()))
+            ->ofType('StubInterface')
+            ->toArray();
 
-		$this->assertNotNull($result);
-		$this->assertCount(1, $result);
-		$this->assertSame($expectedResult, $result[0]);
-	}
+        $this->assertNotNull($result);
+        $this->assertCount(1, $result);
+        $this->assertSame($expectedResult, $result[0]);
+    }
 
-	/**
-	 * @test
-	 */
-	public function when_ofType_is_called_with_array_containing_expected_object_type()
-	{
-		/** @var StubWithoutInterface $expectedResult1 */
-		$expectedResult1 = new StubWithoutInterface();
+    /**
+     * @test
+     */
+    public function when_ofType_is_called_with_array_containing_expected_object_type()
+    {
+        /** @var StubWithoutInterface $expectedResult1 */
+        $expectedResult1 = new StubWithoutInterface();
 
-		/** @var array $result */
-		$result = Linq::from(array(new Stub(),
-		                           $expectedResult1))
-		              ->ofType('StubWithoutInterface')
-		              ->toArray();
+        /** @var array $result */
+        $result = Linq::from(array(new Stub(),
+            $expectedResult1))
+            ->ofType('StubWithoutInterface')
+            ->toArray();
 
-		$this->assertNotNull($result);
-		$this->assertCount(1, $result);
-		$this->assertSame($expectedResult1, $result[0]);
+        $this->assertNotNull($result);
+        $this->assertCount(1, $result);
+        $this->assertSame($expectedResult1, $result[0]);
 
-		/** @var StubWithoutInterface $expectedResult2 */
-		$expectedResult2 = new Stub();
+        /** @var StubWithoutInterface $expectedResult2 */
+        $expectedResult2 = new Stub();
 
-		$result = Linq::from(array($expectedResult2,
-		                           new StubWithoutInterface()))
-		              ->ofType('Stub')
-		              ->toArray();
+        $result = Linq::from(array($expectedResult2,
+            new StubWithoutInterface()))
+            ->ofType('Stub')
+            ->toArray();
 
-		$this->assertNotNull($result);
-		$this->assertCount(1, $result);
-		$this->assertSame($expectedResult2, $result[0]);
-	}
+        $this->assertNotNull($result);
+        $this->assertCount(1, $result);
+        $this->assertSame($expectedResult2, $result[0]);
+    }
 
-	/**
-	 * @test
-	 */
-	public function when_ofType_is_called_with_array_not_containing_expected_interface()
-	{
-		/** @var array $result */
-		$result = Linq::from(array(new StubWithoutInterface(),
-		                           new StubWithoutInterface()))
-		              ->ofType('StubInterface')
-		              ->toArray();
+    /**
+     * @test
+     */
+    public function when_ofType_is_called_with_array_not_containing_expected_interface()
+    {
+        /** @var array $result */
+        $result = Linq::from(array(new StubWithoutInterface(),
+            new StubWithoutInterface()))
+            ->ofType('StubInterface')
+            ->toArray();
 
-		$this->assertNotNull($result);
-		$this->assertCount(0, $result);
-	}
+        $this->assertNotNull($result);
+        $this->assertCount(0, $result);
+    }
 
-	/**
-	 * @test
-	 */
-	public function when_ofType_is_called_with_array_not_containing_expected_object_type()
-	{
-		/** @var array $result */
-		$result = Linq::from(array(new Stub(),
-		                           new Stub()))
-		              ->ofType('StubWithoutInterface')
-		              ->toArray();
+    /**
+     * @test
+     */
+    public function when_ofType_is_called_with_array_not_containing_expected_object_type()
+    {
+        /** @var array $result */
+        $result = Linq::from(array(new Stub(),
+            new Stub()))
+            ->ofType('StubWithoutInterface')
+            ->toArray();
 
-		$this->assertNotNull($result);
-		$this->assertCount(0, $result);
-	}
+        $this->assertNotNull($result);
+        $this->assertCount(0, $result);
+    }
 
-	/**
-	 * @test
-	 */
-	public function when_ofType_is_called_with_unknown_interface()
-	{
-		/** @var array $result */
-		$result = Linq::from(array(new Stub(),
-		                           new Stub()))
-		              ->ofType('UnknownInterface')
-		              ->toArray();
+    /**
+     * @test
+     */
+    public function when_ofType_is_called_with_unknown_interface()
+    {
+        /** @var array $result */
+        $result = Linq::from(array(new Stub(),
+            new Stub()))
+            ->ofType('UnknownInterface')
+            ->toArray();
 
-		$this->assertNotNull($result);
-		$this->assertCount(0, $result);
-	}
+        $this->assertNotNull($result);
+        $this->assertCount(0, $result);
+    }
 
-	/**
-	 * @test
-	 */
-	public function when_ofType_is_called_with_unknown_object_type()
-	{
-		/** @var array $result */
-		$result = Linq::from(array(new Stub(),
-		                           new Stub()))
-		              ->ofType('UnknownObject')
-		              ->toArray();
+    /**
+     * @test
+     */
+    public function when_ofType_is_called_with_unknown_object_type()
+    {
+        /** @var array $result */
+        $result = Linq::from(array(new Stub(),
+            new Stub()))
+            ->ofType('UnknownObject')
+            ->toArray();
 
-		$this->assertNotNull($result);
-		$this->assertCount(0, $result);
-	}
+        $this->assertNotNull($result);
+        $this->assertCount(0, $result);
+    }
 
-	/**
-	 * @test
-	 */
-	public function when_ofType_is_called_with_int_as_type()
-	{
-		/** @var int[] $expectedResult */
-		$expectedResult = array(1,
-		                        2,
-		                        10,
-		                        20);
+    /**
+     * @test
+     */
+    public function when_ofType_is_called_with_int_as_type()
+    {
+        /** @var int[] $expectedResult */
+        $expectedResult = array(1,
+            2,
+            10,
+            20);
 
-		$result = Linq::from(array(1,
-		                           2,
-		                           new Stub(),
-		                           10,
-		                           NULL,
-		                           20))
-		              ->ofType('int')
-		              ->toArray();
+        $result = Linq::from(array(1,
+            2,
+            new Stub(),
+            10,
+            NULL,
+            20))
+            ->ofType('int')
+            ->toArray();
 
-		$this->assertNotNull($result);
-		$this->assertEquals($expectedResult, $result);
-	}
+        $this->assertNotNull($result);
+        $this->assertEquals($expectedResult, $result);
+    }
 
-	/**
-	 * @test
-	 */
-	public function when_ofType_is_called_with_bool_as_type()
-	{
-		/** @var int[] $expectedResult */
-		$expectedResult = array(TRUE,
-		                        FALSE);
+    /**
+     * @test
+     */
+    public function when_ofType_is_called_with_bool_as_type()
+    {
+        /** @var int[] $expectedResult */
+        $expectedResult = array(TRUE,
+            FALSE);
 
-		$result = Linq::from(array(0,
-		                           'string',
-		                           'true',
-		                           TRUE,
-		                           'false',
-		                           FALSE))
-		              ->ofType('bool')
-		              ->toArray();
+        $result = Linq::from(array(0,
+            'string',
+            'true',
+            TRUE,
+            'false',
+            FALSE))
+            ->ofType('bool')
+            ->toArray();
 
-		$this->assertNotNull($result);
-		$this->assertEquals($expectedResult, $result);
-	}
+        $this->assertNotNull($result);
+        $this->assertEquals($expectedResult, $result);
+    }
 
-	/**
-	 * @test
-	 */
-	public function when_ofType_is_called_with_string_as_type()
-	{
-		/** @var int[] $expectedResult */
-		$expectedResult = array('string',
-		                        'true',
-		                        'false');
+    /**
+     * @test
+     */
+    public function when_ofType_is_called_with_string_as_type()
+    {
+        /** @var int[] $expectedResult */
+        $expectedResult = array('string',
+            'true',
+            'false');
 
-		$result = Linq::from(array(0,
-		                           'string',
-		                           'true',
-		                           TRUE,
-		                           'false',
-		                           FALSE))
-		              ->ofType('string')
-		              ->toArray();
+        $result = Linq::from(array(0,
+            'string',
+            'true',
+            TRUE,
+            'false',
+            FALSE))
+            ->ofType('string')
+            ->toArray();
 
-		$this->assertNotNull($result);
-		$this->assertEquals($expectedResult, $result);
-	}
+        $this->assertNotNull($result);
+        $this->assertEquals($expectedResult, $result);
+    }
 
-	/**
-	 * @test
-	 */
-	public function when_ofType_is_called_with_float_as_type()
-	{
-		/** @var int[] $expectedResult */
-		$expectedResult = array(2.5,
-		                        10.0,
-		                        0.3);
+    /**
+     * @test
+     */
+    public function when_ofType_is_called_with_float_as_type()
+    {
+        /** @var int[] $expectedResult */
+        $expectedResult = array(2.5,
+            10.0,
+            0.3);
 
-		$result = Linq::from(array(0,
-		                           'string',
-		                           2.5,
-		                           10.0,
-		                           11,
-		                           'false',
-		                           0.3))
-		              ->ofType('float')
-		              ->toArray();
+        $result = Linq::from(array(0,
+            'string',
+            2.5,
+            10.0,
+            11,
+            'false',
+            0.3))
+            ->ofType('float')
+            ->toArray();
 
-		$this->assertNotNull($result);
-		$this->assertEquals($expectedResult, $result);
-	}
+        $this->assertNotNull($result);
+        $this->assertEquals($expectedResult, $result);
+    }
 
-	/**
-	 * @test
-	 */
-	public function when_ofType_is_called_with_double_as_type()
-	{
-		/** @var int[] $expectedResult */
-		$expectedResult = array(2.5,
-		                        10.0,
-		                        0.3);
+    /**
+     * @test
+     */
+    public function when_ofType_is_called_with_double_as_type()
+    {
+        /** @var int[] $expectedResult */
+        $expectedResult = array(2.5,
+            10.0,
+            0.3);
 
-		$result = Linq::from(array(0,
-		                           'string',
-		                           2.5,
-		                           10.0,
-		                           NULL,
-		                           11,
-		                           'false',
-		                           0.3))
-		              ->ofType('double')
-		              ->toArray();
+        $result = Linq::from(array(0,
+            'string',
+            2.5,
+            10.0,
+            NULL,
+            11,
+            'false',
+            0.3))
+            ->ofType('double')
+            ->toArray();
 
-		$this->assertNotNull($result);
-		$this->assertEquals($expectedResult, $result);
-	}
+        $this->assertNotNull($result);
+        $this->assertEquals($expectedResult, $result);
+    }
 
     /**
      * @test
@@ -1969,17 +2109,16 @@ class LinqTest extends PHPUnit_Framework_TestCase
     {
         $gen = $this->createGenerator([0, 1, 2, 3]);
         $result = Linq::from($gen)
-            ->where(function($x) {
+            ->where(function ($x) {
                 return true;
             })
-            ->select(function($x) {
+            ->select(function ($x) {
                 return $x;
             })
             ->chunk(2)
-            ->select(function(Linq $chunk) {
+            ->select(function (Linq $chunk) {
                 return implode(",", $chunk->toArray());
-            })
-        ;
+            });
 
         $this->assertEquals('0,1|2,3', implode('|', $result->toArray()));
     }
@@ -1991,23 +2130,19 @@ class LinqTest extends PHPUnit_Framework_TestCase
         }
     }
 
-	private function assertException($closure, $expected = self::ExceptionName_Runtime)
+    private function assertException($closure, $expected = self::ExceptionName_Runtime)
     {
-        try
-        {
+        try {
             $closure();
-        }
-        catch(Exception $ex)
-        {
+        } catch (Exception $ex) {
             $exName = get_class($ex);
 
-            if($exName != $expected)
-            {
+            if ($exName != $expected) {
                 $this->fail("Wrong exception raised. Expected: '" . $expected . "' Actual: '" . get_class($ex) . "'. Message: " . $ex->getMessage());
             }
             return;
         }
 
-        $this->fail($expected .' has not been raised.');
+        $this->fail($expected . ' has not been raised.');
     }
 }

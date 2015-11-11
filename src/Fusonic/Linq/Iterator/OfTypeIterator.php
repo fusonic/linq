@@ -11,75 +11,58 @@
 
 namespace Fusonic\Linq\Iterator;
 
-use FilterIterator;
 use Fusonic\Linq\Helper;
-use Iterator;
+use IteratorAggregate;
 use Traversable;
 
-/**
- * Iterator for filtering the Linq query with a specified <b>type</b>.
- * @package Fusonic\Linq\Iterator
- */
-final class OfTypeIterator extends \FilterIterator
+final class OfTypeIterator implements IteratorAggregate
 {
-	/**
-	 * @var callable $acceptCallback
-	 */
+	private $iterator;
 	private $acceptCallback;
 
-	/**
-	 * Initializes an instance of <b>OfTypeIterator</b>.
-	 *
-	 * @param Iterator $iterator
-	 * @param string   $type
-	 */
 	public function __construct(Traversable $iterator, $type)
 	{
-		parent::__construct($iterator);
+		$this->iterator = $iterator;
 
-		switch (strtolower($type))
-		{
+		switch (strtolower($type)) {
 			case 'int':
 			case 'integer':
-				$this->acceptCallback = function ($current)
-				{
+				$this->acceptCallback = function ($current) {
 					return is_int($current);
 				};
 				break;
 			case 'float':
 			case 'double':
-				$this->acceptCallback = function ($current)
-				{
+				$this->acceptCallback = function ($current) {
 					return is_float($current);
 				};
 				break;
 			case 'string':
-				$this->acceptCallback = function ($current)
-				{
+				$this->acceptCallback = function ($current) {
 					return is_string($current);
 				};
 				break;
 			case 'bool':
 			case 'boolean':
-				$this->acceptCallback = function ($current)
-				{
+				$this->acceptCallback = function ($current) {
 					return is_bool($current);
 				};
 				break;
 
 			default:
-				$this->acceptCallback = function ($current) use ($type)
-				{
+				$this->acceptCallback = function ($current) use ($type) {
 					return $current instanceof $type;
 				};
 		}
 	}
 
-	public function accept()
+	public function getIterator()
 	{
-		$current = $this->current();
 		$func = $this->acceptCallback;
-
-		return $func($current);
+		foreach($this->iterator as $current) {
+			if($func($current)) {
+				yield $current;
+			}
+		}
 	}
 }
