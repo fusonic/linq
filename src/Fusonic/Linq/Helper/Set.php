@@ -69,10 +69,11 @@ class Set
             return spl_object_hash($value);
         } elseif (is_scalar($value)) {
             return "s_$value";
-        } elseif (is_resource($value)) {
-            return "r_$value";
         } elseif (is_array($value)) {
-            return 'a_' . md5(serialize($value));
+            return 'a_' . md5(json_encode($value));
+        } else if($value === null) {
+            return null;
         }
+        else throw new \InvalidArgumentException("Value type is not supported.");
     }
 }
