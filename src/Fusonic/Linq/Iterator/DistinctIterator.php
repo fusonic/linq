@@ -12,51 +12,25 @@
 
 namespace Fusonic\Linq\Iterator;
 
-use Iterator;
+use Fusonic\Linq\Helper\Set;
+use Traversable;
 
-class DistinctIterator extends \IteratorIterator
+final class DistinctIterator implements \IteratorAggregate
 {
     private $iterator;
-    private $distinct;
 
-    public function __construct(Iterator $iterator)
+    public function __construct(Traversable $iterator)
     {
         $this->iterator = $iterator;
     }
 
-    public function current()
+    public function getIterator()
     {
-        return $this->distinct->current();
-    }
-
-    public function next()
-    {
-        $this->distinct->next();
-    }
-
-    public function key()
-    {
-        return $this->distinct->key();
-    }
-
-    public function valid()
-    {
-        return $this->distinct->valid();
-    }
-
-    public function rewind()
-    {
-        if ($this->distinct === null) {
-            $this->getDistincts();
+        $set = new Set();
+        foreach($this->iterator as $value) {
+            if($set->add($value)) {
+                yield $value;
+            }
         }
-
-        $this->distinct->rewind();
-    }
-
-    private function getDistincts()
-    {
-        $data = iterator_to_array($this->iterator);
-        $distinct = array_unique($data);
-        $this->distinct = new \ArrayIterator($distinct);
     }
 }

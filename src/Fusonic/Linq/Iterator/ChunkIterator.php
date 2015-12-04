@@ -13,84 +13,38 @@
 namespace Fusonic\Linq\Iterator;
 
 use Fusonic\Linq\Linq;
-use Iterator;
+use Traversable;
 
 /**
  * Iterates over an iterator, returning Linq objects of the given chunk size.
  */
-class ChunkIterator implements Iterator
+class ChunkIterator implements \IteratorAggregate
 {
-    /**
-     * @var Iterator
-     */
     private $iterator;
-
-    /**
-     * @var array
-     */
-    private $chunk;
-
-    /**
-     * @var int
-     */
-    private $i = 0;
-
-    /**
-     * @var int
-     */
     private $chunkSize;
 
-    public function __construct(Iterator $iterator, $chunkSize)
+    public function __construct(Traversable $iterator, $chunkSize)
     {
         $this->iterator = $iterator;
         $this->chunkSize = $chunkSize;
     }
 
-    /**
-     * @return Linq
-     */
-    public function current()
-    {
-        return new Linq($this->chunk);
-    }
-
-    public function next()
-    {
-        $this->iterator->next();
-        $this->chunk = $this->getNextChunk();
-        $this->i++;
-    }
-
-    private function getNextChunk()
+    public function getIterator()
     {
         $chunk = [];
-        while ($this->iterator->valid()) {
-            $chunk[] = $this->iterator->current();
+        $current = 0;
+        foreach ($this->iterator as $d) {
+            $current++;
+            $chunk[] = $d;
 
-            if (count($chunk) < $this->chunkSize) {
-                $this->iterator->next();
-            } else {
-                break;
+            if ($current >= $this->chunkSize) {
+                yield Linq::from($chunk);
+                $chunk = [];
+                $current = 0;
             }
         }
-
-        return $chunk;
-    }
-
-    public function key()
-    {
-        return $this->i;
-    }
-
-    public function valid()
-    {
-        return !empty($this->chunk);
-    }
-
-    public function rewind()
-    {
-        $this->iterator->rewind();
-        $this->i = 0;
-        $this->chunk = $this->getNextChunk();
+        if(count($chunk) > 0) {
+            yield Linq::from($chunk);
+        }
     }
 }

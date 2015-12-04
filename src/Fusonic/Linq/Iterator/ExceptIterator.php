@@ -12,54 +12,30 @@
 
 namespace Fusonic\Linq\Iterator;
 
-use ArrayIterator;
-use Iterator;
+use Fusonic\Linq\Helper\Set;
+use Traversable;
 
-class ExceptIterator implements Iterator
+final class ExceptIterator implements \IteratorAggregate
 {
     private $first;
     private $second;
-    private $result;
 
-    public function __construct(Iterator $first, Iterator $second)
+    public function __construct(Traversable $first, Traversable $second)
     {
         $this->first = $first;
         $this->second = $second;
     }
 
-    public function current()
+    public function getIterator()
     {
-        return $this->result->current();
-    }
-
-    public function next()
-    {
-        $this->result->next();
-    }
-
-    public function key()
-    {
-        return $this->result->key();
-    }
-
-    public function valid()
-    {
-        return $this->result->valid();
-    }
-
-    public function rewind()
-    {
-        if ($this->result === null) {
-            $this->getResult();
+        $set = new Set();
+        foreach($this->second as $second) {
+            $set->add($second);
         }
-
-        $this->result->rewind();
-    }
-
-    private function getResult()
-    {
-        $firstArray = iterator_to_array($this->first);
-        $secondArray = iterator_to_array($this->second);
-        $this->result = new ArrayIterator(array_diff($firstArray, $secondArray));
+        foreach($this->first as $first) {
+            if(!$set->contains($first)) {
+                yield $first;
+            }
+        }
     }
 }

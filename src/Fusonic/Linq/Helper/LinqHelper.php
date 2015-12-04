@@ -43,13 +43,20 @@ class LinqHelper
         }
     }
 
+    public static function assertValueIsIterable($param)
+    {
+        if (!self::isIterable($param)) {
+            throw new \UnexpectedValueException("Value must be an array, or implement either the \IteratorAggregate or \Iterator interface");
+        }
+    }
+
     public static function getIteratorOrThrow($value)
     {
         if (is_array($value)) {
             return new ArrayIterator($value);
         }
         else if($value instanceof \IteratorAggregate) {
-            return $value->getIterator();
+            return $value;
         }
         else if($value instanceof \Iterator) {
             return $value;

@@ -16,6 +16,7 @@ use Iterator;
 use ArrayIterator;
 use Fusonic\Linq;
 use Fusonic\Linq\Helper;
+use Traversable;
 
 class OrderIterator implements Iterator
 {
@@ -24,7 +25,7 @@ class OrderIterator implements Iterator
     private $orderedIterator;
     private $orderKeyFunc;
 
-    public function __construct(Iterator $items, $orderKeyFunc, $direction)
+    public function __construct(Traversable $items, $orderKeyFunc, $direction)
     {
         $this->iterator = $items;
         $this->direction = $direction;

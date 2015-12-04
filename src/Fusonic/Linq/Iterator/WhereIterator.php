@@ -12,23 +12,29 @@
 
 namespace Fusonic\Linq\Iterator;
 
-use Iterator;
 use Fusonic\Linq\Helper;
+use IteratorAggregate;
+use Traversable;
 
-class WhereIterator extends \FilterIterator
+class WhereIterator implements IteratorAggregate
 {
     private $func;
+    private $inner;
 
-    public function __construct(Iterator $iterator, $func)
+    public function __construct(Traversable $inner, $func)
     {
-        parent::__construct($iterator);
+        $this->inner = $inner;
         $this->func = $func;
     }
 
-    public function accept()
+    public function getIterator()
     {
         $func = $this->func;
-        $current = $this->current();
-        return Helper\LinqHelper::getBoolOrThrowException($func($current));
+        foreach($this->inner as $current) {
+            $accept = Helper\LinqHelper::getBoolOrThrowException($func($current));
+            if($accept) {
+                yield $current;
+            }
+        }
     }
 }

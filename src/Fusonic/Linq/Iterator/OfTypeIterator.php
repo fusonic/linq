@@ -11,84 +11,58 @@
 
 namespace Fusonic\Linq\Iterator;
 
-use FilterIterator;
 use Fusonic\Linq\Helper;
-use Iterator;
+use IteratorAggregate;
+use Traversable;
 
-/**
- * Iterator for filtering the Linq query with a specified <b>type</b>.
- * @package Fusonic\Linq\Iterator
- */
-final class OfTypeIterator
-	extends
-	\FilterIterator
+final class OfTypeIterator implements IteratorAggregate
 {
-	/**
-	 * @var callable $acceptCallback
-	 */
+	private $iterator;
 	private $acceptCallback;
 
-	/**
-	 * Initializes an instance of <b>OfTypeIterator</b>.
-	 *
-	 * @param Iterator $iterator
-	 * @param string   $type
-	 */
-	public function __construct(Iterator $iterator, $type)
+	public function __construct(Traversable $iterator, $type)
 	{
-		parent::__construct($iterator);
+		$this->iterator = $iterator;
 
-		switch (strtolower($type))
-		{
+		switch (strtolower($type)) {
 			case 'int':
 			case 'integer':
-				$this->acceptCallback = function ($current)
-				{
+				$this->acceptCallback = function ($current) {
 					return is_int($current);
 				};
 				break;
 			case 'float':
 			case 'double':
-				$this->acceptCallback = function ($current)
-				{
+				$this->acceptCallback = function ($current) {
 					return is_float($current);
 				};
 				break;
 			case 'string':
-				$this->acceptCallback = function ($current)
-				{
+				$this->acceptCallback = function ($current) {
 					return is_string($current);
 				};
 				break;
 			case 'bool':
 			case 'boolean':
-				$this->acceptCallback = function ($current)
-				{
+				$this->acceptCallback = function ($current) {
 					return is_bool($current);
 				};
 				break;
 
 			default:
-				$this->acceptCallback = function ($current) use ($type)
-				{
+				$this->acceptCallback = function ($current) use ($type) {
 					return $current instanceof $type;
 				};
 		}
 	}
 
-	/**
-	 * (PHP 5 &gt;= 5.1.0)<br/>
-	 * Check whether the current element of the iterator is acceptable
-	 * @link http://php.net/manual/en/filteriterator.accept.php
-	 * @return bool true if the current element is acceptable, otherwise false.
-	 */
-	public function accept()
+	public function getIterator()
 	{
-		/** @var mixed $current */
-		$current = $this->current();
-		/** @var callable $func */
 		$func = $this->acceptCallback;
-
-		return $func($current);
+		foreach($this->iterator as $current) {
+			if($func($current)) {
+				yield $current;
+			}
+		}
 	}
 }

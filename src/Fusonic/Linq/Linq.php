@@ -400,16 +400,15 @@ class Linq implements IteratorAggregate, Countable
     }
 
     /**
-     * Performs the specified action on each element of the Linq sequence and returns the Linq sequence.
+     * Immediately performs the specified action on each element of the Linq sequence.
      * @param callback $func    A func that will be evaluated for each item in the linq sequence.
-     * @return Linq             The original Linq sequence that was used to perform the foreach.
+     * @return void
      */
     public function each($func)
     {
         foreach ($this->iterator as $item) {
             $func($item);
         }
-        return $this;
     }
 
     /**

@@ -12,54 +12,30 @@
 
 namespace Fusonic\Linq\Iterator;
 
-use ArrayIterator;
-use Iterator;
+use Fusonic\Linq\Helper\Set;
+use Traversable;
 
-class IntersectIterator implements Iterator
+final class IntersectIterator implements \IteratorAggregate
 {
     private $first;
     private $second;
-    private $intersections;
 
-    public function __construct(Iterator $first, Iterator $second)
+    public function __construct(Traversable $first, Traversable $second)
     {
         $this->first = $first;
         $this->second = $second;
     }
 
-    public function current()
+    public function getIterator()
     {
-        return $this->intersections->current();
-    }
-
-    public function next()
-    {
-        $this->intersections->next();
-    }
-
-    public function key()
-    {
-        return $this->intersections->key();
-    }
-
-    public function valid()
-    {
-        return $this->intersections->valid();
-    }
-
-    public function rewind()
-    {
-        if ($this->intersections === null) {
-            $this->calcIntersections();
+        $set = new Set();
+        foreach($this->second as $second) {
+            $set->add($second);
         }
-
-        $this->intersections->rewind();
-    }
-
-    private function calcIntersections()
-    {
-        $firstArray = iterator_to_array($this->first);
-        $secondArray = iterator_to_array($this->second);
-        $this->intersections = new ArrayIterator(array_intersect($firstArray, $secondArray));
+        foreach($this->first as $first) {
+            if($set->remove($first)) {
+                yield $first;
+            }
+        }
     }
 }
