@@ -18,6 +18,23 @@ class SetOperators extends TestBase
         $array = $linq->toArray();
         $this->assertEquals("b", $array[0]);
         $this->assertEquals("c", $array[1]);
+
+        $a1 = new stdClass();
+        $a1->id = 1;
+        $a1->value = "a";
+        $a2 = new stdClass();
+        $a2->id = 2;
+        $a2->value = "a";
+        $b1 = new stdClass();
+        $b1->id = 3;
+        $b1->value = "b";
+
+        $items = array($a1, $a2, $b1);
+        $distinct = Linq::from($items)->intersect(array($a2, $b1));
+
+        $this->assertFalse($distinct->contains($a1));
+        $this->assertTrue($distinct->contains($a2));
+        $this->assertTrue($distinct->contains($b1));
     }
 
     public function testIntersect_ThrowsArgumentExceptionIfSecondSequenceIsNotTraversable()
@@ -57,6 +74,23 @@ class SetOperators extends TestBase
         $array = $linq->toArray();
         $this->assertEquals("a", $array[0]);
         $this->assertEquals("d", $array[1]);
+
+        $a1 = new stdClass();
+        $a1->id = 1;
+        $a1->value = "a";
+        $a2 = new stdClass();
+        $a2->id = 2;
+        $a2->value = "a";
+        $b1 = new stdClass();
+        $b1->id = 3;
+        $b1->value = "b";
+
+        $items = array($a1, $a2, $b1);
+        $distinct = Linq::from($items)->except(array($a2, $b1));
+
+        $this->assertTrue($distinct->contains($a1));
+        $this->assertFalse($distinct->contains($a2));
+        $this->assertFalse($distinct->contains($b1));
     }
 
     public function testExcept_ThrowsArgumentExceptionIfSecondSequenceIsNotTraversable()
