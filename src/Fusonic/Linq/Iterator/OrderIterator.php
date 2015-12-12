@@ -66,7 +66,12 @@ class OrderIterator implements Iterator
         $direction = $this->direction;
 
         $itemIterator = $this->iterator;
-        $itemIterator->rewind();
+
+        if($itemIterator instanceof \IteratorAggregate) {
+            $itemIterator = $itemIterator->getIterator();
+            $itemIterator->rewind();
+        }
+
         if (!$itemIterator->valid()) {
             $this->orderedIterator = new ArrayIterator();
             return;

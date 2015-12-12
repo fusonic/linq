@@ -15,9 +15,11 @@ class ChainedTest extends TestBase
             })
             ->orderBy(function($x) {
                 return $x;
-            })
-            ->toArray();
+            });
 
-        $this->assertEquals([3,4,5], $result);
+        $this->assertEquals([3,4,5], $result->toArray());
+
+        // Check multiple evaluations are working as well:
+        $this->assertEquals([3,4,5], $result->toArray());
     }
 }
