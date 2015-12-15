@@ -8,7 +8,7 @@ class SkipTakeTest extends TestBase
 {
     public function testSkipWithTake_Combined_SkipAndTakeValuesByAmount()
     {
-        $items = array("a", "b", "c", "d", "e", "f");
+        $items = ["a", "b", "c", "d", "e", "f"];
         $matching = Linq::from($items)->skip(2)->take(0);
         $this->assertEquals(0, $matching->count());
 
@@ -36,7 +36,7 @@ class SkipTakeTest extends TestBase
 
     public function testTakeSkip_Combined_TakeAndSkipValuesByAmount()
     {
-        $items = array("a", "b", "c", "d", "e", "f");
+        $items = ["a", "b", "c", "d", "e", "f"];
         $matching = Linq::from($items)->take(0)->skip(0);
         $this->assertEquals(0, $matching->count());
 
@@ -52,7 +52,7 @@ class SkipTakeTest extends TestBase
 
     public function testSkip_SkipValuesByAmount()
     {
-        $items = array("a", "b", "c", "d", "e", "f");
+        $items = ["a", "b", "c", "d", "e", "f"];
         $matching = Linq::from($items)->skip(2);
         $this->assertTrue($matching instanceof Linq);
 
@@ -64,7 +64,7 @@ class SkipTakeTest extends TestBase
         $this->assertTrue(in_array("e", $matching));
         $this->assertTrue(in_array("f", $matching));
 
-        $items = array("a", "b", "c", "d", "e", "f");
+        $items = ["a", "b", "c", "d", "e", "f"];
 
         $matching = Linq::from($items)->skip(0);
         $this->assertEquals(6, $matching->count());
@@ -89,16 +89,16 @@ class SkipTakeTest extends TestBase
 
         // Test against empty sequence:
 
-        $matching = Linq::from(array())->skip(0);
+        $matching = Linq::from([])->skip(0);
         $this->assertEquals(0, $matching->count());
 
-        $matching = Linq::from(array())->skip(6);
+        $matching = Linq::from([])->skip(6);
         $this->assertEquals(0, $matching->count());
     }
 
     public function testTake_TakeValuesByAmount()
     {
-        $items = array("a", "b", "c", "d", "e", "f");
+        $items = ["a", "b", "c", "d", "e", "f"];
         $matching = Linq::from($items)->take(4);
         $this->assertTrue($matching instanceof Linq);
 

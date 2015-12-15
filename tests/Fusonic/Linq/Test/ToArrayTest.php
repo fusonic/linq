@@ -9,7 +9,7 @@ class ToArrayTest extends TestBase
 {
     public function testToArray_WithoutKeySelector_ReturnsIteratorValuesAsArray_UsesDefaultNumericArrayKeys()
     {
-        $linq = Linq::from(array("a", "b", "c"))
+        $linq = Linq::from(["a", "b", "c"])
             ->skip(1)->take(3);
 
         $array = $linq->toArray();
@@ -26,7 +26,7 @@ class ToArrayTest extends TestBase
 
     public function testToArray_WithKeySelector_ReturnsIteratorValuesAsArray_UsesKeySelectorValueAsKey()
     {
-        $linq = Linq::from(array("a", "b", "c"))
+        $linq = Linq::from(["a", "b", "c"])
             ->skip(1)->take(3);
 
         $array = $linq->toArray(function ($x) {
@@ -46,10 +46,10 @@ class ToArrayTest extends TestBase
 
     public function testToArray_WithKeyAndValueSelector_ReturnsArrayWithKeyValueSetsFromClosures()
     {
-        $source = array(
-            array("catId" => 11, "name" => "Category11", "additionalcolumn" => "foo"),
-            array("catId" => 12, "name" => "Category12", "additionalcolumn" => "bar"),
-        );
+        $source = [
+            ["catId" => 11, "name" => "Category11", "additionalcolumn" => "foo"],
+            ["catId" => 12, "name" => "Category12", "additionalcolumn" => "bar"],
+        ];
         $linq = Linq::from($source);
 
         $array = $linq->toArray(function ($x) {
@@ -71,10 +71,10 @@ class ToArrayTest extends TestBase
 
     public function testToArray_WithValueSelector_ReturnsArrayWithDefaultNumericKey_AndValueFromClosure()
     {
-        $source = array(
-            array("catId" => 11, "name" => "Category11", "additionalcolumn" => "foo"),
-            array("catId" => 12, "name" => "Category12", "additionalcolumn" => "bar"),
-        );
+        $source = [
+            ["catId" => 11, "name" => "Category11", "additionalcolumn" => "foo"],
+            ["catId" => 12, "name" => "Category12", "additionalcolumn" => "bar"],
+        ];
 
         $linq = Linq::from($source);
 
@@ -95,9 +95,9 @@ class ToArrayTest extends TestBase
 
     public function testMethodsWithSequencesAsArguments_WorkWith_Arrays_Iterators_And_IteratorAggregates()
     {
-        $first = Linq::from(array("a", "b"));
-        $secondArray = array("c", "d");
-        $secondLinq = Linq::from(array("c", "d"));
+        $first = Linq::from(["a", "b"]);
+        $secondArray = ["c", "d"];
+        $secondLinq = Linq::from(["c", "d"]);
         $secondIterator = $secondLinq->getIterator();
 
         $res = $first->concat($secondLinq)->toArray();

@@ -18,7 +18,7 @@ class ProjectionTest extends TestBase
         $a4->value = "a4";
 
         // more than one
-        $items = array($a1, $a2, $a3, $a4);
+        $items = [$a1, $a2, $a3, $a4];
 
         $projected = Linq::from($items)->select(function ($v) {
             return $v->value;
@@ -33,7 +33,7 @@ class ProjectionTest extends TestBase
         $this->assertEquals("a3", $projected[2]);
         $this->assertEquals("a4", $projected[3]);
 
-        $items = array();
+        $items = [];
 
         $projected = Linq::from($items)->select(function ($v) {
             return $v->value;
@@ -46,7 +46,7 @@ class ProjectionTest extends TestBase
     {
         $a1 = new stdClass();
         $a1->value = "a1";
-        $items = array($a1);
+        $items = [$a1];
 
         $this->assertException(function () use ($items) {
             Linq::from($items)->selectMany(function ($v) {
@@ -65,10 +65,10 @@ class ProjectionTest extends TestBase
     public function testSelectMany_ReturnsFlattenedSequence()
     {
         $a1 = new stdClass();
-        $a1->value = array("a", "b");
+        $a1->value = ["a", "b"];
         $a2 = new stdClass();
-        $a2->value = array("c", "d");
-        $items = array($a1, $a2);
+        $a2->value = ["c", "d"];
+        $items = [$a1, $a2];
 
         $linq = Linq::from($items)->selectMany(function ($x) {
             return $x->value;
@@ -96,7 +96,7 @@ class ProjectionTest extends TestBase
 
     public function testSelectMany_EmptySequence_ReturnsEmptySequence()
     {
-        $linq = Linq::from(array())->selectMany(function ($x) {
+        $linq = Linq::from([])->selectMany(function ($x) {
             return $x->value;
         });
 
@@ -113,10 +113,10 @@ class ProjectionTest extends TestBase
     public function testSelectMany_DoesLazyEvaluation()
     {
         $a1 = new stdClass();
-        $a1->value = array("a", "b");
+        $a1->value = ["a", "b"];
         $a2 = new stdClass();
-        $a2->value = array("c", "d");
-        $items = array($a1, $a2);
+        $a2->value = ["c", "d"];
+        $items = [$a1, $a2];
 
         $eval = false;
         $flattened = Linq::from($items)->selectMany(function ($x) use (&$eval) {

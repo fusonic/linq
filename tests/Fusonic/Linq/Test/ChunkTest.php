@@ -61,25 +61,25 @@ class ChunkTest extends TestBase
     public function testChunk_throwsException_IfchunksizeIsInvalid()
     {
         $this->assertException(function () {
-            Linq::from(array())->chunk(0);
+            Linq::from([])->chunk(0);
         }, self::ExceptionName_InvalidArgument);
 
         $this->assertException(function () {
-            Linq::from(array())->chunk(-1);
+            Linq::from([])->chunk(-1);
         }, self::ExceptionName_InvalidArgument);
     }
 
     public function testChunk_ReturnsChunkedElementsAccordingToChunksize()
     {
-        $groups = Linq::from(array())->chunk(2);
+        $groups = Linq::from([])->chunk(2);
         $this->assertEquals(0, $groups->count());
 
-        $groups = Linq::from(array("a"))->chunk(2);
+        $groups = Linq::from(["a"])->chunk(2);
         $this->assertEquals(1, $groups->count());
         $this->assertEquals(1, $groups->ElementAt(0)->count());
         $this->assertEquals("a", $groups->ElementAt(0)->ElementAt(0));
 
-        $groups = Linq::from(array("a", "b", "c", "d", "e"))->chunk(2);
+        $groups = Linq::from(["a", "b", "c", "d", "e"])->chunk(2);
         $this->assertEquals(3, $groups->count());
         $this->assertEquals(2, $groups->ElementAt(0)->count());
         $this->assertEquals("a", $groups->ElementAt(0)->ElementAt(0));
@@ -92,16 +92,16 @@ class ChunkTest extends TestBase
         $this->assertEquals(1, $groups->ElementAt(2)->count());
         $this->assertEquals("e", $groups->ElementAt(2)->ElementAt(0));
 
-        $groups = Linq::from(array("a", "b", "c", "d", "e"))->chunk(3);
+        $groups = Linq::from(["a", "b", "c", "d", "e"])->chunk(3);
         $this->assertEquals(2, $groups->count());
 
-        $groups = Linq::from(array("a", "b", "c", "d", "e"))->chunk(4);
+        $groups = Linq::from(["a", "b", "c", "d", "e"])->chunk(4);
         $this->assertEquals(2, $groups->count());
 
-        $groups = Linq::from(array("a", "b", "c", "d", "e"))->chunk(5);
+        $groups = Linq::from(["a", "b", "c", "d", "e"])->chunk(5);
         $this->assertEquals(1, $groups->count());
 
-        $groups = Linq::from(array("a", "b", "c", "d", "e"))->chunk(117);
+        $groups = Linq::from(["a", "b", "c", "d", "e"])->chunk(117);
         $this->assertEquals(1, $groups->count());
     }
 }

@@ -15,7 +15,7 @@ class OrderTest extends TestBase
         $b->value = 10;
         $c = new stdClass();
         $c->value = 20;
-        $items = array($a, $b, $c);
+        $items = [$a, $b, $c];
 
         $ascending = Linq::from($items)->orderBy(function ($x) {
             return $x->value;
@@ -35,7 +35,7 @@ class OrderTest extends TestBase
         $c->value = 20;
         $d = new stdClass();
         $d->value = 20;
-        $items = array($a, $b, $c, $d);
+        $items = [$a, $b, $c, $d];
 
         $ascending = Linq::from($items)->orderBy(function ($x) {
             return $x->value;
@@ -57,7 +57,7 @@ class OrderTest extends TestBase
 
     public function testOrderBy_NumericValues_ReturnsCorrectOrders()
     {
-        $items = array(77, 10, 20);
+        $items = [77, 10, 20];
         $ascending = Linq::from($items)->orderBy(function ($x) {
             return $x;
         });
@@ -74,7 +74,7 @@ class OrderTest extends TestBase
         $this->assertEquals(10, $items[1]);
         $this->assertEquals(20, $items[2]);
 
-        $items = array(12.33, 8.21, 11.3, 8.21, 33);
+        $items = [12.33, 8.21, 11.3, 8.21, 33];
         $ascending = Linq::from($items)->orderBy(function ($x) {
             return $x;
         });
@@ -89,7 +89,7 @@ class OrderTest extends TestBase
 
     public function testOrderBy_StringValues_ReturnsCorrectOrders()
     {
-        $items = array("e", "a", "c");
+        $items = ["e", "a", "c"];
         $ascending = Linq::from($items)->orderBy(function ($x) {
             return $x;
         });
@@ -108,7 +108,7 @@ class OrderTest extends TestBase
 
     public function testOrderBy_DateTimeValues_ReturnsCorrectOrders()
     {
-        $items = array(new DateTime("27.10.2011"), new DateTime("03.04.2012"), new DateTime("01.01.2005"));
+        $items = [new DateTime("27.10.2011"), new DateTime("03.04.2012"), new DateTime("01.01.2005")];
         $ascending = Linq::from($items)->orderBy(function ($x) {
             return $x;
         });
@@ -127,7 +127,7 @@ class OrderTest extends TestBase
 
     public function testOrderByDescending_NumericValues_ReturnsCorrectOrders()
     {
-        $items = array(77, 10, 20);
+        $items = [77, 10, 20];
         $desc = Linq::from($items)->orderByDescending(function ($x) {
             return $x;
         });
@@ -143,7 +143,7 @@ class OrderTest extends TestBase
         $this->assertEquals(10, $items[1]);
         $this->assertEquals(20, $items[2]);
 
-        $items = array(12.33, 8.21, 11.3, 8.21, 33);
+        $items = [12.33, 8.21, 11.3, 8.21, 33];
         $desc = Linq::from($items)->orderByDescending(function ($x) {
             return $x;
         });
@@ -163,7 +163,7 @@ class OrderTest extends TestBase
         $b->value = 10;
         $c = new stdClass();
         $c->value = 20;
-        $items = array($a, $b, $c);
+        $items = [$a, $b, $c];
 
         $ascending = Linq::from($items)->orderByDescending(function ($x) {
             return $x->value;
@@ -183,7 +183,7 @@ class OrderTest extends TestBase
         $c->value = 20;
         $d = new stdClass();
         $d->value = 20;
-        $items = array($a, $b, $c, $d);
+        $items = [$a, $b, $c, $d];
 
         $ascending = Linq::from($items)->orderByDescending(function ($x) {
             return $x->value;
@@ -204,7 +204,7 @@ class OrderTest extends TestBase
 
     public function testOrderByDescending_DateTimeValues_ReturnsCorrectOrders()
     {
-        $items = array(new DateTime("27.10.2011"), new DateTime("03.04.2012"), new DateTime("01.01.2005"));
+        $items = [new DateTime("27.10.2011"), new DateTime("03.04.2012"), new DateTime("01.01.2005")];
         $desc = Linq::from($items)->orderByDescending(function ($x) {
             return $x;
         });
@@ -223,7 +223,7 @@ class OrderTest extends TestBase
 
     public function testOrderBy_Descending_StringValues_ReturnsCorrectOrders()
     {
-        $items = array("e", "a", "c");
+        $items = ["e", "a", "c"];
         $desc = Linq::from($items)->orderByDescending(function ($x) {
             return $x;
         });
@@ -242,7 +242,7 @@ class OrderTest extends TestBase
 
     public function testOrderBy_DoesMakeLazyEvalution()
     {
-        $items = array("e", "a", "c");
+        $items = ["e", "a", "c"];
         $eval = false;
         $linq = Linq::from($items)->orderByDescending(function ($x) use (&$eval) {
             $eval = true;
@@ -256,7 +256,7 @@ class OrderTest extends TestBase
 
     public function testIssue3_emtpyCollectionOrdering()
     {
-        Linq::from(array())
+        Linq::from([])
             ->orderBy(function (array $x) {
                 return $x["name"];
             })

@@ -43,7 +43,7 @@ Once installed, include vendor/autoload.php in your script to autoload fusonic/l
 require 'vendor/autoload.php';
 use Fusonic\Linq\Linq;
 
-Linq::from(array())->count();
+Linq::from([])->count();
 ```
 
 ## Examples
@@ -75,17 +75,17 @@ $result = Linq::from($users)
 
 ### Flatten multiple sequences into one sequence:
 ```php
-$array1 = array("key" => "a", "data" => array("a1", "a2"));
-$array2 = array("key" => "b", "data" => array("b1", "b2"));
-$array3 = array("key" => "c", "data" => array("c1", "c2"));
+$array1 = ["key" => "a", "data" => ["a1", "a2"]];
+$array2 = ["key" => "b", "data" => ["b1", "b2"]];
+$array3 = ["key" => "c", "data" => ["c1", "c2"]];
 
-$allArrays = array($array1, $array2, $array3);
+$allArrays = [$array1, $array2, $array3];
 
 $result = Linq::from($allArrays)
     ->selectMany(function($x) { return $x["data"]; })
     ->toArray();
     
-// $result is now: array("a1", "a2", "b1", "b2", "c1", "c2");
+// $result is now: ["a1", "a2", "b1", "b2", "c1", "c2"];
 
 ```
 ### Map sequence to array with key/value selectors:
@@ -93,26 +93,26 @@ $result = Linq::from($allArrays)
 $category1 = new stdClass(); $category1->key = 1; $category1->value = "Cars";
 $category2 = new stdClass(); $category2->key = 2; $category2->value = "Ships";
 
-$result = Linq::from(array($category1, $category2))
+$result = Linq::from([$category1, $category2])
     ->toArray(
         function($x) { return $x->key; }, // key-selector
         function($x) { return $x->value; } // value-selector
     );
             
-// $result is now: array(1 => "Cars", 2 => "Ships");
+// $result is now: [1 => "Cars", 2 => "Ships"];
 ```
 
 ### The aggregate method makes it simple to perform a calculation over a sequence of values:
 ```php
-$numbers = Linq::from(array(1,2,3,4));
+$numbers = Linq::from([1,2,3,4]);
 $sum = $numbers->aggregate(function($a, $b) { return $a + $b; });
 // echo $sum; // output: 10 (1+2+3+4)
 
-$chars = Linq::from(array("a", "b", "c"));
+$chars = Linq::from(["a", "b", "c"]);
 $csv = $chars->aggregate(function($a, $b) { return $a . "," . $b; });
 // echo $csv; // output: "a,b,c"
 
-$chars = Linq::from(array("a", "b", "c"));
+$chars = Linq::from(["a", "b", "c"]);
 $csv = $chars->aggregate(function($a, $b) { return $a . "," . $b; }, "seed");
 // echo $csv; // output: "seed,a,b,c"
 
@@ -121,7 +121,7 @@ $csv = $chars->aggregate(function($a, $b) { return $a . "," . $b; }, "seed");
 
 ### The chunk method makes it simple to split a sequence into chunks of a given size:
 ```php
-$chunks = Linq::from(array("a","b","c","d","e"))->chunk(2);
+$chunks = Linq::from(["a","b","c","d","e"])->chunk(2);
 $i = 0;
 foreach($chunk in $chunks) {
   $i++;
@@ -188,12 +188,12 @@ This means that we made this library totally predictable in what it does, and ve
 ```php
 /* Throws an UnexpectedValueException if the 
 provided callback function does not return a boolean */
-Linq::from(array("1", "1"))
+Linq::from(["1", "1"])
 ->where(function($x) { return "NOT A BOOLEAN"; });
 
 /* Throws an UnexpectedValueException if one of the values
 is not convertible to a numeric value:*/
-Linq::from(array(1, 2, "Not a numeric value"))
+Linq::from([1, 2, "Not a numeric value"])
 ->sum();
 ```
 

@@ -20,7 +20,7 @@ class WhereTest extends TestBase
         $c = new stdClass();
         $c->value = "c";
 
-        $items = array($a, $b1, $b2, $c);
+        $items = [$a, $b1, $b2, $c];
         $matching = Linq::from($items)->where(function ($v) {
             return false;
         });
@@ -52,7 +52,7 @@ class WhereTest extends TestBase
     public function testWhere_ThrowsExceptionIfPredicateDoesNotReturnABoolean()
     {
         $this->assertException(function () {
-            $items = array("1", "2", "3");
+            $items = ["1", "2", "3"];
             $matching = Linq::from($items)->where(function ($v) {
                 return "NOT A BOOLEAN";
             });
@@ -63,7 +63,7 @@ class WhereTest extends TestBase
     public function testWhere_DoesLazyEvaluation()
     {
         $eval = false;
-        $items = array("1", "2", "3");
+        $items = ["1", "2", "3"];
         $matching = Linq::from($items)->where(function ($v) use (&$eval) {
             $eval = true;
             return true;
@@ -76,7 +76,7 @@ class WhereTest extends TestBase
 
     public function testWhere_EmptySequence_ReturnsEmptySequence()
     {
-        $items = array();
+        $items = [];
         $matching = Linq::from($items)->where(function ($v) {
             return true;
         });
