@@ -25,7 +25,7 @@ class OrderIterator implements Iterator
     private $orderedIterator;
     private $orderKeyFunc;
 
-    public function __construct(Traversable $items, $orderKeyFunc, $direction)
+    public function __construct(Traversable $items, callable $orderKeyFunc, $direction)
     {
         $this->iterator = $items;
         $this->direction = $direction;

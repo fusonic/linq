@@ -21,7 +21,7 @@ class WhereIterator implements IteratorAggregate
     private $func;
     private $inner;
 
-    public function __construct(Traversable $inner, $func)
+    public function __construct(Traversable $inner, callable $func)
     {
         $this->inner = $inner;
         $this->func = $func;
