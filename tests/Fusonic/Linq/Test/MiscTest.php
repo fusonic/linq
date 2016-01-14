@@ -11,7 +11,7 @@ class MiscTest extends TestBase
 {
     public function testCountable_implementedSqlInterface()
     {
-        $items = array(1, 2, 3);
+        $items = [1, 2, 3];
 
         $matching = Linq::from($items);
 
@@ -21,8 +21,8 @@ class MiscTest extends TestBase
 
     public function testConcat_ReturnsConcatenatedElements()
     {
-        $first = array("a", "b");
-        $second = array("c", "d");
+        $first = ["a", "b"];
+        $second = ["c", "d"];
 
         $all = Linq::from($first)->concat($second);
         $this->assertTrue($all instanceof Linq);
@@ -39,13 +39,13 @@ class MiscTest extends TestBase
     public function testConcat_ThrowsArgumentExceptionIfNoTraversableArgument()
     {
         $this->assertException(function () {
-            $input = array();
+            $input = [];
             $linq = Linq::from($input);
             $linq->concat(null);
         }, self::ExceptionName_InvalidArgument);
 
         $this->assertException(function () {
-            $input = array();
+            $input = [];
             $second = new stdClass();
             Linq::from($input)->concat($second);
         }, self::ExceptionName_InvalidArgument);
@@ -53,15 +53,15 @@ class MiscTest extends TestBase
 
     public function testLinqFrom_WorksWith_Arrays_Iterators_And_IteratorAggregates()
     {
-        $linq = Linq::from(array(1, 2));
+        $linq = Linq::from([1, 2]);
         $linq = Linq::from($linq);
         $linq = Linq::from($linq->getIterator());
     }
 
     public function testEach_PerformsActionOnEachElement()
     {
-        $items = array("a", "b", "c");
-        $looped = array();
+        $items = ["a", "b", "c"];
+        $looped = [];
         Linq::from($items)
             ->each(function ($x) use (&$looped) {
                 $looped[] = $x;
@@ -75,7 +75,7 @@ class MiscTest extends TestBase
 
     public function testEach_ReturnsVoid()
     {
-        $linq = Linq::from(array(1, 2, 3, 4))
+        $linq = Linq::from([1, 2, 3, 4])
             ->skip(2)->take(1);
 
         $linqAfterEach = $linq->each(function ($x) {
@@ -85,7 +85,7 @@ class MiscTest extends TestBase
 
     public function testContains_defaultComparison()
     {
-        $items = array("2", 2);
+        $items = ["2", 2];
         $linq = Linq::from($items);
         $this->assertTrue($linq->contains(2));
         $this->assertTrue($linq->contains("2"));
@@ -100,7 +100,7 @@ class MiscTest extends TestBase
         $a = new stdClass();
         $b = new stdClass();
         $c = new stdClass();
-        $linq = Linq::from(array($a, $b));
+        $linq = Linq::from([$a, $b]);
         $this->assertTrue($linq->contains($a));
         $this->assertTrue($linq->contains($b));
         $this->assertFalse($linq->contains($c));

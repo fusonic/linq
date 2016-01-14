@@ -54,8 +54,8 @@ class SetTest extends TestBase
     public function add_array_addsObjectAndReturnsTrueIfObjectDoesNotExist_OtherwiseFalse()
     {
         $set = new Set();
-        $a = array("a1", "a2");
-        $b = array("b1", "b2");
+        $a = ["a1", "a2"];
+        $b = ["b1", "b2"];
 
         $this->assertFalse($set->contains($a));
         $this->assertTrue($set->add($a));
@@ -149,8 +149,8 @@ class SetTest extends TestBase
     public function remove_array_returnTrueIfObjectExistsAndRemoveIt_OtherwiseReturnFalse()
     {
         $set = new Set();
-        $a = array("a1", "a2");
-        $b = array("b1", "b2");
+        $a = ["a1", "a2"];
+        $b = ["b1", "b2"];
 
         $set->add($a);
         $set->add($b);
@@ -199,7 +199,7 @@ class SetTest extends TestBase
         $a = null;
         $b = "string";
         $c = new stdClass();
-        $d = array("a", "b", "c");
+        $d = ["a", "b", "c"];
 
         $this->assertTrue($set->add($a));
         $this->assertTrue($set->add($b));

@@ -8,10 +8,10 @@ $files = glob("/tmp/*");
 // Group all files by its filesize.
 
 ### Plain PHP: ###
-$data = array();
+$data = [];
 foreach($files as $file) {
     $currentSize = filesize($file);
-    $data[] = array("name" => $file, "size" => $currentSize);
+    $data[] = ["name" => $file, "size" => $currentSize];
 }
 
 uasort($data, function($a, $b) {
@@ -21,14 +21,14 @@ uasort($data, function($a, $b) {
     else return $as < $bs ? 1 : -1;
 });
 
-$grouped = array();
+$grouped = [];
 foreach($data as $x)
 {
     if(isset($grouped[$x['size']])) {
         $grouped[$x['size']][] = $x;
     }
     else {
-        $grouped[$x['size']] = array($x);
+        $grouped[$x['size']] = [$x];
     }
 }
 
@@ -44,7 +44,7 @@ foreach($grouped as $key => $value) {
 echo "<br/><br> Linq: <br /><br>";
 
 $linq = Linq::from($files)
-    ->select(function($x) { return array("name" => $x, "size" => filesize($x)); })
+    ->select(function($x) { return ["name" => $x, "size" => filesize($x)]; })
     ->orderByDescending(function($x) { return $x['size']; })
     ->groupBy(function($x) { return $x['size']; })
     ->orderByDescending(function($x) { return $x->count(); })

@@ -13,7 +13,7 @@ class OfTypeTest extends TestBase
     public function when_ofType_is_called_with_empty_array()
     {
         /** @var array $result */
-        $result = Linq::from(array())
+        $result = Linq::from([])
             ->ofType('StubInterface')
             ->toArray();
 
@@ -30,8 +30,7 @@ class OfTypeTest extends TestBase
         $expectedResult = new Stub();
 
         /** @var array $result */
-        $result = Linq::from(array($expectedResult,
-            new StubWithoutInterface()))
+        $result = Linq::from([$expectedResult, new StubWithoutInterface()])
             ->ofType('StubInterface')
             ->toArray();
 
@@ -49,8 +48,7 @@ class OfTypeTest extends TestBase
         $expectedResult1 = new StubWithoutInterface();
 
         /** @var array $result */
-        $result = Linq::from(array(new Stub(),
-            $expectedResult1))
+        $result = Linq::from([new Stub(), $expectedResult1])
             ->ofType('StubWithoutInterface')
             ->toArray();
 
@@ -61,8 +59,7 @@ class OfTypeTest extends TestBase
         /** @var StubWithoutInterface $expectedResult2 */
         $expectedResult2 = new Stub();
 
-        $result = Linq::from(array($expectedResult2,
-            new StubWithoutInterface()))
+        $result = Linq::from([$expectedResult2, new StubWithoutInterface()])
             ->ofType('Stub')
             ->toArray();
 
@@ -77,8 +74,7 @@ class OfTypeTest extends TestBase
     public function when_ofType_is_called_with_array_not_containing_expected_interface()
     {
         /** @var array $result */
-        $result = Linq::from(array(new StubWithoutInterface(),
-            new StubWithoutInterface()))
+        $result = Linq::from([new StubWithoutInterface(), new StubWithoutInterface()])
             ->ofType('StubInterface')
             ->toArray();
 
@@ -92,8 +88,7 @@ class OfTypeTest extends TestBase
     public function when_ofType_is_called_with_array_not_containing_expected_object_type()
     {
         /** @var array $result */
-        $result = Linq::from(array(new Stub(),
-            new Stub()))
+        $result = Linq::from([new Stub(), new Stub()])
             ->ofType('StubWithoutInterface')
             ->toArray();
 
@@ -107,8 +102,7 @@ class OfTypeTest extends TestBase
     public function when_ofType_is_called_with_unknown_interface()
     {
         /** @var array $result */
-        $result = Linq::from(array(new Stub(),
-            new Stub()))
+        $result = Linq::from([new Stub(), new Stub()])
             ->ofType('UnknownInterface')
             ->toArray();
 
@@ -122,8 +116,7 @@ class OfTypeTest extends TestBase
     public function when_ofType_is_called_with_unknown_object_type()
     {
         /** @var array $result */
-        $result = Linq::from(array(new Stub(),
-            new Stub()))
+        $result = Linq::from([new Stub(), new Stub()])
             ->ofType('UnknownObject')
             ->toArray();
 
@@ -137,17 +130,17 @@ class OfTypeTest extends TestBase
     public function when_ofType_is_called_with_int_as_type()
     {
         /** @var int[] $expectedResult */
-        $expectedResult = array(1,
+        $expectedResult = [1,
             2,
             10,
-            20);
+            20];
 
-        $result = Linq::from(array(1,
+        $result = Linq::from([1,
             2,
             new Stub(),
             10,
             NULL,
-            20))
+            20])
             ->ofType('int')
             ->toArray();
 
@@ -161,15 +154,15 @@ class OfTypeTest extends TestBase
     public function when_ofType_is_called_with_bool_as_type()
     {
         /** @var int[] $expectedResult */
-        $expectedResult = array(TRUE,
-            FALSE);
+        $expectedResult = [TRUE,
+            FALSE];
 
-        $result = Linq::from(array(0,
+        $result = Linq::from([0,
             'string',
             'true',
             TRUE,
             'false',
-            FALSE))
+            FALSE])
             ->ofType('bool')
             ->toArray();
 
@@ -183,16 +176,16 @@ class OfTypeTest extends TestBase
     public function when_ofType_is_called_with_string_as_type()
     {
         /** @var int[] $expectedResult */
-        $expectedResult = array('string',
+        $expectedResult = ['string',
             'true',
-            'false');
+            'false'];
 
-        $result = Linq::from(array(0,
+        $result = Linq::from([0,
             'string',
             'true',
             TRUE,
             'false',
-            FALSE))
+            FALSE])
             ->ofType('string')
             ->toArray();
 
@@ -206,17 +199,17 @@ class OfTypeTest extends TestBase
     public function when_ofType_is_called_with_float_as_type()
     {
         /** @var int[] $expectedResult */
-        $expectedResult = array(2.5,
+        $expectedResult = [2.5,
             10.0,
-            0.3);
+            0.3];
 
-        $result = Linq::from(array(0,
+        $result = Linq::from([0,
             'string',
             2.5,
             10.0,
             11,
             'false',
-            0.3))
+            0.3])
             ->ofType('float')
             ->toArray();
 
@@ -230,18 +223,18 @@ class OfTypeTest extends TestBase
     public function when_ofType_is_called_with_double_as_type()
     {
         /** @var int[] $expectedResult */
-        $expectedResult = array(2.5,
+        $expectedResult = [2.5,
             10.0,
-            0.3);
+            0.3];
 
-        $result = Linq::from(array(0,
+        $result = Linq::from([0,
             'string',
             2.5,
             10.0,
             NULL,
             11,
             'false',
-            0.3))
+            0.3])
             ->ofType('double')
             ->toArray();
 

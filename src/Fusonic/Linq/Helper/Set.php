@@ -14,7 +14,7 @@ namespace Fusonic\Linq\Helper;
 
 class Set
 {
-    private $objects = array();
+    private $objects = [];
 
     /**
      * If the value is not in the set, it will be added and true is returned. otherwise false is returned.

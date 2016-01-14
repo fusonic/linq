@@ -9,8 +9,8 @@ class SetOperators extends TestBase
 {
     public function testIntersect_ReturnsIntersectedElements()
     {
-        $first = array("a", "b", "c", "d");
-        $second = array("b", "c");
+        $first = ["a", "b", "c", "d"];
+        $second = ["b", "c"];
 
         $linq = Linq::from($first)->intersect($second);
         $this->assertEquals(2, $linq->count());
@@ -29,8 +29,8 @@ class SetOperators extends TestBase
         $b1->id = 3;
         $b1->value = "b";
 
-        $items = array($a1, $a2, $b1);
-        $distinct = Linq::from($items)->intersect(array($a2, $b1));
+        $items = [$a1, $a2, $b1];
+        $distinct = Linq::from($items)->intersect([$a2, $b1]);
 
         $this->assertFalse($distinct->contains($a1));
         $this->assertTrue($distinct->contains($a2));
@@ -40,13 +40,13 @@ class SetOperators extends TestBase
     public function testIntersect_ThrowsArgumentExceptionIfSecondSequenceIsNotTraversable()
     {
         $this->assertException(function () {
-            $input = array();
+            $input = [];
             $linq = Linq::from($input);
             $linq->intersect(null);
         }, self::ExceptionName_InvalidArgument);
 
         $this->assertException(function () {
-            $input = array();
+            $input = [];
             $linq = Linq::from($input);
             $linq->intersect("Not a sequence");
         }, self::ExceptionName_InvalidArgument);
@@ -54,8 +54,8 @@ class SetOperators extends TestBase
 
     public function testIntersect_EmptySequence_ReturnsEmptySequence()
     {
-        $first = array("a", "b", "c", "d");
-        $second = array();
+        $first = ["a", "b", "c", "d"];
+        $second = [];
 
         $linq = Linq::from($first)->intersect($second);
         $this->assertEquals(0, $linq->count());
@@ -65,8 +65,8 @@ class SetOperators extends TestBase
 
     public function testExcept_ReturnsAllElementsExceptTheGivenOnes()
     {
-        $first = array("a", "b", "c", "d");
-        $second = array("b", "c");
+        $first = ["a", "b", "c", "d"];
+        $second = ["b", "c"];
 
         $linq = Linq::from($first)->except($second);
         $this->assertEquals(2, $linq->count());
@@ -85,8 +85,8 @@ class SetOperators extends TestBase
         $b1->id = 3;
         $b1->value = "b";
 
-        $items = array($a1, $a2, $b1);
-        $distinct = Linq::from($items)->except(array($a2, $b1));
+        $items = [$a1, $a2, $b1];
+        $distinct = Linq::from($items)->except([$a2, $b1]);
 
         $this->assertTrue($distinct->contains($a1));
         $this->assertFalse($distinct->contains($a2));
@@ -96,13 +96,13 @@ class SetOperators extends TestBase
     public function testExcept_ThrowsArgumentExceptionIfSecondSequenceIsNotTraversable()
     {
         $this->assertException(function () {
-            $input = array();
+            $input = [];
             $linq = Linq::from($input);
             $linq->except(null);
         }, self::ExceptionName_InvalidArgument);
 
         $this->assertException(function () {
-            $input = array();
+            $input = [];
             $linq = Linq::from($input);
             $linq->except("Not a sequence");
         }, self::ExceptionName_InvalidArgument);
@@ -110,8 +110,8 @@ class SetOperators extends TestBase
 
     public function testExcept_EmptySequence_ReturnsAllElementsFromFirst()
     {
-        $first = array("a", "b", "c", "d");
-        $second = array();
+        $first = ["a", "b", "c", "d"];
+        $second = [];
 
         $linq = Linq::from($first)->except($second);
         $this->assertEquals(4, $linq->count());
@@ -125,7 +125,7 @@ class SetOperators extends TestBase
 
     public function testDistinct_ReturnsDistinctElements()
     {
-        $items = array("a", "b", "a", "b");
+        $items = ["a", "b", "a", "b"];
 
         $distinct = Linq::from($items)->distinct();
         $this->assertTrue($distinct instanceof Linq);
@@ -145,7 +145,7 @@ class SetOperators extends TestBase
         $b1->id = 3;
         $b1->value = "b";
 
-        $items = array($a1, $a2, $b1);
+        $items = [$a1, $a2, $b1];
         $distinct = Linq::from($items)->distinct(function ($v) {
             return $v->value;
         });
@@ -162,7 +162,7 @@ class SetOperators extends TestBase
         $a2->id = 2;
         $a2->value = "a";
 
-        $items = array($a1, $a2);
+        $items = [$a1, $a2];
         $distinct = Linq::from($items)->distinct(function ($v) use (&$eval) {
             $eval = true;
             return $v->value;

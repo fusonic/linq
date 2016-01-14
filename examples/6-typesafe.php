@@ -17,11 +17,11 @@ use Fusonic\Linq\Linq;
 
 /* Throws an UnexpectedValueException if the
 provided callback function does not return a boolean */
-Linq::from(array("1", "1"))
+Linq::from(["1", "1"])
     ->where(function($x) { return "NOT A BOOLEAN"; });
 
 
 /* Throws an UnexpectedValueException if one of the values
 is not convertible to a numeric value:*/
-Linq::from(array(1, 2, "Not a numeric value"))
+Linq::from([1, 2, "Not a numeric value"])
     ->sum();

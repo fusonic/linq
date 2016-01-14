@@ -20,7 +20,7 @@ class GroupingTest extends TestBase
         $b1->id = 3;
         $b1->value = "b";
 
-        $items = array($a1, $a2, $b1);
+        $items = [$a1, $a2, $b1];
         $grouped = Linq::from($items)->groupBy(function ($x) {
             return $x->value;
         });
