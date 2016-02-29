@@ -681,7 +681,7 @@ class Linq implements IteratorAggregate, Countable
      * @param callable $keySelector     a func that returns the array-key for each element.
      * @param callable $valueSelector   a func that returns the array-value for each element.
      *
-     * @return Array    An array with all values.
+     * @return array    An array with all values.
      */
     public function toArray(callable $keySelector = null, callable $valueSelector = null)
     {
