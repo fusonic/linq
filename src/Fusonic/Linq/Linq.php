@@ -91,17 +91,17 @@ class Linq implements IteratorAggregate, Countable
         return new Linq(new WhereIterator($this->iterator, $func));
     }
 
-	/**
-	 * Filters the Linq object according to type.
-	 *
-	 * @param string $type
-	 *
-	 * @return Linq Filtered results according to $func
-	 */
-	public function ofType($type)
-	{
-		return new Linq(new OfTypeIterator($this->iterator, $type));
-	}
+    /**
+     * Filters the Linq object according to type.
+     *
+     * @param string $type
+     *
+     * @return Linq Filtered results according to $func
+     */
+    public function ofType($type)
+    {
+        return new Linq(new OfTypeIterator($this->iterator, $type));
+    }
 
     /**
      * Bypasses a specified number of elements and then returns the remaining elements.
@@ -120,7 +120,8 @@ class Linq implements IteratorAggregate, Countable
             }
         }
 
-        return new Linq(new \LimitIterator($innerIterator, $count, -1));
+        // IteratorIterator wraps $innerIterator because it might be Traversable but not an Iterator.
+        return new Linq(new \LimitIterator(new \IteratorIterator($innerIterator), $count, -1));
     }
 
     /**
@@ -135,7 +136,8 @@ class Linq implements IteratorAggregate, Countable
             return new Linq([]);
         }
 
-        return new Linq(new \LimitIterator($this->iterator, 0, $count));
+        // IteratorIterator wraps $this->iterator because it might be Traversable but not an Iterator.
+        return new Linq(new \LimitIterator(new \IteratorIterator($this->iterator), 0, $count));
     }
 
     /**
