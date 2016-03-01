@@ -1,6 +1,7 @@
 <?php
 
 require_once("TestBase.php");
+require_once(__DIR__ . "/TestIteratorAggregate.php");
 
 use Fusonic\Linq\Linq;
 
@@ -111,5 +112,23 @@ class SkipTakeTest extends TestBase
 
         $matching = Linq::from($items)->take(0);
         $this->assertEquals(0, $matching->count());
+    }
+
+    public function testTake_WithIteratorAggregate()
+    {
+        $items = new TestIteratorAggregate(["a", "b", "c", "d", "e", "f"]);
+        $matching = Linq::from($items)->take(4);
+
+        $this->assertTrue($matching instanceof Linq);
+        $this->assertEquals(4, $matching->count());
+    }
+
+    public function testSkip_WithIteratorAggregate()
+    {
+        $items = new TestIteratorAggregate(["a", "b", "c", "d", "e", "f"]);
+        $matching = Linq::from($items)->skip(2);
+
+        $this->assertTrue($matching instanceof Linq);
+        $this->assertEquals(4, $matching->count());
     }
 }
