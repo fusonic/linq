@@ -119,9 +119,13 @@ class Linq implements IteratorAggregate, Countable
                 return new Linq([]);
             }
         }
+        if ($innerIterator instanceof \Iterator === false) {
+            // IteratorIterator wraps $innerIterator because it is Traversable but not an Iterator.
+            // (see https://bugs.php.net/bug.php?id=52280)
+            $innerIterator = new \IteratorIterator($innerIterator);
+        }
 
-        // IteratorIterator wraps $innerIterator because it might be Traversable but not an Iterator.
-        return new Linq(new \LimitIterator(new \IteratorIterator($innerIterator), $count, -1));
+        return new Linq(new \LimitIterator($innerIterator, $count, -1));
     }
 
     /**
@@ -135,9 +139,14 @@ class Linq implements IteratorAggregate, Countable
         if ($count == 0) {
             return new Linq([]);
         }
+        $innerIterator = $this->iterator;
+        if ($innerIterator instanceof \Iterator === false) {
+            // IteratorIterator wraps $this->iterator because it is Traversable but not an Iterator.
+            // (see https://bugs.php.net/bug.php?id=52280)
+            $innerIterator = new \IteratorIterator($innerIterator);
+        }
 
-        // IteratorIterator wraps $this->iterator because it might be Traversable but not an Iterator.
-        return new Linq(new \LimitIterator(new \IteratorIterator($this->iterator), 0, $count));
+        return new Linq(new \LimitIterator($innerIterator, 0, $count));
     }
 
     /**

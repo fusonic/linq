@@ -1,7 +1,7 @@
 <?php
 
 require_once("TestBase.php");
-require_once __DIR__ . '/TestIteratorAggregate.php';
+require_once(__DIR__ . "/TestIteratorAggregate.php");
 
 use Fusonic\Linq\Linq;
 
