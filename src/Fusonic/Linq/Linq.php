@@ -119,7 +119,7 @@ class Linq implements IteratorAggregate, Countable
                 return new Linq([]);
             }
         }
-        if ($innerIterator instanceof \Iterator === false) {
+        if (!($innerIterator instanceof \Iterator)) {
             // IteratorIterator wraps $innerIterator because it is Traversable but not an Iterator.
             // (see https://bugs.php.net/bug.php?id=52280)
             $innerIterator = new \IteratorIterator($innerIterator);
@@ -140,7 +140,7 @@ class Linq implements IteratorAggregate, Countable
             return new Linq([]);
         }
         $innerIterator = $this->iterator;
-        if ($innerIterator instanceof \Iterator === false) {
+        if (!($innerIterator instanceof \Iterator)) {
             // IteratorIterator wraps $this->iterator because it is Traversable but not an Iterator.
             // (see https://bugs.php.net/bug.php?id=52280)
             $innerIterator = new \IteratorIterator($innerIterator);
