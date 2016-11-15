@@ -195,7 +195,7 @@ class Linq implements IteratorAggregate, Countable
     public function chunk($chunksize)
     {
         if ($chunksize < 1) {
-            throw new \InvalidArgumentException("chunksize", $chunksize);
+            throw new \InvalidArgumentException("'{$chunksize}' is not a valid chunk size.");
         }
 
         return Linq::from(new ChunkIterator($this->iterator, $chunksize));

@@ -67,6 +67,14 @@ class ChunkTest extends TestBase
         $this->assertException(function () {
             Linq::from([])->chunk(-1);
         }, self::ExceptionName_InvalidArgument);
+
+        $this->assertException(function () {
+            Linq::from([])->chunk(null);
+        }, self::ExceptionName_InvalidArgument);
+
+        $this->assertException(function () {
+            Linq::from([])->chunk("");
+        }, self::ExceptionName_InvalidArgument);
     }
 
     public function testChunk_ReturnsChunkedElementsAccordingToChunksize()
