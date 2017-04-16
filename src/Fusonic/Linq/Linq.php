@@ -16,6 +16,7 @@ use Fusonic\Linq\Iterator\ChunkIterator;
 use Fusonic\Linq\Iterator\ExceptIterator;
 use Fusonic\Linq\Iterator\DistinctIterator;
 use Fusonic\Linq\Iterator\GroupIterator;
+use Fusonic\Linq\Iterator\KeyIterator;
 use Fusonic\Linq\Iterator\IntersectIterator;
 use Fusonic\Linq\Iterator\OfTypeIterator;
 use Fusonic\Linq\Iterator\OrderIterator;
@@ -610,6 +611,16 @@ class Linq implements IteratorAggregate, Countable
     public function singleOrNull(callable $func = null)
     {
         return $this->getSingle($func, false);
+    }
+    
+    /**
+     * Returns the keys of this Linq object as a Linq object.
+     *
+     * @return Linq
+     */
+    public function keys()
+    {
+        return new Linq(new KeyIterator($this->iterator));
     }
 
 
