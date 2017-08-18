@@ -1,10 +1,9 @@
 <?php
 
-require_once("TestBase.php");
-
 use Fusonic\Linq\Linq;
+use PHPUnit\Framework\TestCase;
 
-class WhereTest extends TestBase
+class WhereTest extends TestCase
 {
     public function testWhere_ReturnsOnlyValuesMatching()
     {
@@ -49,15 +48,16 @@ class WhereTest extends TestBase
         $this->assertFalse(in_array($c, (array)$matching));
     }
 
+    /**
+     * @expectedException UnexpectedValueException
+     */
     public function testWhere_ThrowsExceptionIfPredicateDoesNotReturnABoolean()
     {
-        $this->assertException(function () {
-            $items = ["1", "2", "3"];
-            $matching = Linq::from($items)->where(function ($v) {
-                return "NOT A BOOLEAN";
-            });
-            $matching->toArray();
-        }, self::ExceptionName_UnexpectedValue);
+        $items = ["1", "2", "3"];
+        $matching = Linq::from($items)->where(function ($v) {
+            return "NOT A BOOLEAN";
+        });
+        $matching->toArray();
     }
 
     public function testWhere_DoesLazyEvaluation()

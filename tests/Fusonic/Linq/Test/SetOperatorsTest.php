@@ -1,12 +1,22 @@
 <?php
 
-require_once("TestBase.php");
-
 use Fusonic\Linq\Linq;
+use PHPUnit\Framework\TestCase;
 
-
-class SetOperators extends TestBase
+class SetOperators extends TestCase
 {
+    public function secondSequenceIsNotTraversableProvider()
+    {
+        return [
+            [
+                null
+            ],
+            [
+                "Not a sequence"
+            ]
+        ];
+    }
+
     public function testIntersect_ReturnsIntersectedElements()
     {
         $first = ["a", "b", "c", "d"];
@@ -37,19 +47,13 @@ class SetOperators extends TestBase
         $this->assertTrue($distinct->contains($b1));
     }
 
-    public function testIntersect_ThrowsArgumentExceptionIfSecondSequenceIsNotTraversable()
+    /**
+     * @expectedException InvalidArgumentException
+     * @dataProvider secondSequenceIsNotTraversableProvider
+     */
+    public function testIntersect_ThrowsArgumentExceptionIfSecondSequenceIsNotTraversable($secondSequence)
     {
-        $this->assertException(function () {
-            $input = [];
-            $linq = Linq::from($input);
-            $linq->intersect(null);
-        }, self::ExceptionName_InvalidArgument);
-
-        $this->assertException(function () {
-            $input = [];
-            $linq = Linq::from($input);
-            $linq->intersect("Not a sequence");
-        }, self::ExceptionName_InvalidArgument);
+        Linq::from([ ])->intersect($secondSequence);
     }
 
     public function testIntersect_EmptySequence_ReturnsEmptySequence()
@@ -93,19 +97,13 @@ class SetOperators extends TestBase
         $this->assertFalse($distinct->contains($b1));
     }
 
-    public function testExcept_ThrowsArgumentExceptionIfSecondSequenceIsNotTraversable()
+    /**
+     * @expectedException InvalidArgumentException
+     * @dataProvider secondSequenceIsNotTraversableProvider
+     */
+    public function testExcept_ThrowsArgumentExceptionIfSecondSequenceIsNotTraversable($secondSequence)
     {
-        $this->assertException(function () {
-            $input = [];
-            $linq = Linq::from($input);
-            $linq->except(null);
-        }, self::ExceptionName_InvalidArgument);
-
-        $this->assertException(function () {
-            $input = [];
-            $linq = Linq::from($input);
-            $linq->except("Not a sequence");
-        }, self::ExceptionName_InvalidArgument);
+        Linq::from([ ])->except($secondSequence);
     }
 
     public function testExcept_EmptySequence_ReturnsAllElementsFromFirst()

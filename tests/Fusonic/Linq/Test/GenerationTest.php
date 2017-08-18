@@ -1,18 +1,16 @@
 <?php
 
-
-require_once("TestBase.php");
-
 use Fusonic\Linq\Linq;
+use PHPUnit\Framework\TestCase;
 
-class GenerationTest extends TestBase
+class GenerationTest extends TestCase
 {
+    /**
+     * @expectedException OutOfRangeException
+     */
     public function testRange_throwsExceptionIfCountIsNegative()
     {
-        $this->assertException(function () {
-
-            Linq::range(0, -1);
-        }, self::ExceptionName_OutOfRange);
+        Linq::range(0, -1);
     }
 
     public function testRange_returnsRangeOfIntegers()

@@ -1,13 +1,9 @@
 <?php
-/** Copyright (C) Fusonic GmbH (http://www.fusonic.net) 2015, All rights reserved. */
-
-require_once("TestBase.php");
-
 
 use Fusonic\Linq\Linq;
+use PHPUnit\Framework\TestCase;
 
-
-class MiscTest extends TestBase
+class MiscTest extends TestCase
 {
     public function testCountable_implementedSqlInterface()
     {
@@ -36,19 +32,25 @@ class MiscTest extends TestBase
         $this->assertEquals("d", $all[3]);
     }
 
-    public function testConcat_ThrowsArgumentExceptionIfNoTraversableArgument()
+    /**
+     * @expectedException InvalidArgumentException
+     * @dataProvider concatSecondSequenceProvider
+     */
+    public function testConcat_ThrowsArgumentExceptionIfNoTraversableArgument($secondSequence)
     {
-        $this->assertException(function () {
-            $input = [];
-            $linq = Linq::from($input);
-            $linq->concat(null);
-        }, self::ExceptionName_InvalidArgument);
+        Linq::from([ ])->concat($secondSequence);
+    }
 
-        $this->assertException(function () {
-            $input = [];
-            $second = new stdClass();
-            Linq::from($input)->concat($second);
-        }, self::ExceptionName_InvalidArgument);
+    public function concatSecondSequenceProvider()
+    {
+        return [
+            [
+                null
+            ],
+            [
+                new stdClass()
+            ]
+        ];
     }
 
     public function testLinqFrom_WorksWith_Arrays_Iterators_And_IteratorAggregates()

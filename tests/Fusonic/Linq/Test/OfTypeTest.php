@@ -1,11 +1,9 @@
 <?php
 
-require_once("TestBase.php");
-
 use Fusonic\Linq\Linq;
+use PHPUnit\Framework\TestCase;
 
-
-class OfTypeTest extends TestBase
+class OfTypeTest extends TestCase
 {
     /**
      * @test

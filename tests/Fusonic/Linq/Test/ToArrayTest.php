@@ -1,11 +1,9 @@
 <?php
 
-require_once("TestBase.php");
-
 use Fusonic\Linq\Linq;
+use PHPUnit\Framework\TestCase;
 
-
-class ToArrayTest extends TestBase
+class ToArrayTest extends TestCase
 {
     public function testToArray_WithoutKeySelector_ReturnsIteratorValuesAsArray_UsesDefaultNumericArrayKeys()
     {

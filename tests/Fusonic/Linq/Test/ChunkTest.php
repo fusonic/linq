@@ -1,12 +1,9 @@
 <?php
 
-
-require_once("TestBase.php");
-
 use Fusonic\Linq\Linq;
+use PHPUnit\Framework\TestCase;
 
-
-class ChunkTest extends TestBase
+class ChunkTest extends TestCase
 {
     public function testChunkWithoutGrouping()
     {
@@ -57,24 +54,31 @@ class ChunkTest extends TestBase
         }
     }
 
-
-    public function testChunk_throwsException_IfchunksizeIsInvalid()
+    /**
+     * @expectedException InvalidArgumentException
+     * @dataProvider invalidChunkSizeProvider
+     */
+    public function testChunk_throwsException_IfchunksizeIsInvalid($invalidChunkSize)
     {
-        $this->assertException(function () {
-            Linq::from([])->chunk(0);
-        }, self::ExceptionName_InvalidArgument);
+        Linq::from([ ])->chunk($invalidChunkSize);
+    }
 
-        $this->assertException(function () {
-            Linq::from([])->chunk(-1);
-        }, self::ExceptionName_InvalidArgument);
-
-        $this->assertException(function () {
-            Linq::from([])->chunk(null);
-        }, self::ExceptionName_InvalidArgument);
-
-        $this->assertException(function () {
-            Linq::from([])->chunk("");
-        }, self::ExceptionName_InvalidArgument);
+    public function invalidChunkSizeProvider()
+    {
+        return [
+            [
+                0
+            ],
+            [
+                -1
+            ],
+            [
+                null
+            ],
+            [
+                ""
+            ]
+        ];
     }
 
     public function testChunk_ReturnsChunkedElementsAccordingToChunksize()

@@ -1,10 +1,9 @@
 <?php
 
 use Fusonic\Linq\Helper\Set;
+use PHPUnit\Framework\TestCase;
 
-require_once("TestBase.php");
-
-class SetTest extends TestBase
+class SetTest extends TestCase
 {
     /**
      * @test

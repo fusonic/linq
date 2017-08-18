@@ -1,11 +1,11 @@
 <?php
 
-require_once("TestBase.php");
 require_once(__DIR__ . "/TestIteratorAggregate.php");
 
 use Fusonic\Linq\Linq;
+use PHPUnit\Framework\TestCase;
 
-class SkipTakeTest extends TestBase
+class SkipTakeTest extends TestCase
 {
     public function testSkipWithTake_Combined_SkipAndTakeValuesByAmount()
     {
