@@ -1,63 +1,64 @@
 <?php
 
-require_once("TestBase.php");
-
 use Fusonic\Linq\Linq;
+use PHPUnit\Framework\TestCase;
 
-
-class AggregatesTest extends TestBase
+class AggregatesTest extends TestCase
 {
-    /** Returns the only element of a sequence that satisfies a specified condition, and throws an exception if more than one such element exists.
-     */
     public function testSingle_TestBehaviour()
     {
-        // more than one
-        $items = [1, 2];
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->single();
-        });
-
-        // no matching elements
-        $items = [];
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->single();
-        });
-
         // OK
         $items = [77];
         $this->assertSame(77, Linq::from($items)->single());
 
         // With closure
 
-        // more than one
-        $items = [1, 2];
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->single(function ($x) {
-                return true;
-            });
-        });
-
-        // no matching elements
-        // because of false closure
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->single(function ($x) {
-                return false;
-            });
-        });
-
-        // because of empty array
-        $items = [];
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->single(function ($x) {
-                return true;
-            });
-        });
-
         // OK
         $items = [77];
         $this->assertSame(77, Linq::from($items)->single(function ($x) {
             return true;
         }));
+    }
+
+    /**
+     * @expectedException RuntimeException
+     * @dataProvider singleInvalidDataProvider
+     */
+    public function testSingleWithInvalidData($items, $func)
+    {
+        Linq::from($items)->single($func);
+    }
+
+    public function singleInvalidDataProvider()
+    {
+        return [
+            "Sequence with more than one element" => [
+                [ 1, 2 ],
+                null
+            ],
+            "No matching elements" => [
+                [ ],
+                null
+            ],
+            "Closure always returns true → multiple matches" => [
+                [ 1, 2 ],
+                function ($x) {
+                    return true;
+                }
+            ],
+            "Closure always returns false → no matches" => [
+                [ 1, 2 ],
+                function ($x) {
+                    return false;
+                }
+            ],
+            "Closure always returns true, but with empty sequence" => [
+                [ ],
+                function ($x) {
+                    return true;
+                }
+            ]
+        ];
     }
 
     public function testCount_ReturnsCorrectAmounts()
@@ -79,17 +80,8 @@ class AggregatesTest extends TestBase
         $this->assertEquals(0, Linq::from($items)->count());
     }
 
-    /** Returns the only element of a sequence that satisfies a specified condition or a default value if no such element exists;
-     * this method throws an exception if more than one element satisfies the condition.
-     */
     public function testSingleOrNull_TestBehaviour()
     {
-        // more than one
-        $items = [1, 2];
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->singleOrNull();
-        });
-
         // no matching elements
         $items = [];
         $this->assertNull(Linq::from($items)->singleOrNull());
@@ -99,14 +91,6 @@ class AggregatesTest extends TestBase
         $this->assertSame(77, Linq::from($items)->singleOrNull());
 
         // With closure
-
-        // more than one
-        $items = [1, 2];
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->singleOrNull(function ($x) {
-                return true;
-            });
-        });
 
         // no matching elements
         // because of false closure
@@ -123,6 +107,31 @@ class AggregatesTest extends TestBase
         $this->assertSame(77, Linq::from($items)->singleOrNull(function ($x) {
             return true;
         }));
+    }
+
+    /**
+     * @expectedException RuntimeException
+     * @dataProvider singleOrNullInvalidDataProvider
+     */
+    public function testSingleOrNullWithInvalidData($items, $func)
+    {
+        Linq::from($items)->singleOrNull($func);
+    }
+
+    public function singleOrNullInvalidDataProvider()
+    {
+        return [
+            "Sequence with more than one element" => [
+                [ 1, 2 ],
+                null
+            ],
+            "Closure always returns true → multiple matches" => [
+                [ 1, 2 ],
+                function ($x) {
+                    return true;
+                }
+            ],
+        ];
     }
 
     /** Returns the first element in a sequence that satisfies a specified condition.
@@ -150,12 +159,6 @@ class AggregatesTest extends TestBase
         $items = [$a, $b1, $b2, $c];
         $this->assertSame($a, Linq::from($items)->first());
 
-        // no matching elements
-        $items = [];
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->first();
-        });
-
         $items = [$a];
         $this->assertSame($a, Linq::from($items)->first());
 
@@ -167,27 +170,42 @@ class AggregatesTest extends TestBase
             return $x->value == "b";
         }));
 
-        // no matching elements
-        // because of false closure
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->first(function ($x) {
-                return false;
-            });
-        });
-
-        // because of empty array
-        $items = [];
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->first(function ($x) {
-                return true;
-            });
-        });
-
         // OK
         $items = [$a];
         $this->assertSame($a, Linq::from($items)->first(function ($x) {
             return true;
         }));
+    }
+
+    /**
+     * @expectedException RuntimeException
+     * @dataProvider firstInvalidDataProvider
+     */
+    public function testFirstWithInvalidData($items, $func)
+    {
+        Linq::from($items)->first($func);
+    }
+
+    public function firstInvalidDataProvider()
+    {
+        return [
+            "No matching elements" => [
+                [ ],
+                null
+            ],
+            "Sequence is empty" => [
+                [ ],
+                function ($x) {
+                    return true;
+                }
+            ],
+            "Func always returns false" => [
+                [ 1, 2, 3 ],
+                function ($x) {
+                    return false;
+                }
+            ]
+        ];
     }
 
     /**
@@ -250,12 +268,6 @@ class AggregatesTest extends TestBase
         $last = Linq::from($items)->last();
         $this->assertSame($c, $last);
 
-        // no matching elements
-        $items = [];
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->last();
-        });
-
         $items = [$a];
         $this->assertSame($a, Linq::from($items)->last());
 
@@ -267,27 +279,42 @@ class AggregatesTest extends TestBase
             return $x->value == "b";
         }));
 
-        // no matching elements
-        // because of false closure
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->last(function ($x) {
-                return false;
-            });
-        });
-
-        // because of empty array
-        $items = [];
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->last(function ($x) {
-                return true;
-            });
-        });
-
         // OK
         $items = [$a];
         $this->assertSame($a, Linq::from($items)->last(function ($x) {
             return true;
         }));
+    }
+
+    /**
+     * @expectedException RuntimeException
+     * @dataProvider lastInvalidDataProvider
+     */
+    public function testLastWithInvalidData($items, $func)
+    {
+        Linq::from($items)->last($func);
+    }
+
+    public function lastInvalidDataProvider()
+    {
+        return [
+            "No matching elements" => [
+                [ ],
+                null
+            ],
+            "Sequence is empty" => [
+                [ ],
+                function ($x) {
+                    return true;
+                }
+            ],
+            "Func always returns false" => [
+                [ 1, 2, 3 ],
+                function ($x) {
+                    return false;
+                }
+            ]
+        ];
     }
 
     public function testLastOrDefault_DoesReturnTheLastElement_OrNull_DoesNotThrowExceptions()
@@ -338,41 +365,49 @@ class AggregatesTest extends TestBase
         $items = ["a" => "aValue", "b" => "bValue"];
         $this->assertEquals("aValue", Linq::from($items)->elementAt(0));
         $this->assertEquals("bValue", Linq::from($items)->elementAt(1));
+    }
 
-        $this->assertException(function () {
-            $items = [];
-            Linq::from($items)->elementAt(0);
-        }, self::ExceptionName_OutOfRange);
+    /**
+     * @expectedException OutOfRangeException
+     * @dataProvider invalidIndexProvider
+     */
+    public function testElementAtWithInvalidIndex($items, $index)
+    {
+        Linq::from($items)->elementAt($index);
+    }
 
-        $this->assertException(function () {
-            $items = [];
-            Linq::from($items)->elementAt(1);
-        }, self::ExceptionName_OutOfRange);
-
-        $this->assertException(function () {
-            $items = [];
-            Linq::from($items)->elementAt(-1);
-        }, self::ExceptionName_OutOfRange);
-
-        $this->assertException(function () {
-            $items = ["a"];
-            Linq::from($items)->elementAt(1);
-        }, self::ExceptionName_OutOfRange);
-
-        $this->assertException(function () {
-            $items = ["a", "b"];
-            Linq::from($items)->elementAt(2);
-        }, self::ExceptionName_OutOfRange);
-
-        $this->assertException(function () {
-            $items = ["a", "b"];
-            Linq::from($items)->elementAt(-1);
-        }, self::ExceptionName_OutOfRange);
-
-        $this->assertException(function () {
-            $items = ["a" => "value", "b" => "bValue"];
-            Linq::from($items)->elementAt(2);
-        }, self::ExceptionName_OutOfRange);
+    public function invalidIndexProvider()
+    {
+        return [
+            [
+                [ ],
+                0
+            ],
+            [
+                [ ],
+                1
+            ],
+            [
+                [ ],
+                -1
+            ],
+            [
+                [ "a" ],
+                1
+            ],
+            [
+                [ "a", "b" ],
+                2
+            ],
+            [
+                [ "a", "b" ],
+                -1
+            ],
+            [
+                [ "a" => "value", "b" => "bValue" ],
+                2
+            ]
+        ];
     }
 
     public function testElementAtOrNull_ReturnsElementAtPositionOrNull()
@@ -396,26 +431,40 @@ class AggregatesTest extends TestBase
         $this->assertNull(Linq::from($items)->elementAtOrNull(2));
     }
 
-    public function testAverage_throwsExceptionIfClosureReturnsNotNumericValue()
+    /**
+     * @expectedException UnexpectedValueException
+     * @dataProvider averageNonNumericValuesProvider
+     */
+    public function testAverage_throwsExceptionIfClosureReturnsNotNumericValue($items)
     {
-        $this->assertException(function () {
-            $items = [2, new stdClass()];
-            Linq::from($items)->average();
-        }, self::ExceptionName_UnexpectedValue);
+        Linq::from($items)->average();
+    }
 
-        $this->assertException(function () {
-            $items = [2, "no numeric value"];
-            Linq::from($items)->average();
-        }, self::ExceptionName_UnexpectedValue);
+    public function averageNonNumericValuesProvider()
+    {
+        return [
+            [
+                [ 2, new stdClass() ]
+            ],
+            [
+                [ 2, "non-numeric value" ]
+            ]
+        ];
+    }
 
-        $this->assertException(function () {
-            $cls = new stdClass();
-            $cls->value = "no numeric value";
-            $items = [$cls];
-            Linq::from($items)->average(function ($x) {
+    /**
+     * @expectedException UnexpectedValueException
+     */
+    public function testAverageWithCustomFunc_throwsExceptionIfClosureReturnsNotNumericValue()
+    {
+        $classWithValue = new stdClass();
+        $classWithValue->value = "non-numeric value";
+
+        Linq::from([ $classWithValue ])->average(
+            function ($x) {
                 return $x->value;
-            });
-        }, self::ExceptionName_UnexpectedValue);
+            }
+        );
     }
 
     public function testAverage_CalculatesCorrectAverage()
@@ -571,39 +620,51 @@ class AggregatesTest extends TestBase
         $this->assertEquals($items[2], $min);
     }
 
+    /**
+     * @expectedException RuntimeException
+     */
     public function testMin_ThrowsExceptionIfSequenceIsEmpty()
     {
-        $this->assertException(function () {
-            $data = [];
-            $min = Linq::from($data)->min();
-        });
+        Linq::from([ ])->min();
     }
 
-    public function testMin_ThrowsExceptionIfSequenceContainsNoneNumericValuesOrStrings()
+    /**
+     * @expectedException UnexpectedValueException
+     * @dataProvider minNonNumericValuesProvider
+     */
+    public function testMinWithNonNumericValues($items)
     {
-        $this->assertException(function () {
-            $data = [null];
-            $max = Linq::from($data)->min();
-        }, self::ExceptionName_UnexpectedValue);
+        Linq::from($items)->min();
+    }
 
-        $this->assertException(function () {
-            $data = [new stdClass()];
-            $min = Linq::from($data)->min();
-        }, self::ExceptionName_UnexpectedValue);
+    public function minNonNumericValuesProvider()
+    {
+        return [
+            [
+                [ new stdClass() ]
+            ],
+            [
+                [ null ]
+            ],
+            [
+                [ "non-numeric value", 1, new stdClass() ]
+            ]
+        ];
+    }
 
-        $this->assertException(function () {
-            $data = ["string value", 1, new stdClass()];
-            $min = Linq::from($data)->min();
-        }, self::ExceptionName_UnexpectedValue);
+    /**
+     * @expectedException UnexpectedValueException
+     */
+    public function testMinWithCustomFuncAndNonNumericValues()
+    {
+        $classWithValue = new stdClass();
+        $classWithValue->value = new stdClass();
 
-        $this->assertException(function () {
-            $a = new stdClass();
-            $a->nonNumeric = new stdClass();
-            $data = [$a];
-            $min = Linq::from($data)->min(function ($x) {
-                return $x->nonNumeric;
-            });
-        }, self::ExceptionName_UnexpectedValue);
+        Linq::from([ $classWithValue ])->min(
+            function ($x) {
+                return $x->value;
+            }
+        );
     }
 
     public function testMax_ReturnsMaxValueFromNumerics()
@@ -640,36 +701,48 @@ class AggregatesTest extends TestBase
         $this->assertEquals($items[1], $max);
     }
 
-    public function testSum_ThrowsExceptionIfSequenceContainsNoneNumericValues()
+    /**
+     * @expectedException UnexpectedValueException
+     * @dataProvider sumNonNumericValuesProvider
+     */
+    public function testSumWithNonNumericValues($items)
     {
-        $this->assertException(function () {
-            $data = [null];
-            $max = Linq::from($data)->sum();
-        }, self::ExceptionName_UnexpectedValue);
+        Linq::from($items)->sum();
+    }
 
-        $this->assertException(function () {
-            $data = [new stdClass()];
-            $min = Linq::from($data)->sum();
-        }, self::ExceptionName_UnexpectedValue);
+    public function sumNonNumericValuesProvider()
+    {
+        return [
+            [
+                [ new stdClass() ]
+            ],
+            [
+                [ null ]
+            ],
+            [
+                [ "non-numeric value", 1, new stdClass() ]
+            ]
+        ];
+    }
 
-        $this->assertException(function () {
-            $data = ["string value", 1, new stdClass()];
-            $min = Linq::from($data)->sum();
-        }, self::ExceptionName_UnexpectedValue);
+    /**
+     * @expectedException UnexpectedValueException
+     */
+    public function testSumWithCustomFuncAndNonNumericValues()
+    {
+        $fooClassWithValue = new stdClass();
+        $fooClassWithValue->value = 100;
+        $fooClassWithValue->nonNumericValue = "non-numeric value";
 
-        $this->assertException(function () {
-            $a = new stdClass();
-            $a->value = 100;
-            $a->nonNumeric = "asdf";
-            $b = new stdClass();
-            $b->value = 133;
-            $a->nonNumeric = "asdf";
+        $barClassWithValue = new stdClass();
+        $barClassWithValue->value = 200;
+        $barClassWithValue->nonNumericValue = "non-numeric value";
 
-            $data = [$a, $b];
-            $sum = Linq::from($data)->sum(function ($x) {
-                return $x->nonNumeric;
-            });
-        }, self::ExceptionName_UnexpectedValue);
+        Linq::from([ $fooClassWithValue, $barClassWithValue ])->sum(
+            function ($x) {
+                return $x->nonNumericValue;
+            }
+        );
     }
 
     public function testSum_GetSumOfValues()
@@ -714,55 +787,62 @@ class AggregatesTest extends TestBase
         $this->assertEquals("a", $max);
     }
 
+    /**
+     * @expectedException RuntimeException
+     */
     public function testMax_ThrowsExceptionIfSequenceIsEmpty()
     {
-        $this->assertException(function () {
-            $data = [];
-            $max = Linq::from($data)->max();
-        });
+        Linq::from([ ])->max();
     }
 
-    public function testMax_ThrowsExceptionIfSequenceContainsNoneNumericValuesOrStrings()
+    /**
+     * @expectedException UnexpectedValueException
+     * @dataProvider maxNonNumericValuesProvider
+     */
+    public function testMaxWithNonNumericValues($items)
     {
-        $this->assertException(function () {
-            $data = [new stdClass()];
-            $max = Linq::from($data)->max();
-        }, self::ExceptionName_UnexpectedValue);
-
-        $this->assertException(function () {
-            $data = [null];
-            $max = Linq::from($data)->max();
-        }, self::ExceptionName_UnexpectedValue);
-
-        $this->assertException(function () {
-            $data = ["string value", 1, new stdClass()];
-            $max = Linq::from($data)->max();
-        }, self::ExceptionName_UnexpectedValue);
-
-        $this->assertException(function () {
-            $a = new stdClass();
-            $a->nonNumeric = new stdClass();
-            $data = [$a];
-            $min = Linq::from($data)->max(function ($x) {
-                return $x->nonNumeric;
-            });
-        }, self::ExceptionName_UnexpectedValue);
+        Linq::from($items)->max();
     }
 
+    public function maxNonNumericValuesProvider()
+    {
+        return [
+            [
+                [ new stdClass() ]
+            ],
+            [
+                [ null ]
+            ],
+            [
+                [ "non-numeric value", 1, new stdClass() ]
+            ]
+        ];
+    }
+
+    /**
+     * @expectedException UnexpectedValueException
+     */
+    public function testMaxWithCustomFuncAndNonNumericValues()
+    {
+        $classWithValue = new stdClass();
+        $classWithValue->value = new stdClass();
+
+        Linq::from([ $classWithValue ])->max(
+            function ($x) {
+                return $x->value;
+            }
+        );
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
     public function testAggregate_novalues_throwsException()
     {
-        $this->assertException(function () {
-
-            Linq::from([])->aggregate(function () {
-            });
-        }, self::ExceptionName_Runtime);
-
-
-        $this->assertException(function () {
-
-            Linq::from([])->aggregate(function () {
-            }, null);
-        }, self::ExceptionName_Runtime);
+        Linq::from([ ])->aggregate(
+            function () {
+            }
+        );
     }
 
     public function testAggregate_returnsCorrectResult()

@@ -1,12 +1,9 @@
 <?php
 
-
-require_once("TestBase.php");
-
 use Fusonic\Linq\Linq;
+use PHPUnit\Framework\TestCase;
 
-
-class GroupingTest extends TestBase
+class GroupingTest extends TestCase
 {
     public function testGroupBy()
     {

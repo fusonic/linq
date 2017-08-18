@@ -1,10 +1,9 @@
 <?php
 
-require_once("TestBase.php");
-
 use Fusonic\Linq\Linq;
+use PHPUnit\Framework\TestCase;
 
-class ProjectionTest extends TestBase
+class ProjectionTest extends TestCase
 {
     public function testSelect_ReturnsProjectedSequence()
     {
@@ -42,24 +41,32 @@ class ProjectionTest extends TestBase
         $this->assertEquals(0, $projected->count());
     }
 
-    public function testSelectMany_throwsExceptionIfElementIsNotIterable()
+    /**
+     * @expectedException UnexpectedValueException
+     * @dataProvider selectManyFuncProvider
+     */
+    public function testSelectMany_throwsExceptionIfElementIsNotIterable($selectManyFunc)
     {
         $a1 = new stdClass();
         $a1->value = "a1";
-        $items = [$a1];
 
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->selectMany(function ($v) {
-                return $v->value;
-            })->toArray();
+        Linq::from([ $a1 ])->selectMany($selectManyFunc)->toArray();
+    }
 
-        }, self::ExceptionName_UnexpectedValue);
-
-        $this->assertException(function () use ($items) {
-            Linq::from($items)->selectMany(function ($v) {
-                return null;
-            })->toArray();
-        }, self::ExceptionName_UnexpectedValue);
+    public function selectManyFuncProvider()
+    {
+        return [
+            [
+                function ($v) {
+                    return $v->value;
+                }
+            ],
+            [
+                function ($v) {
+                    return null;
+                }
+            ]
+        ];
     }
 
     public function testSelectMany_ReturnsFlattenedSequence()

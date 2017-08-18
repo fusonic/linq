@@ -1,11 +1,9 @@
 <?php
 
-require_once("TestBase.php");
-
 use Fusonic\Linq\Linq;
+use PHPUnit\Framework\TestCase;
 
-
-class OrderTest extends TestBase
+class OrderTest extends TestCase
 {
     public function testOrderBy_NumericValues_WithSelector_ReturnsOrderedObjects()
     {

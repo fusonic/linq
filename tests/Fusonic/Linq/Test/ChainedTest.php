@@ -1,10 +1,9 @@
 <?php
 
-require_once("TestBase.php");
-
 use Fusonic\Linq\Linq;
+use PHPUnit\Framework\TestCase;
 
-class ChainedTest extends TestBase
+class ChainedTest extends TestCase
 {
     public function testWhereOrderBy_returnsFilteredValuesInCorrectOrder()
     {
