@@ -199,9 +199,6 @@ Linq::from([1, 2, "Not a numeric value"])
 
 ## Running tests
 
-You can run the test suite with the following command:
-
 ```bash
-vendor/bin/phpunit --bootstrap tests/bootstrap.php .
+./vendor/bin/phpunit tests/
 ``` 
-
