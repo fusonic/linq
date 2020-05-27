@@ -431,11 +431,7 @@ class Linq implements IteratorAggregate, Countable
      */
     public function contains($value)
     {
-        return $this->any(
-            function ($x) use ($value) {
-                return $x === $value;
-            }
-        );
+        return $this->any(fn ($x) use ($value) => $x === $value);
     }
 
     /**

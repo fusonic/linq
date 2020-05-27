@@ -44,11 +44,11 @@ foreach($grouped as $key => $value) {
 echo "<br/><br> Linq: <br /><br>";
 
 $linq = Linq::from($files)
-    ->select(function($x) { return ["name" => $x, "size" => filesize($x)]; })
-    ->orderByDescending(function($x) { return $x['size']; })
-    ->groupBy(function($x) { return $x['size']; })
-    ->orderByDescending(function($x) { return $x->count(); })
-    ->each(function($x) {
+    ->select(fn($x) => ["name" => $x, "size" => filesize($x)])
+    ->orderByDescending(fn($x) => $x['size'])
+    ->groupBy(fn($x) => $x['size'])
+    ->orderByDescending(fn($x) => $x->count())
+    ->each(fn($x) => {
         echo $x->key() . " (" . $x->count() . ")" . "<br />";
-        $x->each(function($y) { echo " -" . $y["name"] . "<br>"; });
+        $x->each(fn($y) { echo " -" . $y["name"] . "<br>"; });
     });

@@ -31,8 +31,8 @@ foreach($data as $x)
 echo "<br/><br> Linq: <br /><br>";
 
 $linq = Linq::from($files)
-    ->select(function($x) { return ["name" => $x, "size" => filesize($x)]; })
-    ->orderByDescending(function($x) { return $x['size']; })
-    ->each(function($x) {
+    ->select(fn($ex) => ["name" => $x, "size" => filesize($x)])
+    ->orderByDescending(fn($x) => $x['size'])
+    ->each(fn($x) =>
         echo $x['name'] . " " . $x['size'] . "<br>";
     });

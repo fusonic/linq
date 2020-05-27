@@ -18,7 +18,7 @@ use Fusonic\Linq\Linq;
 /* Throws an UnexpectedValueException if the
 provided callback function does not return a boolean */
 Linq::from(["1", "1"])
-    ->where(function($x) { return "NOT A BOOLEAN"; });
+    ->where(fn ($x) => "NOT A BOOLEAN");
 
 
 /* Throws an UnexpectedValueException if one of the values

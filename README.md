@@ -52,7 +52,7 @@ Linq::from([])->count();
 ``` php
 $source = glob("files/*");
 Linq::from($source)
-  ->select(function($i) { return filesize($i); })
+  ->select(fn($i) => filesize($i))
   ->average();
 ```
 
@@ -60,17 +60,17 @@ Linq::from($source)
 ``` php
 $source = glob("files/*");
 Linq::from($source)
-  ->where(function($i) { return filesize($i) > 1024; })
-  ->select(function($i) { return pathinfo($i); });
+  ->where(fn($i) => filesize($i) > 1024)
+  ->select(fn($i) => pathinfo($i));
 ```
 
 ### Search for all users containing "Max 1", Skip 5 items, Take 2 items and select the property ID of each user:
 ```php
 $result = Linq::from($users)
-    ->where(function (User $u) { return strstr($u->surname, "Max 1");  })
+    ->where(fn (User $u) => strstr($u->surname, "Max 1"))
     ->skip(5)
     ->take(2)
-    ->select(function (User $u) { return $u->usrId; });
+    ->select(fn (User $u) => $u->usrId);
 ```
 
 ### Flatten multiple sequences into one sequence:
@@ -82,7 +82,7 @@ $array3 = ["key" => "c", "data" => ["c1", "c2"]];
 $allArrays = [$array1, $array2, $array3];
 
 $result = Linq::from($allArrays)
-    ->selectMany(function($x) { return $x["data"]; })
+    ->selectMany(fn($x) => $x["data"])
     ->toArray();
     
 // $result is now: ["a1", "a2", "b1", "b2", "c1", "c2"];
@@ -95,8 +95,8 @@ $category2 = new stdClass(); $category2->key = 2; $category2->value = "Ships";
 
 $result = Linq::from([$category1, $category2])
     ->toArray(
-        function($x) { return $x->key; }, // key-selector
-        function($x) { return $x->value; } // value-selector
+        fn($x) => $x->key, // key-selector
+        fn($x) => $x->value // value-selector
     );
             
 // $result is now: [1 => "Cars", 2 => "Ships"];
@@ -105,15 +105,15 @@ $result = Linq::from([$category1, $category2])
 ### The aggregate method makes it simple to perform a calculation over a sequence of values:
 ```php
 $numbers = Linq::from([1,2,3,4]);
-$sum = $numbers->aggregate(function($a, $b) { return $a + $b; });
+$sum = $numbers->aggregate(fn($a, $b) => $a + $b);
 // echo $sum; // output: 10 (1+2+3+4)
 
 $chars = Linq::from(["a", "b", "c"]);
-$csv = $chars->aggregate(function($a, $b) { return $a . "," . $b; });
+$csv = $chars->aggregate(fn($a, $b) => $a . "," . $b);
 // echo $csv; // output: "a,b,c"
 
 $chars = Linq::from(["a", "b", "c"]);
-$csv = $chars->aggregate(function($a, $b) { return $a . "," . $b; }, "seed");
+$csv = $chars->aggregate(fn($a, $b) => $a . "," . $b, "seed");
 // echo $csv; // output: "seed,a,b,c"
 
 ```
@@ -189,7 +189,7 @@ This means that we made this library totally predictable in what it does, and ve
 /* Throws an UnexpectedValueException if the 
 provided callback function does not return a boolean */
 Linq::from(["1", "1"])
-->where(function($x) { return "NOT A BOOLEAN"; });
+->where(fn($x) => "NOT A BOOLEAN");
 
 /* Throws an UnexpectedValueException if one of the values
 is not convertible to a numeric value:*/

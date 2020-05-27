@@ -35,8 +35,8 @@ echo "Average: " . $avg;
 ### Linq: ###
 
 $avgL = Linq::from($files)
-    ->select(function($x) { return filesize($x); })
-    ->where(function($x) { return $x > 1024; })
+    ->select(fun($x) => filesize($x))
+    ->where(fun($x) => $x > 1024)
     ->skip(2)
     ->take(4)
     ->average();

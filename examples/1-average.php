@@ -22,7 +22,7 @@ echo "Average: " . $avg;
 ### Linq: ###
 
 $avgL = Linq::from($files)
-    ->select(function($f) { return filesize($f); })
+    ->select(fn($f) => filesize($f))
     ->average();
 
 echo "<br/><br>Average Linq: " . $avgL;
