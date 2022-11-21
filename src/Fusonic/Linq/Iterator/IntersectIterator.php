@@ -17,8 +17,8 @@ use Traversable;
 
 final class IntersectIterator implements \IteratorAggregate
 {
-    private $first;
-    private $second;
+    private Traversable $first;
+    private Traversable $second;
 
     public function __construct(Traversable $first, Traversable $second)
     {
@@ -26,7 +26,7 @@ final class IntersectIterator implements \IteratorAggregate
         $this->second = $second;
     }
 
-    public function getIterator()
+    public function getIterator(): \Generator
     {
         $set = new Set();
         foreach($this->second as $second) {

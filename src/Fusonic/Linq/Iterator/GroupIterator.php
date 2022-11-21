@@ -13,7 +13,6 @@
 namespace Fusonic\Linq\Iterator;
 
 use Iterator;
-use ArrayIterator;
 use Fusonic\Linq\GroupedLinq;
 
 class GroupIterator implements Iterator
@@ -28,7 +27,7 @@ class GroupIterator implements Iterator
         $this->keySelector = $keySelector;
     }
 
-    public function current()
+    public function current(): GroupedLinq
     {
         $current = $this->grouped->current();
         return new GroupedLinq($current['key'], new \ArrayIterator($current['values']));
@@ -44,7 +43,7 @@ class GroupIterator implements Iterator
         return $this->grouped->key();
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return $this->grouped->valid();
     }

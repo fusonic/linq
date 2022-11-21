@@ -28,7 +28,7 @@ class LinqHelper
     const LINQ_ORDER_TYPE_ALPHANUMERIC = 2;
     const LINQ_ORDER_TYPE_DATETIME = 3;
 
-    public static function getBoolOrThrowException($returned)
+    public static function getBoolOrThrowException($returned): bool
     {
         if (!is_bool($returned)) {
             throw new UnexpectedValueException("Return type of filter func must be boolean.");
@@ -50,22 +50,20 @@ class LinqHelper
         }
     }
 
-    public static function getIteratorOrThrow($value)
+    public static function getIteratorOrThrow($value): \Traversable
     {
         if (is_array($value)) {
             return new ArrayIterator($value);
-        }
-        else if($value instanceof \IteratorAggregate) {
+        }  elseif($value instanceof \IteratorAggregate) {
             return $value;
-        }
-        else if($value instanceof \Iterator) {
+        } elseif($value instanceof \Iterator) {
             return $value;
         }
 
         throw new \UnexpectedValueException("Value must be an array, or implement either the \IteratorAggregate or \Iterator interface");
     }
 
-    public static function isIterable($param)
+    public static function isIterable($param): bool
     {
         return is_array($param)
             || $param instanceof \IteratorAggregate

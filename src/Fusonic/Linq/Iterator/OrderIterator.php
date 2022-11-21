@@ -20,12 +20,13 @@ use Traversable;
 
 class OrderIterator implements Iterator
 {
-    private $iterator;
-    private $direction;
-    private $orderedIterator;
+    private Traversable $iterator;
+    private string $direction;
+    private ?ArrayIterator $orderedIterator = null;
+	/** @var callable */
     private $orderKeyFunc;
 
-    public function __construct(Traversable $items, callable $orderKeyFunc, $direction)
+    public function __construct(Traversable $items, callable $orderKeyFunc, string $direction)
     {
         $this->iterator = $items;
         $this->direction = $direction;
@@ -47,7 +48,7 @@ class OrderIterator implements Iterator
         return $this->orderedIterator->key();
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return $this->orderedIterator->valid();
     }

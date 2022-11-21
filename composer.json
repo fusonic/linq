@@ -12,8 +12,9 @@
         }
     ],
     "require": {
-        "php": ">=5.5.0"
-    },
+        "php": ">=7.4.0",
+		"ext-json": "*"
+	},
     "autoload": {
         "psr-0": {
             "Fusonic\\Linq": "src/"

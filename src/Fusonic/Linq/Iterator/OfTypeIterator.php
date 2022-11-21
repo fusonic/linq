@@ -17,10 +17,11 @@ use Traversable;
 
 final class OfTypeIterator implements IteratorAggregate
 {
-	private $iterator;
+	private Traversable $iterator;
+	/** @var callable */
 	private $acceptCallback;
 
-	public function __construct(Traversable $iterator, $type)
+	public function __construct(Traversable $iterator, string $type)
 	{
 		$this->iterator = $iterator;
 
@@ -56,7 +57,7 @@ final class OfTypeIterator implements IteratorAggregate
 		}
 	}
 
-	public function getIterator()
+	public function getIterator(): \Generator
 	{
 		$func = $this->acceptCallback;
 		foreach($this->iterator as $current) {

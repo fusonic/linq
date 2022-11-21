@@ -17,14 +17,14 @@ use Traversable;
 
 class SelectManyIterator implements \IteratorAggregate
 {
-    private $iterator;
+    private Traversable $iterator;
 
     public function __construct(Traversable $iterator)
     {
         $this->iterator = $iterator;
     }
 
-    public function getIterator()
+    public function getIterator(): \Generator
     {
         foreach($this->iterator as $current) {
             Helper\LinqHelper::assertValueIsIterable($current);

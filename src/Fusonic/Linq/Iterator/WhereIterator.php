@@ -19,7 +19,7 @@ use Traversable;
 class WhereIterator implements IteratorAggregate
 {
     private $func;
-    private $inner;
+    private Traversable $inner;
 
     public function __construct(Traversable $inner, callable $func)
     {
@@ -27,7 +27,7 @@ class WhereIterator implements IteratorAggregate
         $this->func = $func;
     }
 
-    public function getIterator()
+    public function getIterator(): \Generator
     {
         $func = $this->func;
         foreach($this->inner as $current) {

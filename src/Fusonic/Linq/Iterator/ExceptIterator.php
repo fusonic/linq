@@ -17,16 +17,25 @@ use Traversable;
 
 final class ExceptIterator implements \IteratorAggregate
 {
-    private $first;
-    private $second;
-
+	/** @var Traversable  */
+    private Traversable $first;
+	/** @var Traversable  */
+    private Traversable $second;
+	
+	/**
+	 * @param Traversable $first
+	 * @param Traversable $second
+	 */
     public function __construct(Traversable $first, Traversable $second)
     {
         $this->first = $first;
         $this->second = $second;
     }
-
-    public function getIterator()
+	
+	/**
+	 * @return \Generator
+	 */
+    public function getIterator(): \Generator
     {
         $set = new Set();
         foreach($this->second as $second) {

@@ -17,14 +17,21 @@ use Traversable;
 
 final class DistinctIterator implements \IteratorAggregate
 {
-    private $iterator;
-
+	/** @var Traversable  */
+    private Traversable $iterator;
+	
+	/**
+	 * @param Traversable $iterator
+	 */
     public function __construct(Traversable $iterator)
     {
         $this->iterator = $iterator;
     }
-
-    public function getIterator()
+	
+	/**
+	 * @return \Generator
+	 */
+    public function getIterator(): \Generator
     {
         $set = new Set();
         foreach($this->iterator as $value) {

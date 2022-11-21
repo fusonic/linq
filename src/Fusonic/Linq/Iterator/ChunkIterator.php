@@ -20,16 +20,24 @@ use Traversable;
  */
 class ChunkIterator implements \IteratorAggregate
 {
-    private $iterator;
-    private $chunkSize;
-
-    public function __construct(Traversable $iterator, $chunkSize)
+	/** @var Traversable  */
+    private Traversable $iterator;
+    private int $chunkSize;
+	
+	/**
+	 * @param Traversable $iterator
+	 * @param int         $chunkSize
+	 */
+    public function __construct(Traversable $iterator, int $chunkSize)
     {
         $this->iterator = $iterator;
         $this->chunkSize = $chunkSize;
     }
-
-    public function getIterator()
+	
+	/**
+	 * @return \Generator<Linq>
+	 */
+    public function getIterator(): \Generator
     {
         $chunk = [];
         $current = 0;
