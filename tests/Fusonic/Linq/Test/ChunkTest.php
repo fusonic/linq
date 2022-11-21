@@ -55,11 +55,12 @@ class ChunkTest extends TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
      * @dataProvider invalidChunkSizeProvider
      */
     public function testChunk_throwsException_IfchunksizeIsInvalid($invalidChunkSize)
     {
+		$this->expectException(InvalidArgumentException::class);
+		
         Linq::from([ ])->chunk($invalidChunkSize);
     }
 
@@ -72,12 +73,6 @@ class ChunkTest extends TestCase
             [
                 -1
             ],
-            [
-                null
-            ],
-            [
-                ""
-            ]
         ];
     }
 

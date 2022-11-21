@@ -28,7 +28,8 @@ class SelectIterator extends \IteratorIterator
 
         $this->selector = $selector;
     }
-
+	
+	#[\ReturnTypeWillChange]
     public function current()
     {
         $selector = $this->selector;

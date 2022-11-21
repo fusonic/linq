@@ -331,9 +331,9 @@ class Linq implements IteratorAggregate, Countable
      * @param callable $func    A func that returns any numeric type (int, float etc.) from the given element, or NULL to use the element itself.
      * @throws \RuntimeException if the sequence contains no elements
      * @throws \UnexpectedValueException
-     * @return  double Minimum item value
+     * @return  mixed Minimum item value
      */
-    public function min(callable $func = null): float
+    public function min(callable $func = null)
     {
         $min = null;
         $iterator = $this->getSelectIteratorOrInnerIterator($func);
@@ -362,9 +362,9 @@ class Linq implements IteratorAggregate, Countable
      * @param callable $func    A func that returns any numeric type (int, float etc.)
      * @throws \RuntimeException if the sequence contains no elements
      * @throws \UnexpectedValueException if any element is not a numeric value or a string.
-     * @return double          Maximum item value
+     * @return mixed          Maximum item value
      */
-    public function max(callable $func = null): float
+    public function max(callable $func = null)
     {
         $max = null;
         $iterator = $this->getSelectIteratorOrInnerIterator($func);

@@ -33,11 +33,12 @@ class GroupIterator implements Iterator
         return new GroupedLinq($current['key'], new \ArrayIterator($current['values']));
     }
 
-    public function next()
+    public function next(): void
     {
         $this->grouped->next();
     }
-
+	
+	#[\ReturnTypeWillChange]
     public function key()
     {
         return $this->grouped->key();
@@ -48,7 +49,7 @@ class GroupIterator implements Iterator
         return $this->grouped->valid();
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         if ($this->grouped === null) {
             $this->doGroup();

@@ -33,11 +33,12 @@ class MiscTest extends TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
      * @dataProvider concatSecondSequenceProvider
      */
     public function testConcat_ThrowsArgumentExceptionIfNoTraversableArgument($secondSequence)
     {
+		$this->expectException(InvalidArgumentException::class);
+		
         Linq::from([ ])->concat($secondSequence);
     }
 
@@ -55,6 +56,8 @@ class MiscTest extends TestCase
 
     public function testLinqFrom_WorksWith_Arrays_Iterators_And_IteratorAggregates()
     {
+		$this->expectNotToPerformAssertions();
+		
         $linq = Linq::from([1, 2]);
         $linq = Linq::from($linq);
         $linq = Linq::from($linq->getIterator());

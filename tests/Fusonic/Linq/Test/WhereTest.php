@@ -48,11 +48,10 @@ class WhereTest extends TestCase
         $this->assertFalse(in_array($c, (array)$matching));
     }
 
-    /**
-     * @expectedException UnexpectedValueException
-     */
     public function testWhere_ThrowsExceptionIfPredicateDoesNotReturnABoolean()
     {
+		$this->expectException(UnexpectedValueException::class);
+		
         $items = ["1", "2", "3"];
         $matching = Linq::from($items)->where(function ($v) {
             return "NOT A BOOLEAN";

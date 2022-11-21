@@ -93,6 +93,8 @@ class ToArrayTest extends TestCase
 
     public function testMethodsWithSequencesAsArguments_WorkWith_Arrays_Iterators_And_IteratorAggregates()
     {
+		$this->expectNotToPerformAssertions();
+		
         $first = Linq::from(["a", "b"]);
         $secondArray = ["c", "d"];
         $secondLinq = Linq::from(["c", "d"]);

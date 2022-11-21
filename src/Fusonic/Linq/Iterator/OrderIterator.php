@@ -32,17 +32,19 @@ class OrderIterator implements Iterator
         $this->direction = $direction;
         $this->orderKeyFunc = $orderKeyFunc;
     }
-
+	
+	#[\ReturnTypeWillChange]
     public function current()
     {
         return $this->orderedIterator->current();
     }
 
-    public function next()
+    public function next(): void
     {
         $this->orderedIterator->next();
     }
-
+	
+	#[\ReturnTypeWillChange]
     public function key()
     {
         return $this->orderedIterator->key();
@@ -53,7 +55,7 @@ class OrderIterator implements Iterator
         return $this->orderedIterator->valid();
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         if ($this->orderedIterator == null) {
             $this->orderItems();

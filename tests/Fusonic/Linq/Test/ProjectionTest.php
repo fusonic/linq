@@ -42,11 +42,12 @@ class ProjectionTest extends TestCase
     }
 
     /**
-     * @expectedException UnexpectedValueException
      * @dataProvider selectManyFuncProvider
      */
     public function testSelectMany_throwsExceptionIfElementIsNotIterable($selectManyFunc)
     {
+		$this->expectException(UnexpectedValueException::class);
+		
         $a1 = new stdClass();
         $a1->value = "a1";
 

@@ -3,7 +3,7 @@
 use Fusonic\Linq\Linq;
 use PHPUnit\Framework\TestCase;
 
-class SetOperators extends TestCase
+class SetOperatorsTest extends TestCase
 {
     public function secondSequenceIsNotTraversableProvider()
     {
@@ -48,11 +48,12 @@ class SetOperators extends TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
      * @dataProvider secondSequenceIsNotTraversableProvider
      */
     public function testIntersect_ThrowsArgumentExceptionIfSecondSequenceIsNotTraversable($secondSequence)
     {
+		$this->expectException(InvalidArgumentException::class);
+		
         Linq::from([ ])->intersect($secondSequence);
     }
 
@@ -98,11 +99,12 @@ class SetOperators extends TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
      * @dataProvider secondSequenceIsNotTraversableProvider
      */
     public function testExcept_ThrowsArgumentExceptionIfSecondSequenceIsNotTraversable($secondSequence)
     {
+		$this->expectException(InvalidArgumentException::class);
+		
         Linq::from([ ])->except($secondSequence);
     }
 

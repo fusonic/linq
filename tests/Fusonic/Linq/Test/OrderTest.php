@@ -254,6 +254,8 @@ class OrderTest extends TestCase
 
     public function testIssue3_emtpyCollectionOrdering()
     {
+		$this->expectNotToPerformAssertions();
+		
         Linq::from([])
             ->orderBy(function (array $x) {
                 return $x["name"];

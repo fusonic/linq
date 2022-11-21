@@ -21,11 +21,12 @@ class AggregatesTest extends TestCase
     }
 
     /**
-     * @expectedException RuntimeException
      * @dataProvider singleInvalidDataProvider
      */
     public function testSingleWithInvalidData($items, $func)
     {
+		$this->expectException(\RuntimeException::class);
+		
         Linq::from($items)->single($func);
     }
 
@@ -110,11 +111,12 @@ class AggregatesTest extends TestCase
     }
 
     /**
-     * @expectedException RuntimeException
      * @dataProvider singleOrNullInvalidDataProvider
      */
     public function testSingleOrNullWithInvalidData($items, $func)
     {
+		$this->expectException(\RuntimeException::class);
+		
         Linq::from($items)->singleOrNull($func);
     }
 
@@ -178,11 +180,12 @@ class AggregatesTest extends TestCase
     }
 
     /**
-     * @expectedException RuntimeException
      * @dataProvider firstInvalidDataProvider
      */
     public function testFirstWithInvalidData($items, $func)
     {
+		$this->expectException(\RuntimeException::class);
+		
         Linq::from($items)->first($func);
     }
 
@@ -287,11 +290,12 @@ class AggregatesTest extends TestCase
     }
 
     /**
-     * @expectedException RuntimeException
      * @dataProvider lastInvalidDataProvider
      */
     public function testLastWithInvalidData($items, $func)
     {
+		$this->expectException(\RuntimeException::class);
+		
         Linq::from($items)->last($func);
     }
 
@@ -368,11 +372,12 @@ class AggregatesTest extends TestCase
     }
 
     /**
-     * @expectedException OutOfRangeException
      * @dataProvider invalidIndexProvider
      */
     public function testElementAtWithInvalidIndex($items, $index)
     {
+		$this->expectException(OutOfRangeException::class);
+		
         Linq::from($items)->elementAt($index);
     }
 
@@ -432,11 +437,12 @@ class AggregatesTest extends TestCase
     }
 
     /**
-     * @expectedException UnexpectedValueException
      * @dataProvider averageNonNumericValuesProvider
      */
     public function testAverage_throwsExceptionIfClosureReturnsNotNumericValue($items)
     {
+		$this->expectException(UnexpectedValueException::class);
+		
         Linq::from($items)->average();
     }
 
@@ -452,11 +458,10 @@ class AggregatesTest extends TestCase
         ];
     }
 
-    /**
-     * @expectedException UnexpectedValueException
-     */
     public function testAverageWithCustomFunc_throwsExceptionIfClosureReturnsNotNumericValue()
     {
+		$this->expectException(UnexpectedValueException::class);
+		
         $classWithValue = new stdClass();
         $classWithValue->value = "non-numeric value";
 
@@ -620,20 +625,20 @@ class AggregatesTest extends TestCase
         $this->assertEquals($items[2], $min);
     }
 
-    /**
-     * @expectedException RuntimeException
-     */
     public function testMin_ThrowsExceptionIfSequenceIsEmpty()
     {
+		$this->expectException(\RuntimeException::class);
+		
         Linq::from([ ])->min();
     }
 
     /**
-     * @expectedException UnexpectedValueException
      * @dataProvider minNonNumericValuesProvider
      */
     public function testMinWithNonNumericValues($items)
     {
+		$this->expectException(UnexpectedValueException::class);
+		
         Linq::from($items)->min();
     }
 
@@ -652,11 +657,10 @@ class AggregatesTest extends TestCase
         ];
     }
 
-    /**
-     * @expectedException UnexpectedValueException
-     */
     public function testMinWithCustomFuncAndNonNumericValues()
     {
+		$this->expectException(UnexpectedValueException::class);
+		
         $classWithValue = new stdClass();
         $classWithValue->value = new stdClass();
 
@@ -702,11 +706,12 @@ class AggregatesTest extends TestCase
     }
 
     /**
-     * @expectedException UnexpectedValueException
      * @dataProvider sumNonNumericValuesProvider
      */
     public function testSumWithNonNumericValues($items)
     {
+		$this->expectException(UnexpectedValueException::class);
+		
         Linq::from($items)->sum();
     }
 
@@ -725,11 +730,10 @@ class AggregatesTest extends TestCase
         ];
     }
 
-    /**
-     * @expectedException UnexpectedValueException
-     */
     public function testSumWithCustomFuncAndNonNumericValues()
     {
+		$this->expectException(UnexpectedValueException::class);
+		
         $fooClassWithValue = new stdClass();
         $fooClassWithValue->value = 100;
         $fooClassWithValue->nonNumericValue = "non-numeric value";
@@ -787,20 +791,20 @@ class AggregatesTest extends TestCase
         $this->assertEquals("a", $max);
     }
 
-    /**
-     * @expectedException RuntimeException
-     */
     public function testMax_ThrowsExceptionIfSequenceIsEmpty()
     {
+		$this->expectException(\RuntimeException::class);
+		
         Linq::from([ ])->max();
     }
 
     /**
-     * @expectedException UnexpectedValueException
      * @dataProvider maxNonNumericValuesProvider
      */
     public function testMaxWithNonNumericValues($items)
     {
+		$this->expectException(UnexpectedValueException::class);
+		
         Linq::from($items)->max();
     }
 
@@ -819,11 +823,10 @@ class AggregatesTest extends TestCase
         ];
     }
 
-    /**
-     * @expectedException UnexpectedValueException
-     */
     public function testMaxWithCustomFuncAndNonNumericValues()
     {
+		$this->expectException(UnexpectedValueException::class);
+		
         $classWithValue = new stdClass();
         $classWithValue->value = new stdClass();
 
@@ -834,11 +837,10 @@ class AggregatesTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException RuntimeException
-     */
     public function testAggregate_novalues_throwsException()
     {
+		$this->expectException(RuntimeException::class);
+		
         Linq::from([ ])->aggregate(
             function () {
             }

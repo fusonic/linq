@@ -5,11 +5,11 @@ use PHPUnit\Framework\TestCase;
 
 class GenerationTest extends TestCase
 {
-    /**
-     * @expectedException OutOfRangeException
-     */
+	
     public function testRange_throwsExceptionIfCountIsNegative()
     {
+		$this->expectException(OutOfRangeException::class);
+		
         Linq::range(0, -1);
     }
 
