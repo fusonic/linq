@@ -68,7 +68,7 @@ class Linq implements IteratorAggregate, Countable
      *
      * @param int $start    The value of the first integer in the sequence.
      * @param int $count    The number of sequential integers to generate.
-     * return static    An sequence that contains a range of sequential int numbers.
+     * @return static    An sequence that contains a range of sequential int numbers.
      * @throws \OutOfRangeException
      */
     public static function range(int $start, int $count): self
@@ -84,7 +84,7 @@ class Linq implements IteratorAggregate, Countable
      * Filters the Linq object according to func return result.
      *
      * @param callable $func    A func that returns boolean
-     * return static             Filtered results according to $func
+     * @return static             Filtered results according to $func
      */
     public function where(callable $func): self
     {
@@ -96,7 +96,7 @@ class Linq implements IteratorAggregate, Countable
      *
      * @param string $type
      *
-     * return static Filtered results according to $func
+     * @return static Filtered results according to $func
      */
     public function ofType(string $type): self
     {
@@ -190,7 +190,7 @@ class Linq implements IteratorAggregate, Countable
      *
      * @param int $chunksize Specifies how many elements are grouped together per chunk.
      * @throws \InvalidArgumentException
-     * return static
+     * @return static
      */
     public function chunk(int $chunksize): self
     {
@@ -281,7 +281,7 @@ class Linq implements IteratorAggregate, Countable
      * Sorts the elements in ascending order according to a key provided by $func.
      *
      * @param callable $func    A function to extract a key from an element.
-     * return static             A new Linq instance whose elements are sorted ascending according to a key.
+     * @return static             A new Linq instance whose elements are sorted ascending according to a key.
      */
     public function orderBy(callable $func): self
     {
@@ -292,7 +292,7 @@ class Linq implements IteratorAggregate, Countable
      * Sorts the elements in descending order according to a key provided by $func.
      *
      * @param callable $func    A function to extract a key from an element.
-     * return static             A new Linq instance whose elements are sorted descending according to a key.
+     * @return static             A new Linq instance whose elements are sorted descending according to a key.
      */
     public function orderByDescending(callable $func): self
     {
@@ -391,7 +391,7 @@ class Linq implements IteratorAggregate, Countable
      * Projects each element into a new form by invoking the selector function.
      *
      * @param callable $func    A transform function to apply to each element.
-     * return static             A new Linq object whose elements are the result of invoking the transform function on each element of the original Linq object.
+     * @return static             A new Linq object whose elements are the result of invoking the transform function on each element of the original Linq object.
      */
     public function select(callable $func): self
     {
@@ -403,7 +403,7 @@ class Linq implements IteratorAggregate, Countable
      *
      * @param callable $func    A func that returns a sequence (array, Linq, Iterator).
      * @throws \UnexpectedValueException if an element is not a traversable sequence.
-     * return static             A new Linq object whose elements are the result of invoking the one-to-many transform function on each element of the input sequence.
+     * @return static             A new Linq object whose elements are the result of invoking the one-to-many transform function on each element of the input sequence.
      */
     public function selectMany(callable $func): self
     {
@@ -443,7 +443,7 @@ class Linq implements IteratorAggregate, Countable
      *
      * @param array|\Iterator $second A sequence which will be concatenated with this Linq object.
      * @throws InvalidArgumentException if the given sequence is not traversable.
-     * return static     A new Linq object that contains the concatenated elements of the input sequence and the original Linq sequence.
+     * @return static     A new Linq object that contains the concatenated elements of the input sequence and the original Linq sequence.
      */
     public function concat($second): self
     {
@@ -458,7 +458,7 @@ class Linq implements IteratorAggregate, Countable
      * Returns distinct item values of this
      *
      * @param callable $func
-     * return static Distinct item values of this
+     * @return static Distinct item values of this
      */
     public function distinct(callable $func = null): self
     {
@@ -469,7 +469,7 @@ class Linq implements IteratorAggregate, Countable
      * Intersects the Linq sequence with second Iterable sequence.
      *
      * @param \Iterator|array An iterator to intersect with:
-     * return static    intersected items
+     * @return static    intersected items
      */
     public function intersect($second): self
     {
