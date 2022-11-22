@@ -17,7 +17,7 @@ class Set
 	private $objects = [];
 	
 	/**
-	 * If the value is not in the set, it will be added and true is returned. otherwise false is returned.
+	 * If the value is not in the set, it will be added and true is returned. Otherwise false is returned.
 	 * @return bool
 	 */
 	public function add($value): bool
