@@ -29,23 +29,39 @@ class GroupIterator implements Iterator
 
     public function current(): GroupedLinq
     {
+		if ($this->grouped === null) {
+			$this->doGroup();
+		}
+		
         $current = $this->grouped->current();
         return new GroupedLinq($current['key'], new \ArrayIterator($current['values']));
     }
 
     public function next(): void
     {
+		if ($this->grouped === null) {
+			$this->doGroup();
+		}
+		
         $this->grouped->next();
     }
 	
 	#[\ReturnTypeWillChange]
     public function key()
     {
+		if ($this->grouped === null) {
+			$this->doGroup();
+		}
+		
         return $this->grouped->key();
     }
 
     public function valid(): bool
     {
+		if ($this->grouped === null) {
+			$this->doGroup();
+		}
+		
         return $this->grouped->valid();
     }
 
