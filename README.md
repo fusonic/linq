@@ -17,7 +17,7 @@ LINQ queries offer three main advantages over traditional foreach loops:
 
 ## Requirements
 
-fusonic/linq is supported on PHP 5.5 and up.
+fusonic/linq is supported on PHP 7.4 and up.
 
 
 ## Installation & Usage
