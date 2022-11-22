@@ -26,7 +26,7 @@ class Set
 	}
 	
 	/**
-	 * If the value is in the set, it will be removed and true is returned. otherwise false is returned.
+	 * If the value is in the set, it will be removed and true is returned. Otherwise false is returned.
 	 *
 	 * @param $value
 	 *
