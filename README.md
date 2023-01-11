@@ -1,3 +1,7 @@
+> ## **Project discontinued!**  
+>   
+> **Development and maintenance of `fusonic/linq` is discontinued since there are more popular options available. We recommend to use `illuminate/collections` ([docs](https://laravel.com/docs/9.x/collections), [GitHub](https://github.com/illuminate/collections)) in new projects. Feel free to use existing versions and/or fork `fusonic/linq` for your own needs.**
+
 # fusonic/linq
 
 [![Build Status](https://travis-ci.org/fusonic/linq.svg?branch=master)](https://travis-ci.org/fusonic/linq)
